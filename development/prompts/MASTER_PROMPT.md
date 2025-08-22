@@ -1,11 +1,11 @@
 # Master Prompt
 
-Use this prompt to generate content drafts for the Movie Miniseries: Finding Nemo project.
+Use this prompt to generate content drafts for the Filmseele: Finding Nemo project.
 
 Template:
 
 ```
-Context: You're adapting the concept "Movie Miniseries: Finding Nemo" into a [format]. The project's constraints:
+Context: You're adapting the concept "Filmseele: Finding Nemo" into a [format]. The project's constraints:
 - Style-first HTML/CSS skeleton only (no final content)
 - Accessible (WCAG AA), responsive, system fonts
 - Write to act-level scaffolding; avoid copyrighted dialog or verbatim screenplay text
