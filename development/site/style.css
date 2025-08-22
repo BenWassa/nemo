@@ -15,7 +15,12 @@
     --space-3: 1.5rem;
     --space-4: 2rem;
     --maxw: 1120px;
-    --shadow-1: 0 6px 18px rgba(9, 35, 51, 0.08);
+    --shadow-1: 0 6px 18px rgba(9, 35, 51, 0.08); /* Original shadow for non-hover states */
+
+    /* RGB equivalents for easier rgba() calculations for new colors */
+    --current-rgb: 1, 103, 189;
+    --link-rgb: 1, 97, 173;
+    --reef-rgb: 140, 194, 179;
 }
 
 * {
@@ -106,14 +111,14 @@ h3 {
 
 .kicker {
     font-size: 1.125rem;
-    color: var(--ink-2);
+    color: var(--accent-2); /* UX Enhancement: Uses Nemo/Marlin orange for kicker */
     margin-bottom: var(--space-2);
 }
 
 .tag {
     display: inline-block;
     padding: 0.25rem 0.75rem;
-    background: rgba(140, 194, 179, 0.12); /* Uses new --reef color (8cc2b3) with opacity */
+    background: rgba(var(--reef-rgb), 0.12); /* Uses new --reef color with opacity */
     color: var(--current); /* Uses new --current blue */
     font-size: 0.875rem;
     font-weight: 500;
@@ -133,7 +138,8 @@ h3 {
 
 .card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(9, 35, 51, 0.12);
+    /* UX Enhancement: More thematic shadow using --current blue */
+    box-shadow: var(--shadow-1), 0 12px 28px rgba(var(--current-rgb), 0.2); 
 }
 
 .btn {
@@ -158,17 +164,19 @@ h3 {
 
 .btn.primary:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(1, 97, 173, 0.3); /* Based on new --link blue */
+    box-shadow: 0 4px 12px rgba(var(--link-rgb), 0.3); /* Based on new --link blue */
 }
 
 .btn.secondary {
-    border-color: var(--ink);
-    color: var(--ink);
+    /* UX Enhancement: Uses Dory blue for secondary button */
+    border-color: var(--link);
+    color: var(--link);
     background: transparent;
 }
 
 .btn.secondary:hover {
-    background: var(--ink);
+    /* UX Enhancement: Hover fills with Dory blue */
+    background: var(--link);
     color: white;
 }
 
@@ -178,7 +186,7 @@ h3 {
 }
 
 .btn.ghost:hover {
-    background: rgba(1, 97, 173, 0.08); /* Based on new --link blue */
+    background: rgba(var(--link-rgb), 0.08); /* Based on new --link blue */
     color: var(--current); /* Uses new --current blue */
 }
 
@@ -194,7 +202,7 @@ header {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(240, 249, 255, 0.95); /* Based on --bg */
+    background: rgba(var(--bg-rgb), 0.95); /* Using rgba for background color */
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border);
 }
@@ -232,7 +240,7 @@ nav a:hover, nav a:focus {
 
 /* Hero */
 .hero {
-    background: linear-gradient(135deg, var(--bg) 0%, rgba(140, 194, 179, 0.1) 100%); /* Uses new --reef color (8cc2b3) with opacity */
+    background: linear-gradient(135deg, var(--bg) 0%, rgba(var(--reef-rgb), 0.1) 100%); /* Uses new --reef color with opacity */
     padding: var(--space-4) 0;
     text-align: center;
     position: relative;
@@ -316,12 +324,18 @@ section {
     text-align: center;
     text-decoration: none;
     color: var(--ink);
+    /* UX Enhancement: Added subtle border by default */
+    border: 1px solid var(--border);
     box-shadow: var(--shadow-1);
-    transition: transform 0.2s ease;
+    /* UX Enhancement: Added border-color to transition */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .theme-chip:hover {
     transform: translateY(-2px);
+    /* UX Enhancement: More noticeable hover effect with border color and glow */
+    border-color: var(--current);
+    box-shadow: var(--shadow-1), 0 0 15px rgba(var(--current-rgb), 0.2);
 }
 
 .theme-chip h4 {
@@ -333,7 +347,8 @@ section {
 /* Podcast */
 .audio-placeholder {
     background: var(--bg-elev);
-    border: 2px dashed var(--border);
+    /* UX Enhancement: Uses Dory blue for dashed border */
+    border: 2px dashed var(--link); 
     border-radius: var(--radius);
     padding: var(--space-4);
     text-align: center;
