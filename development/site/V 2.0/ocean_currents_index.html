@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Ocean, Many Currents</title>
+    <style>
+        :root {
+            --ink: #072b3a;
+            --accent: #ffb703;
+            --accent-glow: #ffd23f;
+            --sea-0: #e8f7ff;
+            --sea-1: #87ceeb;
+            --sea-2: #0b3550;
+            --deep: #001623;
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --caustics: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                       radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+                       radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            --radius: 16px;
+            --radius-lg: 24px;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            --shadow-glow: 0 0 40px rgba(255, 183, 3, 0.3);
+            --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+            --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --duration: 1.2s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--deep);
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+            cursor: none;
+        }
+
+        /* Custom cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+            backdrop-filter: blur(2px);
+        }
+
+        .cursor.hover {
+            transform: scale(2);
+            background: rgba(255, 183, 3, 0.1);
+        }
+
+        #ocean {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            transition: transform var(--duration) var(--ease),
+                       filter var(--duration) var(--ease);
+            will-change: transform;
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .panel {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: opacity var(--duration) var(--ease);
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+        }
+
+        /* Depth-based backgrounds */
+        .depth-0 {
+            background: 
+                var(--caustics),
+                radial-gradient(ellipse 150% 100% at 50% 20%, var(--sea-0) 0%, var(--sea-1) 40%, var(--deep) 100%);
+        }
+
+        .depth-1 {
+            background: 
+                var(--caustics),
+                radial-gradient(ellipse 120% 120% at 50% 30%, var(--sea-1) 0%, var(--sea-2) 60%, var(--deep) 100%);
+        }
+
+        .depth-2 {
+            background: 
+                var(--caustics),
+                radial-gradient(ellipse 100% 100% at 50% 40%, var(--sea-2) 0%, var(--deep) 70%);
+        }
+
+        /* Animated background elements */
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
+                radial-gradient(circle at 60% 10%, rgba(255, 255, 255, 0.04) 0%, transparent 40%);
+            animation: drift 20s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-20px, 10px) rotate(2deg); }
+        }
+
+        /* Cards and content */
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            padding: 3rem 2.5rem;
+            text-align: center;
+            max-width: 500px;
+            margin: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow), var(--shadow-glow);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card h1, .card h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, white 0%, var(--accent-glow) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .card p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+        }
+
+        .chip {
+            display: inline-block;
+            background: rgba(255, 183, 3, 0.2);
+            color: var(--accent-glow);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0.25rem;
+            border: 1px solid rgba(255, 183, 3, 0.3);
+            transition: all 0.3s var(--ease);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .chip:hover {
+            background: var(--accent);
+            color: var(--ink);
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(255, 183, 3, 0.4);
+        }
+
+        /* Navigation elements */
+        .brand-home {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            z-index: 1000;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: all 0.3s var(--ease);
+            cursor: pointer;
+        }
+
+        .brand-home:hover {
+            color: var(--accent-glow);
+            transform: scale(1.1);
+            text-shadow: 0 0 20px var(--accent);
+        }
+
+        .compass-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            color: var(--accent);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s var(--ease);
+            box-shadow: var(--shadow);
+        }
+
+        .compass-toggle:hover {
+            background: rgba(255, 183, 3, 0.2);
+            transform: scale(1.1) rotate(45deg);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* Compass modal */
+        .compass {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+            background: rgba(0, 22, 35, 0.95);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s var(--ease);
+            box-shadow: 0 0 100px rgba(0, 0, 0, 0.5);
+        }
+
+        .compass.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .compass-nav {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 0.5rem;
+            width: 200px;
+            height: 200px;
+        }
+
+        .compass-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--glass);
+            border-radius: var(--radius);
+            color: white;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s var(--ease);
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .compass-item:hover {
+            background: var(--accent);
+            color: var(--ink);
+            transform: scale(1.1);
+        }
+
+        .compass-item.center {
+            background: var(--accent);
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        /* Hub specific styling */
+        #hub-dropoff .card {
+            background: linear-gradient(135deg, var(--glass) 0%, rgba(255, 183, 3, 0.1) 100%);
+            border: 2px solid rgba(255, 183, 3, 0.3);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .card {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+                max-width: 90vw;
+            }
+
+            .card h1, .card h2 {
+                font-size: 1.5rem;
+            }
+
+            .brand-home, .compass-toggle {
+                bottom: 1rem;
+            }
+
+            .brand-home {
+                left: 1rem;
+            }
+
+            .compass-toggle {
+                right: 1rem;
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .compass {
+                width: 250px;
+                height: 250px;
+            }
+
+            .compass-nav {
+                width: 160px;
+                height: 160px;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .panel::before {
+                animation: none;
+            }
+        }
+
+        /* Loading animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            animation: fadeIn 0.8s var(--ease) forwards;
+        }
+
+        /* Focus styles for accessibility */
+        .chip:focus, .compass-item:focus, .brand-home:focus, .compass-toggle:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 4px;
+        }
+
+        /* Depth transitions */
+        [data-depth="0"] #ocean {
+            filter: brightness(1.1) contrast(1.05);
+        }
+
+        [data-depth="1"] #ocean {
+            filter: brightness(0.9) contrast(1.1);
+        }
+
+        [data-depth="2"] #ocean {
+            filter: brightness(0.7) contrast(1.2) saturate(0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+    
+    <main id="ocean">
+        <!-- Hub / Drop-Off (Anemone Center) -->
+        <section id="hub-dropoff" class="panel depth-0">
+            <div class="card">
+                <h1>One Ocean, Many Currents</h1>
+                <p>Your journey begins at the drop-off. Choose your current and dive into the depths of narrative exploration.</p>
+                <div>
+                    <a href="#shark-cove" class="chip">Trials ↗</a>
+                    <a href="#jellyfield" class="chip">Crisis ↗</a>
+                    <a href="#eac-current" class="chip">Trust & Flow ↗</a>
+                    <a href="#sydney-harbor" class="chip">Ordeal ↗</a>
+                    <a href="#reef-return" class="chip">Integration ↗</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Shark Cove (Trials) -->
+        <section id="shark-cove" class="panel depth-1">
+            <div class="card">
+                <h2>Shark Cove</h2>
+                <p>Episode 2: The trials begin beneath the surface. Navigate the challenges that test your resolve.</p>
+                <div>
+                    <a href="#" class="chip">Watch Episode</a>
+                    <a href="#" class="chip">Behind the Scenes</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Jellyfield (Crisis) -->
+        <section id="jellyfield" class="panel depth-1">
+            <div class="card">
+                <h2>Jellyfield</h2>
+                <p>Episode 3: Drift through the crisis zone where danger and beauty intertwine in ethereal harmony.</p>
+                <div>
+                    <a href="#" class="chip">Explore Crisis</a>
+                    <a href="#" class="chip">Character Insights</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- EAC Current (Trust & Flow) -->
+        <section id="eac-current" class="panel depth-1">
+            <div class="card">
+                <h2>EAC Current</h2>
+                <p>Trust the flow. Let the current guide you through themes of connection and surrender.</p>
+                <div>
+                    <a href="#" class="chip">Flow State</a>
+                    <a href="#" class="chip">Trust Themes</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sydney Harbor (Ordeal) -->
+        <section id="sydney-harbor" class="panel depth-2">
+            <div class="card">
+                <h2>Sydney Harbor</h2>
+                <p>Episode 4: The deepest point of the journey. Face the ultimate ordeal in the harbor's depths.</p>
+                <div>
+                    <a href="#" class="chip">Deep Dive</a>
+                    <a href="#" class="chip">Ordeal Analysis</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reef Return (Integration) -->
+        <section id="reef-return" class="panel depth-0">
+            <div class="card">
+                <h2>Reef Return</h2>
+                <p>Episode 5: Return to the light. Integrate the wisdom gained from the depths of your journey.</p>
+                <div>
+                    <a href="#" class="chip">Integration</a>
+                    <a href="#" class="chip">Reflection Guide</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Navigation -->
+    <a class="brand-home" href="#hub-dropoff" aria-label="Back to Drop-Off">Filmseele</a>
+    <button class="compass-toggle" aria-haspopup="dialog" aria-controls="nav-compass" aria-label="Open navigation compass">⊕</button>
+
+    <!-- Compass Modal -->
+    <dialog id="nav-compass" class="compass">
+        <div class="compass-nav">
+            <a href="#shark-cove" class="compass-item">Trials</a>
+            <a href="#jellyfield" class="compass-item">Crisis</a>
+            <a href="#eac-current" class="compass-item">Flow</a>
+            <a href="#sydney-harbor" class="compass-item">Ordeal</a>
+            <a href="#hub-dropoff" class="compass-item center">Hub</a>
+            <a href="#reef-return" class="compass-item">Return</a>
+        </div>
+    </dialog>
+
+    <script>
+        (() => {
+            // Ocean navigation system
+            const ocean = document.getElementById('ocean');
+            const panels = Array.from(document.querySelectorAll('.panel'));
+            const cursor = document.querySelector('.cursor');
+            const compass = document.getElementById('nav-compass');
+            const compassToggle = document.querySelector('.compass-toggle');
+
+            // Panel coordinates and depth mapping
+            const coords = {
+                'hub-dropoff': { x: 0, y: 0, depth: 0 },
+                'shark-cove': { x: -120, y: -40, depth: 1 },
+                'jellyfield': { x: -80, y: 50, depth: 1 },
+                'eac-current': { x: 90, y: -30, depth: 1 },
+                'sydney-harbor': { x: 60, y: 100, depth: 2 },
+                'reef-return': { x: 20, y: 180, depth: 0 }
+            };
+
+            // Initialize panel positions
+            for (const [id, coord] of Object.entries(coords)) {
+                const panel = document.getElementById(id);
+                if (panel) {
+                    panel.style.transform = `translate(${coord.x}vw, ${coord.y}vh)`;
+                }
+            }
+
+            // Navigation function
+            function navigateTo(id) {
+                const coord = coords[id] || coords['hub-dropoff'];
+                
+                // Smooth camera movement
+                ocean.style.transform = `translate3d(${-coord.x}vw, ${-coord.y}vh, 0) scale(1)`;
+                
+                // Update depth for styling
+                document.documentElement.dataset.depth = coord.depth;
+                
+                // Update URL hash
+                history.replaceState(null, '', '#' + id);
+                
+                // Focus management for accessibility
+                setTimeout(() => {
+                    const heading = document.querySelector(`#${id} h1, #${id} h2`);
+                    if (heading) {
+                        heading.setAttribute('tabindex', '-1');
+                        heading.focus();
+                    }
+                }, 600);
+
+                // Close compass if open
+                if (compass.classList.contains('show')) {
+                    compass.classList.remove('show');
+                }
+            }
+
+            // Hash change listener
+            window.addEventListener('hashchange', () => {
+                const hash = location.hash.slice(1);
+                if (coords[hash]) {
+                    navigateTo(hash);
+                }
+            });
+
+            // Initialize with current hash or default
+            const initialHash = location.hash.slice(1) || 'hub-dropoff';
+            navigateTo(initialHash);
+
+            // Custom cursor tracking
+            let mouseX = 0, mouseY = 0;
+            let cursorX = 0, cursorY = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            function updateCursor() {
+                cursorX += (mouseX - cursorX) * 0.1;
+                cursorY += (mouseY - cursorY) * 0.1;
+                cursor.style.left = cursorX + 'px';
+                cursor.style.top = cursorY + 'px';
+                requestAnimationFrame(updateCursor);
+            }
+            updateCursor();
+
+            // Cursor hover effects
+            const hoverElements = document.querySelectorAll('a, button, .chip');
+            hoverElements.forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+            });
+
+            // Compass functionality
+            compassToggle.addEventListener('click', () => {
+                compass.classList.toggle('show');
+            });
+
+            // Close compass when clicking outside
+            compass.addEventListener('click', (e) => {
+                if (e.target === compass) {
+                    compass.classList.remove('show');
+                }
+            });
+
+            // Close compass on escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && compass.classList.contains('show')) {
+                    compass.classList.remove('show');
+                }
+            });
+
+            // Smooth scroll prevention for hash links
+            document.addEventListener('click', (e) => {
+                if (e.target.matches('a[href^="#"]')) {
+                    e.preventDefault();
+                    const hash = e.target.getAttribute('href').slice(1);
+                    if (coords[hash]) {
+                        navigateTo(hash);
+                    }
+                }
+            });
+
+            // Preload optimization
+            const preloadImages = () => {
+                // Preload any additional assets here
+            };
+
+            // Initialize when page loads
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', preloadImages);
+            } else {
+                preloadImages();
+            }
+
+            // Performance optimization
+            let ticking = false;
+            function optimizePerformance() {
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    const currentPanel = location.hash.slice(1) || 'hub-dropoff';
+                    const panelIds = Object.keys(coords);
+                    const currentIndex = panelIds.indexOf(currentPanel);
+                    
+                    let nextIndex;
+                    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                        nextIndex = (currentIndex + 1) % panelIds.length;
+                    } else {
+                        nextIndex = (currentIndex - 1 + panelIds.length) % panelIds.length;
+                    }
+                    
+                    navigateTo(panelIds[nextIndex]);
+                    e.preventDefault();
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
