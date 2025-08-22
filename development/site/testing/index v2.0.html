@@ -4,27 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>One Ocean, Many Currents</title>
+    <meta name="description" content="Explore narrative currents in an immersive oceanic experience.">
+    <meta property="og:title" content="One Ocean, Many Currents">
+    <meta property="og:description" content="Dive into a unique, non-linear narrative journey beneath the waves.">
+    <meta property="og:type" content="website">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap'); /* Using Montserrat for a modern, clean look */
+
         :root {
-            --ink: #072b3a;
-            --accent: #ffb703;
-            --accent-glow: #ffd23f;
-            --sea-0: #e8f7ff;
-            --sea-1: #87ceeb;
-            --sea-2: #0b3550;
-            --deep: #001623;
-            --glass: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --caustics: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                       radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
-                       radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            --ink: #072b3a; /* Deep, dark blue for primary text and elements */
+            --ink-rgb: 7, 43, 58;
+            --accent: #ffb703; /* Vibrant gold/yellow accent */
+            --accent-glow: #ffd23f; /* Lighter glow for accent */
+            --accent-rgb: 255, 183, 3;
+
+            --sea-0: #e8f7ff; /* Surface lightest blue */
+            --sea-0-rgb: 232, 247, 255;
+            --sea-1: #87ceeb; /* Mid-depth blue */
+            --sea-1-rgb: 135, 206, 235;
+            --sea-2: #0b3550; /* Deeper blue */
+            --sea-2-rgb: 11, 53, 80;
+            --deep: #001623; /* Deepest, darkest ocean */
+            --deep-rgb: 0, 22, 35;
+
+            --glass: rgba(255, 255, 255, 0.12); /* Base glass background */
+            --glass-border: rgba(255, 255, 255, 0.25); /* Stronger glass border */
+            --card-text-light: rgba(255, 255, 255, 0.9); /* Text color for cards */
+
+            /* Caustics (light patterns on the ocean floor/surface) - More intricate */
+            --caustics: radial-gradient(circle at 15% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 60%),
+                        radial-gradient(circle at 85% 75%, rgba(255, 255, 255, 0.08) 0%, transparent 60%),
+                        radial-gradient(circle at 40% 90%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 60% 10%, rgba(255, 255, 255, 0.04) 0%, transparent 40%);
+            
             --radius: 16px;
             --radius-lg: 24px;
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            --shadow-glow: 0 0 40px rgba(255, 183, 3, 0.3);
-            --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+            --shadow: 0 12px 48px rgba(0, 0, 0, 0.4); /* Stronger base shadow */
+            --shadow-glow: 0 0 60px rgba(var(--accent-rgb), 0.5); /* More prominent glow */
+            
+            --ease: cubic-bezier(0.22, 0.61, 0.36, 1); /* Water-like ease */
             --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            --duration: 1.2s;
+            --duration: 1.5s; /* Longer transition for cinematic feel */
+            --fast-duration: 0.6s;
         }
 
         * {
@@ -34,30 +55,51 @@
         }
 
         body {
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            background: var(--deep);
+            font-family: 'Montserrat', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--deep); /* Fallback */
             color: white;
-            overflow: hidden;
+            overflow: hidden; /* Hide scrollbars, manage content with JS */
             height: 100vh;
-            cursor: none;
+            cursor: none; /* Custom cursor */
+            /* Immersive HD Ocean Background */
+            background-image:
+                /* Subtle, slow-moving large gradients */
+                radial-gradient(ellipse at 10% 20%, rgba(var(--sea-0-rgb), 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 80%, rgba(var(--sea-1-rgb), 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 30% 60%, rgba(var(--sea-2-rgb), 0.1) 0%, transparent 50%),
+                /* Main depth gradient */
+                linear-gradient(180deg, var(--sea-1) 0%, var(--sea-2) 50%, var(--deep) 100%);
+            background-size: 200% 200%; /* Make background larger for animation */
+            background-position: 0% 0%;
+            animation: flow 120s linear infinite alternate; /* Very slow overall flow */
+            transition: background-position var(--duration) var(--ease);
+        }
+
+        @keyframes flow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
         }
 
         /* Custom cursor */
         .cursor {
             position: fixed;
-            width: 20px;
-            height: 20px;
+            width: 28px; /* Slightly larger */
+            height: 28px;
             border: 2px solid var(--accent);
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
-            transition: transform 0.1s ease;
-            backdrop-filter: blur(2px);
+            transition: transform 0.15s ease-out, background 0.15s ease-out; /* Smoother transition */
+            box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.3); /* Subtle glow */
+            transform-origin: center center;
+            opacity: 0.9;
         }
 
         .cursor.hover {
-            transform: scale(2);
-            background: rgba(255, 183, 3, 0.1);
+            transform: scale(1.8); /* More noticeable scale */
+            background: rgba(var(--accent-rgb), 0.15); /* Slightly stronger fill */
+            border-color: var(--accent-glow);
+            box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.6);
         }
 
         #ocean {
@@ -65,8 +107,8 @@
             height: 100vh;
             position: relative;
             transition: transform var(--duration) var(--ease),
-                       filter var(--duration) var(--ease);
-            will-change: transform;
+                        filter var(--duration) var(--ease); /* Add filter transition */
+            will-change: transform, filter;
             backface-visibility: hidden;
             transform-style: preserve-3d;
         }
@@ -81,31 +123,31 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            transition: opacity var(--duration) var(--ease);
+            transition: opacity var(--fast-duration) var(--ease); /* Fade content faster */
             will-change: transform, opacity;
             backface-visibility: hidden;
         }
 
         /* Depth-based backgrounds */
         .depth-0 {
-            background: 
-                var(--caustics),
-                radial-gradient(ellipse 150% 100% at 50% 20%, var(--sea-0) 0%, var(--sea-1) 40%, var(--deep) 100%);
+            /* Surface, bright */
+            background-image: var(--caustics),
+                              radial-gradient(ellipse 150% 100% at 50% 20%, rgba(var(--sea-0-rgb), 0.8) 0%, rgba(var(--sea-1-rgb), 0.6) 40%, transparent 100%);
         }
 
         .depth-1 {
-            background: 
-                var(--caustics),
-                radial-gradient(ellipse 120% 120% at 50% 30%, var(--sea-1) 0%, var(--sea-2) 60%, var(--deep) 100%);
+            /* Mid-depth */
+            background-image: var(--caustics),
+                              radial-gradient(ellipse 120% 120% at 50% 30%, rgba(var(--sea-1-rgb), 0.7) 0%, rgba(var(--sea-2-rgb), 0.5) 60%, transparent 100%);
         }
 
         .depth-2 {
-            background: 
-                var(--caustics),
-                radial-gradient(ellipse 100% 100% at 50% 40%, var(--sea-2) 0%, var(--deep) 70%);
+            /* Deepest */
+            background-image: var(--caustics),
+                              radial-gradient(ellipse 100% 100% at 50% 40%, rgba(var(--sea-2-rgb), 0.6) 0%, rgba(var(--deep-rgb), 0.4) 70%, transparent 100%);
         }
 
-        /* Animated background elements */
+        /* Animated caustics layer for panels */
         .panel::before {
             content: '';
             position: absolute;
@@ -114,136 +156,171 @@
             right: 0;
             bottom: 0;
             background: 
-                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
-                radial-gradient(circle at 60% 10%, rgba(255, 255, 255, 0.04) 0%, transparent 40%);
-            animation: drift 20s ease-in-out infinite alternate;
+                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.04) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 60% 10%, rgba(255, 255, 255, 0.05) 0%, transparent 40%);
+            animation: caustics-drift 25s ease-in-out infinite alternate; /* Slower drift */
             pointer-events: none;
+            opacity: 0.8; /* Subtle caustics */
         }
 
-        @keyframes drift {
+        @keyframes caustics-drift {
             0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(-20px, 10px) rotate(2deg); }
+            100% { transform: translate(-30px, 15px) rotate(3deg); } /* Larger drift */
         }
 
         /* Cards and content */
         .card {
             background: var(--glass);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px); /* Stronger blur */
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow);
-            padding: 3rem 2.5rem;
+            padding: 3.5rem 3rem; /* More generous padding */
             text-align: center;
-            max-width: 500px;
+            max-width: 550px; /* Wider cards */
             margin: 2rem;
             position: relative;
             overflow: hidden;
-            transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+            transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+            animation: fadeIn 0.8s var(--ease) forwards;
         }
 
         .card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: var(--shadow), var(--shadow-glow);
+            transform: translateY(-10px) scale(1.03); /* More pronounced lift */
+            box-shadow: var(--shadow), var(--shadow-glow); /* Glowing shadow */
         }
 
         .card::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
+            left: -120%; /* Start further left */
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.6s ease;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent); /* Brighter shimmer */
+            transition: left 0.8s ease; /* Slower shimmer */
         }
 
         .card:hover::before {
-            left: 100%;
+            left: 120%; /* End further right */
         }
 
         .card h1, .card h2 {
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-size: clamp(2rem, 5vw, 3rem); /* Bigger headings */
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
             background: linear-gradient(135deg, white 0%, var(--accent-glow) 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
             line-height: 1.2;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3); /* Subtle text shadow for depth */
         }
+        
+        /* Kicker style for the main hub description */
+        #hub-dropoff .card p:first-of-type {
+            font-size: 1.3rem; /* More prominent */
+            line-height: 1.5;
+            color: var(--card-text-light);
+            margin-bottom: 2rem; /* More space */
+            font-weight: 400;
+        }
+
 
         .card p {
             font-size: 1.1rem;
             line-height: 1.6;
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--card-text-light); /* Consistent text color */
             margin-bottom: 1.5rem;
         }
 
         .chip {
             display: inline-block;
-            background: rgba(255, 183, 3, 0.2);
+            background: rgba(var(--accent-rgb), 0.25); /* Stronger accent background */
             color: var(--accent-glow);
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1.2rem; /* More generous padding */
             border-radius: 25px;
-            font-size: 0.9rem;
+            font-size: 1rem; /* Slightly larger text */
             font-weight: 600;
-            margin: 0.25rem;
-            border: 1px solid rgba(255, 183, 3, 0.3);
+            margin: 0.3rem;
+            border: 1px solid rgba(var(--accent-rgb), 0.4); /* Stronger border */
             transition: all 0.3s var(--ease);
             cursor: pointer;
             text-decoration: none;
+            text-shadow: 0 0 8px rgba(var(--accent-rgb), 0.2); /* Subtle text glow */
         }
 
         .chip:hover {
             background: var(--accent);
-            color: var(--ink);
-            transform: scale(1.05);
-            box-shadow: 0 4px 20px rgba(255, 183, 3, 0.4);
+            color: var(--ink); /* Dark text on bright chip */
+            transform: scale(1.08) translateY(-2px); /* More dynamic lift and scale */
+            box-shadow: 0 6px 25px rgba(var(--accent-rgb), 0.6); /* More pronounced shadow */
+            border-color: var(--accent-glow);
         }
 
         /* Navigation elements */
         .brand-home {
             position: fixed;
-            bottom: 2rem;
-            left: 2rem;
+            bottom: 2.5rem; /* Slightly higher */
+            left: 2.5rem; /* Slightly further in */
             z-index: 1000;
             color: var(--accent);
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1.3rem; /* Larger brand text */
             text-decoration: none;
             transition: all 0.3s var(--ease);
             cursor: pointer;
+            text-shadow: 0 0 15px rgba(var(--accent-rgb), 0.4);
         }
 
         .brand-home:hover {
             color: var(--accent-glow);
-            transform: scale(1.1);
-            text-shadow: 0 0 20px var(--accent);
+            transform: scale(1.15) translateY(-3px); /* More pronounced effect */
+            text-shadow: 0 0 30px var(--accent-glow);
         }
 
         .compass-toggle {
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
+            bottom: 2.5rem;
+            right: 2.5rem;
             z-index: 1000;
             background: var(--glass);
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
             border-radius: 50%;
-            width: 60px;
-            height: 60px;
+            width: 65px; /* Larger toggle */
+            height: 65px;
             color: var(--accent);
-            font-size: 1.5rem;
+            font-size: 1.8rem; /* Larger icon */
             cursor: pointer;
             transition: all 0.3s var(--ease);
             box-shadow: var(--shadow);
+            display: flex; /* Center icon */
+            align-items: center;
+            justify-content: center;
+            line-height: 1; /* Fix line height for icon */
+            transform-origin: center center;
+            animation: pulse 2s infinite ease-in-out; /* Subtle pulse animation */
         }
 
         .compass-toggle:hover {
-            background: rgba(255, 183, 3, 0.2);
-            transform: scale(1.1) rotate(45deg);
+            background: rgba(var(--accent-rgb), 0.25);
+            transform: scale(1.15) rotate(90deg); /* More dynamic rotation */
             box-shadow: var(--shadow-glow);
+            animation: none; /* Stop pulse on hover */
+        }
+
+        .compass-toggle[aria-expanded="true"] {
+             transform: scale(1.15) rotate(45deg); /* Show rotation when open */
+             background: rgba(var(--accent-rgb), 0.3);
+             box-shadow: var(--shadow-glow);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(var(--accent-rgb), 0.6); }
+            100% { transform: scale(1); box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.3); }
         }
 
         /* Compass modal */
@@ -251,21 +328,22 @@
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) scale(0.8); /* Start smaller */
             z-index: 2000;
-            background: rgba(0, 22, 35, 0.95);
-            backdrop-filter: blur(30px);
+            background: rgba(var(--deep-rgb), 0.98); /* Near opaque deep blue */
+            backdrop-filter: blur(35px); /* Stronger blur */
             border: 1px solid var(--glass-border);
-            border-radius: 50%;
-            width: 300px;
-            height: 300px;
+            border-radius: var(--radius-lg); /* Squared shape for more content */
+            width: 400px; /* Larger compass */
+            height: auto; /* Auto height for content */
+            padding: 2.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.4s var(--ease);
-            box-shadow: 0 0 100px rgba(0, 0, 0, 0.5);
+            transition: opacity 0.4s var(--ease), transform 0.4s var(--ease), visibility 0.4s;
+            box-shadow: 0 0 120px rgba(0, 0, 0, 0.7); /* More dramatic shadow */
         }
 
         .compass.show {
@@ -277,10 +355,9 @@
         .compass-nav {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            gap: 0.5rem;
-            width: 200px;
-            height: 200px;
+            gap: 1rem; /* More space */
+            width: 100%; /* Fill compass width */
+            max-width: 300px;
         }
 
         .compass-item {
@@ -289,68 +366,91 @@
             justify-content: center;
             background: var(--glass);
             border-radius: var(--radius);
-            color: white;
+            color: var(--card-text-light);
             text-decoration: none;
-            font-size: 0.8rem;
+            font-size: 0.95rem; /* Slightly larger text */
             font-weight: 600;
             transition: all 0.3s var(--ease);
             text-align: center;
-            line-height: 1.2;
+            line-height: 1.3;
+            min-height: 60px; /* Ensure good tap target */
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .compass-item:hover {
             background: var(--accent);
             color: var(--ink);
-            transform: scale(1.1);
+            transform: scale(1.08); /* More pronounced scale */
+            box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.4);
+            border-color: var(--accent);
         }
 
         .compass-item.center {
-            background: var(--accent);
+            background: var(--accent-glow); /* Brighter center hub */
             color: var(--ink);
             font-weight: 700;
+            box-shadow: 0 0 25px rgba(var(--accent-rgb), 0.8);
         }
 
         /* Hub specific styling */
         #hub-dropoff .card {
-            background: linear-gradient(135deg, var(--glass) 0%, rgba(255, 183, 3, 0.1) 100%);
-            border: 2px solid rgba(255, 183, 3, 0.3);
+            background: linear-gradient(135deg, var(--glass) 0%, rgba(var(--accent-rgb), 0.15) 100%);
+            border: 2px solid rgba(var(--accent-rgb), 0.4);
         }
 
         /* Responsive design */
         @media (max-width: 768px) {
+            body { font-size: 16px; } /* Adjust base font size for smaller screens */
+
             .card {
-                padding: 2rem 1.5rem;
-                margin: 1rem;
-                max-width: 90vw;
+                padding: 2.5rem 1.8rem;
+                margin: 1.5rem;
+                max-width: 95vw;
             }
 
             .card h1, .card h2 {
-                font-size: 1.5rem;
+                font-size: clamp(1.8rem, 7vw, 2.5rem);
+            }
+
+            #hub-dropoff .card p:first-of-type {
+                font-size: 1.1rem;
+            }
+
+            .chip {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
             }
 
             .brand-home, .compass-toggle {
-                bottom: 1rem;
+                bottom: 1.5rem;
             }
 
             .brand-home {
-                left: 1rem;
+                left: 1.5rem;
+                font-size: 1.1rem;
             }
 
             .compass-toggle {
-                right: 1rem;
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
+                right: 1.5rem;
+                width: 55px;
+                height: 55px;
+                font-size: 1.4rem;
             }
 
             .compass {
-                width: 250px;
-                height: 250px;
+                width: 90vw;
+                height: auto;
+                padding: 2rem;
+                border-radius: var(--radius);
             }
 
             .compass-nav {
-                width: 160px;
-                height: 160px;
+                grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile for better layout */
+                gap: 0.8rem;
+            }
+            .compass-item {
+                font-size: 0.85rem;
+                min-height: 50px;
             }
         }
 
@@ -365,6 +465,9 @@
             .panel::before {
                 animation: none;
             }
+            body {
+                animation: none;
+            }
         }
 
         /* Loading animation */
@@ -373,27 +476,29 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .card {
-            animation: fadeIn 0.8s var(--ease) forwards;
-        }
-
         /* Focus styles for accessibility */
         .chip:focus, .compass-item:focus, .brand-home:focus, .compass-toggle:focus {
-            outline: 2px solid var(--accent);
-            outline-offset: 4px;
+            outline: 3px solid var(--accent-glow); /* Brighter, thicker outline */
+            outline-offset: 5px; /* More offset */
+            border-radius: var(--radius); /* Rounded focus outline for chips/items */
         }
+        /* Specific for compass toggle */
+        .compass-toggle:focus {
+            border-radius: 50%; /* Keep round for button */
+        }
+
 
         /* Depth transitions */
         [data-depth="0"] #ocean {
-            filter: brightness(1.1) contrast(1.05);
+            filter: brightness(1.1) contrast(1.05) saturate(1.05); /* Brighter, more vibrant surface */
         }
 
         [data-depth="1"] #ocean {
-            filter: brightness(0.9) contrast(1.1);
+            filter: brightness(0.9) contrast(1.1) saturate(1.1) hue-rotate(-5deg); /* Slightly darker, higher contrast, subtle green/blue shift */
         }
 
         [data-depth="2"] #ocean {
-            filter: brightness(0.7) contrast(1.2) saturate(0.8);
+            filter: brightness(0.7) contrast(1.2) saturate(0.9) hue-rotate(-10deg) blur(0.5px); /* Darker, high contrast, more blue/green shift, subtle blur for depth */
         }
     </style>
 </head>
@@ -407,11 +512,11 @@
                 <h1>One Ocean, Many Currents</h1>
                 <p>Your journey begins at the drop-off. Choose your current and dive into the depths of narrative exploration.</p>
                 <div>
-                    <a href="#shark-cove" class="chip">Trials ↗</a>
-                    <a href="#jellyfield" class="chip">Crisis ↗</a>
-                    <a href="#eac-current" class="chip">Trust & Flow ↗</a>
-                    <a href="#sydney-harbor" class="chip">Ordeal ↗</a>
-                    <a href="#reef-return" class="chip">Integration ↗</a>
+                    <a href="#shark-cove" class="chip">Trials</a>
+                    <a href="#jellyfield" class="chip">Crisis</a>
+                    <a href="#eac-current" class="chip">Trust & Flow</a>
+                    <a href="#sydney-harbor" class="chip">Ordeal</a>
+                    <a href="#reef-return" class="chip">Integration</a>
                 </div>
             </div>
         </section>
@@ -479,23 +584,23 @@
 
     <!-- Navigation -->
     <a class="brand-home" href="#hub-dropoff" aria-label="Back to Drop-Off">Filmseele</a>
-    <button class="compass-toggle" aria-haspopup="dialog" aria-controls="nav-compass" aria-label="Open navigation compass">⊕</button>
+    <button class="compass-toggle" aria-haspopup="dialog" aria-controls="nav-compass" aria-label="Open navigation compass">☊</button>
+    <!-- Unicode compass rose ☸ or anchor ☊ -->
 
     <!-- Compass Modal -->
     <dialog id="nav-compass" class="compass">
         <div class="compass-nav">
-            <a href="#shark-cove" class="compass-item">Trials</a>
-            <a href="#jellyfield" class="compass-item">Crisis</a>
-            <a href="#eac-current" class="compass-item">Flow</a>
-            <a href="#sydney-harbor" class="compass-item">Ordeal</a>
-            <a href="#hub-dropoff" class="compass-item center">Hub</a>
-            <a href="#reef-return" class="compass-item">Return</a>
+            <a href="#shark-cove" class="compass-item">Shark Cove<br>(Trials)</a>
+            <a href="#jellyfield" class="compass-item">Jellyfield<br>(Crisis)</a>
+            <a href="#eac-current" class="compass-item">EAC Current<br>(Flow)</a>
+            <a href="#sydney-harbor" class="compass-item">Sydney Harbor<br>(Ordeal)</a>
+            <a href="#hub-dropoff" class="compass-item center">Drop-Off<br>(Hub)</a>
+            <a href="#reef-return" class="compass-item">Reef Return<br>(Integration)</a>
         </div>
     </dialog>
 
     <script>
         (() => {
-            // Ocean navigation system
             const ocean = document.getElementById('ocean');
             const panels = Array.from(document.querySelectorAll('.panel'));
             const cursor = document.querySelector('.cursor');
@@ -509,7 +614,7 @@
                 'jellyfield': { x: -80, y: 50, depth: 1 },
                 'eac-current': { x: 90, y: -30, depth: 1 },
                 'sydney-harbor': { x: 60, y: 100, depth: 2 },
-                'reef-return': { x: 20, y: 180, depth: 0 }
+                'reef-return': { x: -20, y: 180, depth: 0 } // Adjusted position for a better path
             };
 
             // Initialize panel positions
@@ -524,28 +629,35 @@
             function navigateTo(id) {
                 const coord = coords[id] || coords['hub-dropoff'];
                 
-                // Smooth camera movement
-                ocean.style.transform = `translate3d(${-coord.x}vw, ${-coord.y}vh, 0) scale(1)`;
+                // Smooth camera movement with subtle scale for depth feel
+                ocean.style.transform = `translate3d(${-coord.x}vw, ${-coord.y}vh, 0) scale(${1 - coord.depth * 0.03})`; // Smaller scale for deeper panels
                 
                 // Update depth for styling
                 document.documentElement.dataset.depth = coord.depth;
                 
-                // Update URL hash
-                history.replaceState(null, '', '#' + id);
+                // Update URL hash without pushing new history state unless directly navigated
+                if (history.state && history.state.id !== id) {
+                    history.replaceState({ id: id }, '', '#' + id);
+                } else if (!history.state) {
+                     history.replaceState({ id: id }, '', '#' + id);
+                }
+
+                // Close compass if open
+                if (compass.classList.contains('show')) {
+                    compass.classList.remove('show');
+                    compassToggle.setAttribute('aria-expanded', 'false');
+                }
                 
                 // Focus management for accessibility
+                // Use a short timeout to ensure the panel is visually ready before focusing
                 setTimeout(() => {
                     const heading = document.querySelector(`#${id} h1, #${id} h2`);
                     if (heading) {
                         heading.setAttribute('tabindex', '-1');
                         heading.focus();
+                        heading.removeAttribute('tabindex'); // Remove tabindex after focus for cleaner DOM
                     }
-                }, 600);
-
-                // Close compass if open
-                if (compass.classList.contains('show')) {
-                    compass.classList.remove('show');
-                }
+                }, 800); // Increased timeout to match longer transition
             }
 
             // Hash change listener
@@ -567,16 +679,25 @@
             document.addEventListener('mousemove', (e) => {
                 mouseX = e.clientX;
                 mouseY = e.clientY;
+                if (cursor.style.opacity === "0") cursor.style.opacity = "0.9"; // Show cursor on first move
+            });
+            // Hide cursor if mouse leaves window
+            document.addEventListener('mouseleave', () => {
+                cursor.style.opacity = "0";
+            });
+            document.addEventListener('mouseenter', () => {
+                cursor.style.opacity = "0.9";
             });
 
+
             function updateCursor() {
-                cursorX += (mouseX - cursorX) * 0.1;
-                cursorY += (mouseY - cursorY) * 0.1;
-                cursor.style.left = cursorX + 'px';
-                cursor.style.top = cursorY + 'px';
+                cursorX += (mouseX - cursorX) * 0.15; // More responsive
+                cursorY += (mouseY - cursorY) * 0.15; // More responsive
+                cursor.style.transform = `translate(${cursorX - 14}px, ${cursorY - 14}px)`; // Center the cursor
                 requestAnimationFrame(updateCursor);
             }
             updateCursor();
+            cursor.style.opacity = "0"; // Initially hide cursor
 
             // Cursor hover effects
             const hoverElements = document.querySelectorAll('a, button, .chip');
@@ -587,13 +708,23 @@
 
             // Compass functionality
             compassToggle.addEventListener('click', () => {
-                compass.classList.toggle('show');
+                const isShowing = compass.classList.toggle('show');
+                compassToggle.setAttribute('aria-expanded', isShowing);
+                if (isShowing) {
+                    // Trap focus within the dialog when open
+                    const firstFocusable = compass.querySelector('a, button');
+                    if (firstFocusable) firstFocusable.focus();
+                } else {
+                    compassToggle.focus(); // Return focus to the toggle button
+                }
             });
 
             // Close compass when clicking outside
             compass.addEventListener('click', (e) => {
-                if (e.target === compass) {
+                if (e.target === compass) { // Clicked on the dialog backdrop
                     compass.classList.remove('show');
+                    compassToggle.setAttribute('aria-expanded', 'false');
+                    compassToggle.focus(); // Return focus
                 }
             });
 
@@ -601,6 +732,8 @@
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && compass.classList.contains('show')) {
                     compass.classList.remove('show');
+                    compassToggle.setAttribute('aria-expanded', 'false');
+                    compassToggle.focus(); // Return focus
                 }
             });
 
@@ -614,48 +747,49 @@
                     }
                 }
             });
+            
+            // Keyboard navigation (Arrow keys)
+            document.addEventListener('keydown', (e) => {
+                if (e.key.startsWith('Arrow') && !compass.classList.contains('show')) {
+                    const currentPanelId = location.hash.slice(1) || 'hub-dropoff';
+                    const panelIds = Object.keys(coords);
+                    const currentIndex = panelIds.indexOf(currentPanelId);
+                    
+                    let nextIndex = currentIndex;
+                    if (e.key === 'ArrowRight') {
+                        nextIndex = (currentIndex + 1) % panelIds.length;
+                    } else if (e.key === 'ArrowLeft') {
+                        nextIndex = (currentIndex - 1 + panelIds.length) % panelIds.length;
+                    } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                        // For Up/Down, we can either cycle or try to move in a grid-like fashion
+                        // For simplicity, let's just cycle for now.
+                        nextIndex = (currentIndex + (e.key === 'ArrowDown' ? 1 : -1) + panelIds.length) % panelIds.length;
+                    }
+                    
+                    if (nextIndex !== currentIndex) {
+                        navigateTo(panelIds[nextIndex]);
+                        e.preventDefault();
+                    }
+                }
+            });
 
-            // Preload optimization
-            const preloadImages = () => {
-                // Preload any additional assets here
+            // Preload optimization (can be expanded for specific assets)
+            const preloadAssets = () => {
+                // Example: If you had background images, you'd add them here
+                // new Image().src = 'path/to/image.png';
             };
 
             // Initialize when page loads
             if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', preloadImages);
+                document.addEventListener('DOMContentLoaded', preloadAssets);
             } else {
-                preloadImages();
+                preloadAssets();
             }
 
-            // Performance optimization
-            let ticking = false;
-            function optimizePerformance() {
-                if (!ticking) {
-                    requestAnimationFrame(() => {
-                        ticking = false;
-                    });
-                    ticking = true;
-                }
-            }
-
-            // Keyboard navigation
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                    const currentPanel = location.hash.slice(1) || 'hub-dropoff';
-                    const panelIds = Object.keys(coords);
-                    const currentIndex = panelIds.indexOf(currentPanel);
-                    
-                    let nextIndex;
-                    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                        nextIndex = (currentIndex + 1) % panelIds.length;
-                    } else {
-                        nextIndex = (currentIndex - 1 + panelIds.length) % panelIds.length;
-                    }
-                    
-                    navigateTo(panelIds[nextIndex]);
-                    e.preventDefault();
-                }
-            });
+            // Optimize for situations where CSS transitions might be off-main-thread
+            // No specific need for `optimizePerformance` function as written,
+            // `will-change` and `requestAnimationFrame` for cursor already handle this.
+            // If complex calculations were happening on scroll/resize, a debounced handler would go here.
         })();
     </script>
 </body>
