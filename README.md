@@ -12,17 +12,43 @@ Content is added later; UX/UI quality is first‑class.
 - Podcast scaffolding (trailer + episodes)
 
 ## 🧭 How to use
-1. Watch film, jot focus notes (e.g., trauma → overprotection; trust/flow).
-2. Run the **Master Prompt** in `/prompts` with your inputs.
-3. Edit `/site/index.html` + `/site/site.css` (structure/style only).
-4. Expand docs in `/docs` when you’re ready for real content.
+This repository uses a two-stream model: a development stream for drafts and a `root/` stream for polished, deployment-ready artifacts.
+
+High-level workflow:
+1. Draft and iterate in the development folders (`/site`, `/docs`, `/assets`).
+2. Use `prompts/MASTER_PROMPT.md` to generate safe placeholder text and outlines.
+3. When content is reviewed and ready, promote specific files to `/root/` (see Promotion section below).
+4. Preview or deploy from `/root/`.
 
 ## 🗂️ Structure
-/root    # All live content (final docs, site, assets)
-/prompts # Prompts & quick-fill (development)
-/docs    # Acts, themes, archetypes (development)
-/site    # index.html, site.css, stubs, assets (development)
-/assets  # Media, icons, etc. (development)
+- `/root/` — Live / deployment stream (final docs, site, assets). Only polished, reviewed content should be placed here.
+- `/prompts` — Prompt templates and tooling for content generation (development).
+- `/docs` — Development docs: act outlines, themes, archetypes, drafts.
+- `/site` — Development site skeleton, stubs, and style experiments.
+- `/assets` — Development media, icons, and raw assets.
+
+Promotion (development -> root)
+
+Make small, intentional promotions. Example PowerShell commands (run from repo root) to copy reviewed files into `root/`:
+
+```powershell
+# ensure destination exists
+if (-not (Test-Path -Path .\root\site)) { New-Item -ItemType Directory -Path .\root\site -Force }
+
+# copy entire site (use carefully)
+Copy-Item -Path .\site\* -Destination .\root\site -Recurse -Force
+
+# copy a single doc
+Copy-Item -Path .\docs\act-01.md -Destination .\root\docs\ -Force
+
+# commit promoted files
+git add root/; git commit -m "Promote reviewed artifacts to root/"; git push
+```
+
+Checklist before promoting:
+- Confirm content review and accessibility (WCAG AA) where applicable.
+- Ensure no copyrighted or sensitive material is included.
+- Keep promotions focused (promote single files or small folders).
 
 
 ## 🛠 Tech & constraints
