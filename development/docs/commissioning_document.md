@@ -170,6 +170,4 @@ This document serves as a commissioning brief for an AI coding agent to develop 
 
 ## Notes
 
-- **Accessibility**: Ensure focus management and support for `prefers-reduced-motion`.
-- **Performance**: Optimize for GPU transforms and lightweight assets.
 - **Scalability**: Design to accommodate additional nodes in the future.
