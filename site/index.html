@@ -1,0 +1,43 @@
+<!-- Wireframe: docs/wireframes/index.md -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>[INSERT TITLE]</title>
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+  <!-- include components/header.html -->
+  <header role="banner">
+    <h1>[INSERT SITE TITLE]</h1>
+    <nav aria-label="Primary">
+      <button id="nav-toggle" aria-expanded="false">Menu</button>
+      <ul id="nav-menu" class="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="episodes.html">Episodes</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main id="main-content">
+    <section aria-label="Hero">
+    <button data-collapsible data-target="extra" aria-expanded="false">Toggle</button>
+    <div id="extra" class="u-hidden">[INSERT EXTRA]</div>
+      <h2>[INSERT HERO TITLE]</h2>
+      <p>[INSERT HERO SUMMARY]</p>
+    </section>
+    <section aria-label="List">
+      <!-- include components/card.html -->
+      <article class="card">
+        <h3>[INSERT CARD TITLE]</h3>
+        <p>[INSERT CARD SUMMARY]</p>
+      </article>
+    </section>
+  </main>
+  <!-- include components/footer.html -->
+  <footer role="contentinfo">
+    <p>[INSERT FOOTER]</p>
+  </footer>
+  <script src="main.js"></script>
+</body>
+</html>
