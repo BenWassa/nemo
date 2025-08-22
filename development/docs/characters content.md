@@ -9,9 +9,9 @@
 
 ## Marlin (id: `#marlin`) — tag: Tragic Father
 
-**Blurb (2–3 sentences):**
+* [x] **Blurb (2–3 sentences):**
 Loss made him vigilant; love made him rigid. Marlin learns that safety without trust is only another kind of storm. His arc loosens from clenched caution to courageous release.
-**Bullets (3–5):**
+* [x] **Bullets (3–5):**
 
 * Opening vow: “I’ll never let anything happen to you.”
 * Panic at the reef drop‑off; control posing as care.
@@ -23,9 +23,9 @@ Loss made him vigilant; love made him rigid. Marlin learns that safety without t
 
 ## Nemo (id: `#nemo`) — tag: Wounded Son
 
-**Blurb:**
+* [x] **Blurb:**
 A small fin and a wide heart. Nemo discovers that courage is not the denial of limits but the decision to move with them—finding agency even inside a tank.
-**Bullets:**
+* [x] **Bullets:**
 
 * Touching the boat: defiance as a bid for autonomy.
 * Tank plan: filter jam as first leadership.
@@ -37,9 +37,9 @@ A small fin and a wide heart. Nemo discovers that courage is not the denial of l
 
 ## Dory (id: `#dory`) — tag: Divine Helper
 
-**Blurb:**
+* [x] **Blurb:**
 Her memory slips, but her presence holds. Dory’s trust in the next stroke becomes a sacrament of attention—wisdom that does not predict, only abides.
-**Bullets:**
+* [x] **Bullets:**
 
 * “Just keep swimming” becomes a discipline.
 * Shark meeting: friendliness amidst threat.
@@ -51,9 +51,9 @@ Her memory slips, but her presence holds. Dory’s trust in the next stroke beco
 
 ## Gill (id: `#gill`) — tag: Wise Mentor
 
-**Blurb:**
+* [x] **Blurb:**
 Scarred by past escape attempts, Gill teaches Nemo the dignity of risk. His mentorship is flint and fluke—hard advice lit by stubborn hope.
-**Bullets:**
+* [x] **Bullets:**
 
 * First counsel: courage inside confinement.
 * The filter scheme: failure reframed as rehearsal.
@@ -65,9 +65,9 @@ Scarred by past escape attempts, Gill teaches Nemo the dignity of risk. His ment
 
 ## Crush (id: `#crush`) — tag: Sage Guide
 
-**Blurb:**
+* [x] **Blurb:**
 The current’s philosopher. Crush models a parenting of open hands—watchful, delighted, and unafraid to let the young catch their own flow.
-**Bullets:**
+* [x] **Bullets:**
 
 * EAC entry: ease instead of effort.
 * Conversing with Squirt: skill through playful risk.
@@ -79,9 +79,9 @@ The current’s philosopher. Crush models a parenting of open hands—watchful, 
 
 ## Bruce (id: `#bruce`) — tag: Shadow Ally
 
-**Blurb:**
+* [x] **Blurb:**
 A predator practicing peace. Bruce is appetite under covenant, proof that even the toothiest parts of us can learn restraint.
-**Bullets:**
+* [x] **Bullets:**
 
 * “Fish are friends, not food”—the vow of discipline.
 * Blood scent relapse: shadow acknowledged, not denied.
@@ -93,7 +93,7 @@ A predator practicing peace. Bruce is appetite under covenant, proof that even t
 
 ## Micro‑polish (optional)
 
-* Replace the “Portrait” text inside each `.character-portrait` with a subtle label like **“\[Image Placeholder]”** and rely on `alt` for description (improves a11y).
+* Replace the “Portrait” text inside each `.character-portrait` with a subtle label like **“[Image Placeholder]”** and rely on `alt` for description (improves a11y).
 * Add a tiny **“Reflection”** line at the bottom of each card (if you have room):
 
   * *Marlin:* Where has caution become a cage?
