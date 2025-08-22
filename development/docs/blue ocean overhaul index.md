@@ -12,8 +12,8 @@ everything on the index page should be smooth, flow like water between sections 
 also all the content on the index site should be lean and cut out the fluff - a user would get all the core details and messages without protracted paragraphs. each section would have buttons to dive deeper. this could then go to other pages... working on how to do this. maybe literally going deeper in the water via darker palette transitions."
 
 
-Strategy: “One Ocean, Many Currents”
-Experience goals
+# Strategy: “One Ocean, Many Currents”
+## Experience goals
 
 Immersive, non‑linear: start at the Drop‑Off hub (anemone center), choose a direction (trial, ally, crisis, ordeal, return).
 
