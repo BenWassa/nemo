@@ -1,80 +1,133 @@
-# 🎬 Movie Miniseries: Finding Nemo
+# 🎬 Filmseele: Finding Nemo
 
-**Movie Miniseries: Finding Nemo** reimagines Pixar’s classic as a mythic, psychologically informed miniseries.
-This repo ships a **style‑first HTML/CSS skeleton** with strict placeholders, plus a professor‑level act framework.
-Content is added later; UX/UI quality is first‑class.
+Short: this repo holds a style-first HTML/CSS skeleton and supporting docs for a "Filmseele: Finding Nemo" project. The codebase separates working drafts from polished, deployable artifacts — development happens in the top-level folders and production-ready files live under `/root/`.
 
-## ✨ What’s inside
-- 4–5 act breakdown (Film Studies + Psychology)
-- Themes & archetypes mapped to key beats
-- Commissioning brief for LLM/dev handoff
-- Polished HTML/CSS site skeleton (placeholders only)
-- Podcast scaffolding (trailer + episodes)
+Goals
+- Provide a clear, accessible skeleton for a site (placeholders only).
+- Keep editorial drafts and prompt templates for generating placeholder copy.
+- Provide a safe promotion workflow from development -> `root/` for pilot/deployment.
 
-## 🧭 How to use
-This repository uses a two-stream model: a development stream for drafts and a `root/` stream for polished, deployment-ready artifacts.
+Quick links
+- Dev site folder: `./site/`
+- Dev docs: `./docs/`
+- Prompt templates: `./prompts/`
+- Live (deployment) stream: `./root/` (contains `root/site/`, `root/docs/`, `root/assets/`)
 
-High-level workflow:
-1. Draft and iterate in the development folders (`/site`, `/docs`, `/assets`).
-2. Use `prompts/MASTER_PROMPT.md` to generate safe placeholder text and outlines.
-3. When content is reviewed and ready, promote specific files to `/root/` (see Promotion section below).
-4. Preview or deploy from `/root/`.
+Table of contents
+- What this repo contains
+- Streams & structure
+- Development workflow
+- Promotion (development -> root)
+- Previewing locally
+- Accessibility & QA
+- Branching, commits, PRs
+- Next steps
+- License
 
-## 🗂️ Structure
-- `/root/` — Live / deployment stream (final docs, site, assets). Only polished, reviewed content should be placed here.
-- `/prompts` — Prompt templates and tooling for content generation (development).
-- `/docs` — Development docs: act outlines, themes, archetypes, drafts.
-- `/site` — Development site skeleton, stubs, and style experiments.
-- `/assets` — Development media, icons, and raw assets.
+What this repo contains
+- A small, style-first HTML/CSS skeleton (placeholders only).
+- Prompt templates and sprint planning in `prompts/`.
+- Docs scaffolding in `docs/` for act outlines, themes, archetypes.
+- `root/` — canonical/live versions of site/docs/assets that are ready for a pilot or public preview.
+
+Streams & structure
+This project uses two parallel streams so drafts and final artifacts don't get mixed:
+
+- `/` (development stream)
+	- `prompts/` — prompt templates, sprints, automation helpers.
+	- `docs/` — draft act outlines, wireframes, component notes.
+	- `site/` — development site skeleton, placeholders, and experiments.
+	- `assets/` — raw media and working assets (do not commit very large files without LFS).
+
+- `/root/` (deployment / live stream)
+	- `root/site/` — polished templates that will be previewed or deployed.
+	- `root/docs/` — final docs and act outlines.
+	- `root/assets/` — assets intended to ship with the pilot.
+
+When to edit which stream
+- Edit development files for drafting and experimentation.
+- Only copy reviewed, final files to `root/` (see Promotion below).
+
+Development workflow (recommended)
+1. Create a feature branch: `git checkout -b sprint/NN-short-desc`.
+2. Work in `site/`, `docs/`, or `prompts/` as applicable.
+3. Keep content placeholder-safe: use tags like `[INSERT TITLE]`, `[SUMMARY]`, `[AUTHOR NOTES]` — do not paste copyrighted scripts or verbatim movie text.
+4. Run quick local checks (open HTML, run basic linters, run accessibility checklist).
+5. Open a small PR with focused changes and descriptive commit messages.
 
 Promotion (development -> root)
+Promote only small, reviewed sets of files. A promotion should be an explicit, auditable commit.
 
-Make small, intentional promotions. Example PowerShell commands (run from repo root) to copy reviewed files into `root/`:
+Safe manual promotion example (PowerShell)
 
 ```powershell
 # ensure destination exists
 if (-not (Test-Path -Path .\root\site)) { New-Item -ItemType Directory -Path .\root\site -Force }
 
-# copy entire site (use carefully)
+# copy development site files into root (careful: this overwrites)
 Copy-Item -Path .\site\* -Destination .\root\site -Recurse -Force
 
-# copy a single doc
+# copy a single reviewed doc
 Copy-Item -Path .\docs\act-01.md -Destination .\root\docs\ -Force
 
-# commit promoted files
+# review, then commit/push
 git add root/; git commit -m "Promote reviewed artifacts to root/"; git push
 ```
 
-Checklist before promoting:
-- Confirm content review and accessibility (WCAG AA) where applicable.
-- Ensure no copyrighted or sensitive material is included.
-- Keep promotions focused (promote single files or small folders).
+Promotion best practices
+- Promote one or two files at a time, not whole directories unless intentionally sweeping.
+- Add a promotion note to the commit message describing why the file was promoted.
+- Run accessibility and editorial checks before promoting.
 
+Previewing locally
+- To preview the development site (from `site/`):
 
-## 🛠 Tech & constraints
-- Semantic HTML + single CSS file (no frameworks)
-- Accessible (WCAG AA), responsive, system fonts
-- Placeholders everywhere; no real content shipped in v0
+```powershell
+cd .\site
+python -m http.server 8000
+# open http://localhost:8000 in your browser
+```
 
-## 📜 License
-MIT
+- To preview the live/pilot site (from `root/site/`):
 
-## Repo scaffold added
-I added a minimal repo scaffold to help you start development. New files and folders:
+```powershell
+cd .\root\site
+python -m http.server 8000
+# open http://localhost:8000 in your browser
+```
 
-- `prompts/` — `MASTER_PROMPT.md` (prompt template for content drafting)
-- `root/docs/` — `README.md` (docs workspace — live)
-- `root/site/` — `index.html`, `site.css` (simple placeholder site — live)
-- `root/assets/` — `README.md` (where to store images/audio — live)
-- `.gitignore`, `LICENSE`
+If you prefer a single helper script, consider adding `preview.ps1` that accepts `dev` or `root` and serves the correct folder.
 
-How to preview the placeholder site locally:
+Accessibility & QA
+- The site should follow WCAG AA principles. Minimal checks to run before promoting:
+	- Keyboard navigation (tab order, visible focus)
+	- Color contrast for text and UI elements
+	- Semantic HTML landmarks and ARIA where needed
+	- Images must have alt text placeholders (`alt="[INSERT DESCRIPTION]"`)
 
-1. Open `site/index.html` in your browser (double-click file) or use a simple static server.
-2. Optional: with Python installed, run `python -m http.server` from the `site` folder and open http://localhost:8000
+- For automated checks, you can run axe-core or Lighthouse locally; include simple instructions in `prompts/`.
 
-Next suggested steps:
+Branching, commits, PRs
+- Branch naming: `sprint/<number>-<short-desc>` or `feature/<short-desc>`.
+- Commit messages: short imperative summary, and include a promotion note when applicable.
+- PRs: keep them small. Add a checklist in the PR description linking to the sprint acceptance criteria.
 
-- Fill `docs/` with act outlines.
-- Use `prompts/MASTER_PROMPT.md` to generate safe placeholder text.
-- Replace placeholders in `site/index.html` as you iterate.
+Next steps (suggested)
+- Add `CONTRIBUTING.md` describing the promotion policy and code review checklist.
+- Add `preview.ps1` to simplify serving dev/live folders.
+- Add a CI check to validate `root/` before deploy (lint, a11y smoke tests).
+- Populate `docs/` with act outlines and wireframes; use `prompts/MASTER_PROMPT.md` to generate placeholder drafts.
+
+Security & legal notes
+- Do not commit copyrighted screenplay excerpts or other protected content. Use placeholders and summaries only.
+- Keep secrets out of the repo. Use environment variables or vaults for any deployment credentials.
+
+Contributors & contact
+- Owner: BenWassa
+- Repo workspace: `nemo.code-workspace`
+- For questions, open an issue or add a PR comment.
+
+License
+- MIT — see `LICENSE` file for details.
+
+Thank you — if you'd like, I can also add `CONTRIBUTING.md`, `preview.ps1`, and a small GitHub Actions workflow to validate `root/` on PRs.
