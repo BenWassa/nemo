@@ -11,31 +11,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-depth="0"> <!-- Sets the depth for this page, e.g., depth 0 for "shallow" -->
     <a href="#main-content" class="skip-to-content">Skip to content</a>
     
     <header>
         <div class="header-content">
+            <!-- Logo always returns to the main hub center -->
             <a href="index.html#anemone-center" class="logo">Odyssey Beneath the Waves</a>
             <nav>
                 <ul>
-                    <li><a href="index.html#shark-cove-node" class="active">Episodes</a></li> <!-- Link to Shark Cove node -->
-                    <li><a href="index.html#jellyfield-node">Characters</a></li> <!-- Link to Jellyfield node (example) -->
-                    <li><a href="index.html#eac-current-node">Themes</a></li> <!-- Link to EAC Current node (example) -->
-                    <li><a href="index.html#sydney-harbor-node">Podcast</a></li> <!-- Link to Sydney Harbor node (example) -->
-                    <li><a href="index.html#reef-return-node">Extras</a></li>
+                    <!-- Current page (Episodes) links to its corresponding node on the index and is active -->
+                    <li><a href="index.html#shark-cove-node" class="active">Episodes</a></li> 
+                    <!-- Other main navigation items link to their respective nodes on the index -->
+                    <li><a href="index.html#jellyfield-node">Characters</a></li>
+                    <li><a href="index.html#eac-current-node">Themes</a></li>
+                    <li><a href="index.html#sydney-harbor-node">Podcast</a></li>
+                    <li><a href="index.html#reef-return-node">Extras</a></li> 
                 </ul>
             </nav>
         </div>
     </header>
 
     <main id="main-content">
-        <section>
+        <!-- Hero section for the page title, mirroring the immersive feel -->
+        <section class="page-hero" data-bg-depth="0"> <!-- Matches depth of Shark Cove node -->
             <div class="wrap">
-                <h1 class="section-title">Episodes: The Acts</h1>
-                <p class="kicker">Every odyssey is two journeys at once: the miles we swim and the miles within. These acts chart Marlin and Nemo across both seas—the literal waters of risk and the inner waters of fear, trust, and return.</p>
+                <h1 class="page-hero-title">Episodes: The Narrative Currents</h1>
+                <p class="page-hero-kicker">Every odyssey is two journeys at once: the miles we swim and the miles within. These acts chart Marlin and Nemo across both seas—the literal waters of risk and the inner waters of fear, trust, and return.</p>
+            </div>
+        </section>
 
-                <article id="act-1" class="card episode">
+        <section class="content-list-section">
+            <div class="wrap">
+                <article id="act-1" class="card episode-card">
                     <div class="eyebrow">Act I</div>
                     <h3>The Wound & the Call</h3>
                     <p class="sub">The reef opens in light and shatters in an instant. A barracuda leaves Marlin with a single son and a heart clenched like a fist. He builds safety into a doctrine: every current suspect, every edge a threat. On the first day of school, Nemo strains against the leash of love and swims beyond the line, a small act of defiance that breaks the surface—and he is taken. The ocean widens into absence. Marlin, who has spent years refusing the unknown, must now follow it into its depths.</p>
@@ -57,12 +65,12 @@
                     <p class="reflection"><strong>Reflection prompt:</strong> Where has fear taught you to hold too tightly? What would following the current look like for one step?</p>
                     <p class="links"><strong>Links:</strong> <a href="characters.html#marlin">Marlin</a> · <a href="characters.html#nemo">Nemo</a> · <a href="podcast.html#ep-1">Podcast Ep 1</a></p>
                     <div class="actions">
-                        <a class="btn primary" href="podcast.html#ep-1">Listen to Companion</a>
-                        <a class="btn ghost" href="#">View Draft Notes</a>
+                        <a class="btn primary" href="podcast.html#ep-1">🎧 Listen to Companion</a>
+                        <a class="btn ghost" href="#" aria-label="View Draft Notes for Act I">📝 View Draft Notes</a>
                     </div>
                 </article>
 
-                <article id="act-2a" class="card episode">
+                <article id="act-2a" class="card episode-card">
                     <div class="eyebrow">Act IIa</div>
                     <h3>Road of Trials</h3>
                     <p class="sub">Marlin meets Dory, whose forgetfulness disarms his fear with a stranger grace: presence. Together they descend into dark mouths and comic hazards—sharks who practice restraint, an anglerfish whose light is a lure. Meanwhile, in the dentist’s tank, Nemo meets Gill, scarred and steady, who offers the one thing Marlin never could: permission to risk. The two roads run in parallel; both father and son acquire unlikely teachers.</p>
@@ -84,11 +92,11 @@
                     <p class="reflection"><strong>Reflection prompt:</strong> What unlikely ally has reshaped how you try, fail, and try again?</p>
                     <p class="links"><strong>Links:</strong> <a href="characters.html#dory">Dory</a> · <a href="characters.html#gill">Gill</a> · <a href="characters.html#bruce">Bruce</a> · <a href="podcast.html#ep-2">Podcast Ep 2</a></p>
                     <div class="actions">
-                        <a class="btn primary" href="podcast.html#ep-2">Listen to Companion</a>
+                        <a class="btn primary" href="podcast.html#ep-2">🎧 Listen to Companion</a>
                     </div>
                 </article>
 
-                <article id="act-2b" class="card episode">
+                <article id="act-2b" class="card episode-card">
                     <div class="eyebrow">Act IIb</div>
                     <h3>Deepening Crisis</h3>
                     <p class="sub">The sea turns severe. A field of jellyfish tests body and bond; Marlin falls, Dory falters, and hope thins. Then the East Australian Current catches them—an effortless river through the chaos—where Crush fathers by letting go, watching without gripping. In the tank, the escape plan sharpens; failure and near‑success teach Nemo what courage costs and grants.</p>
@@ -110,11 +118,11 @@
                     <p class="reflection"><strong>Reflection prompt:</strong> Where in your life could you try trusting a current instead of muscle?</p>
                     <p class="links"><strong>Links:</strong> <a href="characters.html#crush">Crush</a> · <a href="podcast.html#ep-3">Podcast Ep 3</a></p>
                     <div class="actions">
-                        <a class="btn primary" href="podcast.html#ep-3">Listen to Companion</a>
+                        <a class="btn primary" href="podcast.html#ep-3">🎧 Listen to Companion</a>
                     </div>
                 </article>
 
-                <article id="act-3" class="card episode">
+                <article id="act-3" class="card episode-card">
                     <div class="eyebrow">Act III</div>
                     <h3>Ordeal & Transformation</h3>
                     <p class="sub">The whale swallows them, and Marlin must choose: resist the unknown or trust its vast intelligence. He lets go—and they are carried to Sydney. In the harbor’s churn, Nemo and Marlin miss, find, and nearly lose one another again; the death‑feint breaks the last shell of control. When the net rises and the sea screams, Nemo leads, Marlin yields, and together they teach a crowd to swim downward—to break the machine with shared will.</p>
@@ -136,11 +144,11 @@
                     <p class="reflection"><strong>Reflection prompt:</strong> What might die inside you if you let someone else lead for a moment?</p>
                     <p class="links"><strong>Links:</strong> <a href="characters.html#marlin">Marlin</a> · <a href="characters.html#nemo">Nemo</a> · <a href="characters.html#dory">Dory</a> · <a href="podcast.html#ep-4">Podcast Ep 4</a></p>
                     <div class="actions">
-                        <a class="btn primary" href="podcast.html#ep-4">Listen to Companion</a>
+                        <a class="btn primary" href="podcast.html#ep-4">🎧 Listen to Companion</a>
                     </div>
                 </article>
 
-                 <article id="act-4" class="card episode">
+                 <article id="act-4" class="card episode-card">
                     <div class="eyebrow">Act IV</div>
                     <h3>Return & Integration</h3>
                     <p class="sub">The reef is unchanged, and everything is different. Marlin blesses the risk he once forbade; Nemo swims out into the day without the weight of his father’s fear. Dory belongs now—not as a guest but as kin. The adventure settles into practice: vigilance softened by trust, love measured not by how tightly it holds but by how freely it sends.</p>
@@ -161,11 +169,12 @@
                     <p class="reflection"><strong>Reflection prompt:</strong> What would it look like to bring one lesson from your hardest swim back into daily life?</p>
                     <p class="links"><strong>Links:</strong> <a href="podcast.html#ep-5">Podcast Ep 5</a></p>
                     <div class="actions">
-                        <a class="btn primary" href="podcast.html#ep-5">Listen to Companion</a>
+                        <a class="btn primary" href="podcast.html#ep-5">🎧 Listen to Companion</a>
                     </div>
                 </article>
 
                 <div class="actions">
+                    <!-- "Back to Home" button returns to the central anemone hub -->
                     <a href="index.html#anemone-center" class="btn ghost">← Back to Home</a>
                 </div>
             </div>
@@ -175,6 +184,7 @@
     <footer>
         <div class="footer-content">
             <nav class="footer-nav">
+                <!-- Footer navigation links also point to the correct index nodes -->
                 <a href="index.html#shark-cove-node">Episodes</a>
                 <a href="index.html#jellyfield-node">Characters</a>
                 <a href="index.html#eac-current-node">Themes</a>

@@ -1296,3 +1296,98 @@ body.index-page { /* This class will be added to index.html body */
     footer .footer-nav a { margin: 0 var(--space-0); /* Smaller gap */ font-size: 0.75rem; }
     footer p { font-size: 0.7rem; }
 }
+
+/* ==================================== */
+/* Episodes Page Specific Styles */
+/* ==================================== */
+
+/* Page Hero Section (for content pages like Episodes, Characters, etc.) */
+.page-hero {
+    text-align: center;
+    padding: var(--space-8) var(--space-4);
+    /* Background will be dynamically set by JS or derived from data-depth */
+    /* For episodes.html, this will default to --depth-0-bg */
+    background: var(--depth-0-bg); /* Fallback/initial for shallowest node */
+    margin-bottom: var(--space-6);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    transition: background 1.5s var(--water-ease); /* Smooth transition for background */
+}
+
+.page-hero-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 4.5rem;
+    margin-bottom: var(--space-3);
+    background: linear-gradient(45deg, var(--golden-gate-bridge), var(--text-light), var(--palatinate-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+    line-height: 1.1;
+}
+
+.page-hero-kicker {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.4rem;
+    color: var(--text-light);
+    opacity: 0.9;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.5);
+}
+
+/* Specific styling for episode cards */
+.episode-card {
+    border-left: 5px solid var(--palatinate-blue); /* A thematic border for episode cards */
+    padding: var(--space-5);
+    margin-bottom: var(--space-5);
+    transition: transform 0.3s var(--water-ease), box-shadow 0.3s var(--water-ease);
+}
+
+.episode-card:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Ensure the content-list-section provides proper spacing */
+.content-list-section {
+    padding-bottom: var(--space-6);
+}
+
+/* Adjustments for buttons within episode cards for better icon/text alignment */
+.episode-card .actions .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1); /* Space between icon and text */
+    padding: 0.9rem 1.8rem;
+    font-size: 1rem;
+}
+
+/* Responsive Adjustments for Page Hero and Episode Cards */
+@media (max-width: 1024px) {
+    .page-hero-title { font-size: 3.5rem; }
+    .page-hero-kicker { font-size: 1.2rem; }
+}
+
+@media (max-width: 768px) {
+    .page-hero { padding: var(--space-6) var(--space-3); }
+    .page-hero-title { font-size: 2.8rem; }
+    .page-hero-kicker { font-size: 1.1rem; }
+    .episode-card .actions .btn {
+        flex-direction: column; /* Stack icon and text on small screens */
+        gap: var(--space-0-5);
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+        min-width: 160px; /* Ensure buttons are not too small */
+    }
+}
+
+@media (max-width: 480px) {
+    .page-hero { padding: var(--space-4) var(--space-2); }
+    .page-hero-title { font-size: 2.2rem; }
+    .page-hero-kicker { font-size: 1rem; }
+    .episode-card .actions .btn {
+        min-width: 120px;
+        font-size: 0.85rem;
+        padding: 0.7rem 1.2rem;
+    }
+}

@@ -4,14 +4,17 @@ class UnderwaterWorld {
         this.locations = {
             'anemone-center':    { x: 0, y: 0,   indicator: 'Drop-Off / Anemone Hub',       depth: 1,  bgVar: 'var(--depth-1-bg)', particleIntensity: 1.0, causticsOpacity: 0.2, navTargets: { up: 'shark-cove-node', left: 'jellyfield-node', right: 'eac-current-node', down: 'sydney-harbor-node' } },
             'shark-cove-node':   { x: 0, y: -100, indicator: 'Shark Cove: Road of Trials',   depth: 0,  bgVar: 'var(--depth-0-bg)', particleIntensity: 1.5, causticsOpacity: 0.3, navTargets: { down: 'anemone-center' } },
-            'jellyfield-node':   { x: 100, y: 0,   indicator: 'Jellyfield: Deepening Crisis', depth: 1,  bgVar: 'var(--depth-1-bg)', particleIntensity: 1.2, causticsOpacity: 0.2, navTargets: { right: 'anemone-center' } },
-            'eac-current-node':  { x: -100, y: 0,  indicator: 'EAC Current: Trust & Flow',    depth: 1,  bgVar: 'var(--depth-1-bg)', particleIntensity: 1.2, causticsOpacity: 0.2, navTargets: { left: 'anemone-center' } },
+            'jellyfield-node':   { x: -100, y: 0,   indicator: 'Jellyfield: Deepening Crisis', depth: 1,  bgVar: 'var(--depth-1-bg)', particleIntensity: 1.2, causticsOpacity: 0.2, navTargets: { right: 'anemone-center' } }, // FIXED: x was 100, now -100
+            'eac-current-node':  { x: 100, y: 0,  indicator: 'EAC Current: Trust & Flow',    depth: 1,  bgVar: 'var(--depth-1-bg)', particleIntensity: 1.2, causticsOpacity: 0.2, navTargets: { left: 'anemone-center' } }, // FIXED: x was -100, now 100
             'sydney-harbor-node':{ x: 0, y: 100,  indicator: 'Sydney Harbor: Ordeal',      depth: 2,  bgVar: 'var(--depth-2-bg)', particleIntensity: 0.7, causticsOpacity: 0.15, navTargets: { up: 'anemone-center', down: 'reef-return-node' } },
             'reef-return-node':  { x: 0, y: 200,  indicator: 'Reef Return: Integration',     depth: 3,  bgVar: 'var(--depth-3-bg)', particleIntensity: 0.5, causticsOpacity: 0.1, navTargets: { up: 'sydney-harbor-node' } }
         };
 
         this.prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         this.focusedElementBeforeModal = null; // For accessibility: remember focus before opening quick-nav
+        this.oceanWorld = document.getElementById('oceanWorld'); // Cache DOM element
+        this.quickNavOverlay = document.getElementById('quick-nav-overlay'); // Cache DOM element
+        this.quickNavToggle = document.getElementById('quick-nav-toggle'); // Cache DOM element
         
         this.init();
     }
@@ -31,7 +34,7 @@ class UnderwaterWorld {
             this.currentLocation = initialTargetId; // Set current location
             this.instantNavigate(this.currentLocation); // Instant move without animation
 
-            // Show welcome message only if it's the hub on first load AND no specific hash was provided
+            // Only show welcome message if it's the hub on first load AND no specific hash was provided
             if (this.currentLocation === 'anemone-center' && !initialHash) {
                 this.showWelcomeMessage();
             }
@@ -40,58 +43,73 @@ class UnderwaterWorld {
             this.instantNavigate('anemone-center');
             this.showWelcomeMessage(); // Show on first load of hub
         }
+
+        // Ensure the quick-nav overlay is hidden and inaccessible initially
+        if (this.quickNavOverlay) {
+            this.quickNavOverlay.classList.remove('active');
+            this.quickNavOverlay.setAttribute('aria-hidden', 'true');
+            this.quickNavOverlay.setAttribute('tabindex', '-1');
+        }
     }
 
     // Performs an instant, non-animated navigation. Useful for initial page load from hash.
     instantNavigate(targetId) {
-        const oceanWorld = document.getElementById('oceanWorld');
         const coords = this.locations[targetId];
         
         // Temporarily disable transitions
-        const originalTransition = oceanWorld.style.transition;
-        oceanWorld.style.transition = 'none';
+        this.oceanWorld.style.transition = 'none';
 
-        oceanWorld.style.transform = `translate(${-coords.x}vw, ${-coords.y}vh)`;
+        // Translate the ocean-world container. Note the negative sign for correct movement.
+        this.oceanWorld.style.transform = `translate(${-coords.x}vw, ${-coords.y}vh)`;
         
-        // Update active class
+        // Update active class for the visible section
         document.querySelectorAll('.ocean-node').forEach(node => node.classList.remove('active'));
         document.getElementById(targetId).classList.add('active');
 
-        this.updateEnvironment(targetId);
+        this.updateEnvironment(targetId); // Update background, indicator, particles
         this.currentLocation = targetId;
         history.replaceState(null, '', `#${targetId}`); // Use replaceState to not add to history on initial load
 
-        // Re-enable transitions after a slight delay
+        // Re-enable transitions after a slight delay for subsequent animated movements
         requestAnimationFrame(() => {
-            oceanWorld.style.transition = originalTransition;
             if (this.prefersReducedMotion) {
-                oceanWorld.style.transition = 'none'; // Ensure no transition if prefers-reduced-motion
+                this.oceanWorld.style.transition = 'none'; // No transition if reduced motion
             } else {
-                oceanWorld.style.transition = `transform 1.5s var(--water-ease)`;
+                this.oceanWorld.style.transition = `transform 1.5s var(--water-ease)`;
             }
         });
     }
 
-    // Maps a generic content page hash to an index node ID
+    // Maps a generic content page hash (e.g., 'episodes') to an index node ID
+    // This allows header navigation links to point to the correct interactive section.
     findNearestNodeId(hash) {
+        // Direct mapping for nodes
+        if (this.locations[hash]) return hash;
+
+        // Map content page names to a logical index node
         switch (hash) {
-            case 'episodes': case 'shark-cove-node': return 'shark-cove-node';
-            case 'characters': case 'jellyfield-node': return 'jellyfield-node';
-            case 'themes': case 'eac-current-node': return 'eac-current-node';
-            case 'podcast': case 'sydney-harbor-node': return 'sydney-harbor-node';
-            case 'extras': case 'reef-return-node': return 'reef-return-node';
-            default: return 'anemone-center'; // Fallback to hub
+            case 'episodes':   return 'shark-cove-node';
+            case 'characters': return 'jellyfield-node';
+            case 'themes':     return 'eac-current-node';
+            case 'podcast':    return 'sydney-harbor-node';
+            case 'extras':     return 'reef-return-node';
+            default:           return 'anemone-center'; // Fallback to hub
         }
     }
 
     setupAudio() {
-        // Placeholder for sound effect. You'll need an actual bloop.mp3 file.
-        // For now, let's make it a no-op to avoid console errors if file isn't present.
-        this.bloopSound = {
-            play: () => { /* console.log('Bloop sound played'); */ },
-            currentTime: 0,
-            muted: false
-        };
+        // Initialize bloopSound, but only if you have an actual bloop.mp3 file.
+        // For development without the file, uncomment the placeholder.
+        // this.bloopSound = { play: () => { /* console.log('Bloop sound placeholder played'); */ }, currentTime: 0, muted: false };
+
+        try {
+            this.bloopSound = new Audio('assets/bloop.mp3'); // Assuming 'assets' folder for sounds
+            this.bloopSound.volume = 0.3;
+            this.bloopSound.preload = 'auto'; // Preload audio
+        } catch (error) {
+            console.warn("Failed to load bloop.mp3, sound effects disabled:", error);
+            this.bloopSound = null;
+        }
 
         this.isMuted = false;
         const muteToggle = document.getElementById('mute-toggle');
@@ -103,6 +121,7 @@ class UnderwaterWorld {
                 if (this.bloopSound) this.bloopSound.muted = this.isMuted;
             });
             muteToggle.setAttribute('aria-label', 'Mute sound');
+            muteToggle.setAttribute('tabindex', '0'); // Ensure it's tabbable
         }
     }
 
@@ -127,27 +146,25 @@ class UnderwaterWorld {
     navigateTo(targetId) {
         if (!targetId || targetId === this.currentLocation) return;
         
-        const oceanWorld = document.getElementById('oceanWorld');
-        const currentSectionElement = document.getElementById(this.currentLocation);
         const targetSectionElement = document.getElementById(targetId);
-        
         if (!targetSectionElement) {
-            console.warn(`Target section not found: ${targetId}`);
+            console.warn(`Attempted to navigate to unknown targetId: ${targetId}`);
             return;
         }
 
+        const currentSectionElement = document.getElementById(this.currentLocation);
         const coords = this.locations[targetId];
         
-        // Play sound
+        // Play sound if available and not muted
         if (this.bloopSound && !this.bloopSound.muted) {
-            this.bloopSound.currentTime = 0; // Rewind to start
+            this.bloopSound.currentTime = 0; // Rewind to start for quick successive clicks
             this.bloopSound.play().catch(e => console.log("Audio play prevented:", e));
         }
 
         // Apply transform to move the whole ocean-world
-        oceanWorld.style.transform = `translate(${-coords.x}vw, ${-coords.y}vh)`;
+        this.oceanWorld.style.transform = `translate(${-coords.x}vw, ${-coords.y}vh)`;
         
-        // Update sections (opacity fade)
+        // Update active class for the visible section (fade effect handled by CSS opacity transition)
         if (currentSectionElement) {
             currentSectionElement.classList.remove('active');
         }
@@ -156,34 +173,34 @@ class UnderwaterWorld {
         if (!this.prefersReducedMotion) {
             document.body.style.animation = 'none'; // Reset to re-trigger
             requestAnimationFrame(() => {
-                document.body.style.animation = 'screen-shake 0.5s var(--water-ease)'; // Use water-ease
+                document.body.style.animation = 'screen-shake 0.5s var(--water-ease)';
             });
         }
 
-        // Handle active class after transition
+        // Handle active class after transition completes
         const transitionEndHandler = () => {
             targetSectionElement.classList.add('active');
             history.pushState(null, '', `#${targetId}`); // Update URL hash for bookmarking/sharing
-            oceanWorld.removeEventListener('transitionend', transitionEndHandler);
+            this.oceanWorld.removeEventListener('transitionend', transitionEndHandler); // Remove listener after use
         };
 
         if (this.prefersReducedMotion) {
-            // For reduced motion, just snap to active state
+            // For reduced motion, just snap to active state and update hash immediately
             targetSectionElement.classList.add('active');
             history.pushState(null, '', `#${targetId}`);
         } else {
-            oceanWorld.addEventListener('transitionend', transitionEndHandler, { once: true });
-            // Fallback for browsers that don't fire transitionend reliably or for faster transitions
+            // Add listener for smooth transition completion
+            this.oceanWorld.addEventListener('transitionend', transitionEndHandler, { once: true });
+            // Fallback: If 'transitionend' doesn't fire (e.g., element removed/browser bug), ensure active state is set
             setTimeout(() => {
-                if (!targetSectionElement.classList.contains('active')) { // Check if already handled
+                if (!targetSectionElement.classList.contains('active')) { // Only if not already handled by transitionEndHandler
                     targetSectionElement.classList.add('active');
                     history.pushState(null, '', `#${targetId}`);
                 }
-            }, 1000); // Should be > transition duration for opacity fade
+            }, 1000); // Slightly less than CSS transition duration (1.5s is CSS, so 1s here)
         }
         
-        // Update environment (background, depth indicator, particles)
-        this.updateEnvironment(targetId);
+        this.updateEnvironment(targetId); // Update background, indicator, particles
         this.currentLocation = targetId;
     }
 
@@ -197,37 +214,42 @@ class UnderwaterWorld {
             body.style.background = locationData.bgVar;
             if (depthIndicator) depthIndicator.textContent = locationData.indicator;
             
-            // Adjust caustics opacity based on depth
-            if (causticsLayer && !this.prefersReducedMotion) causticsLayer.style.opacity = locationData.causticsOpacity;
-            else if (causticsLayer && this.prefersReducedMotion) causticsLayer.style.opacity = 0; // Hide caustics if reduced motion
+            // Adjust caustics opacity based on depth and reduced motion preference
+            if (causticsLayer) {
+                causticsLayer.style.opacity = this.prefersReducedMotion ? 0 : locationData.causticsOpacity;
+            }
 
             this.updateParticleIntensity(locationId);
         }
     }
 
     updateParticleIntensity(locationId) {
-        const particles = document.querySelectorAll('.particle, .bubble');
+        const particlesContainer = document.getElementById('particles');
+        if (!particlesContainer) return; // Ensure container exists
+
+        const particles = particlesContainer.querySelectorAll('.particle, .bubble');
         const intensity = this.locations[locationId]?.particleIntensity || 1; // Default to 1
 
         if (this.prefersReducedMotion) {
-            particles.forEach(p => p.style.display = 'none');
+            particlesContainer.style.display = 'none'; // Hide all particles
         } else {
+            particlesContainer.style.display = 'block'; // Ensure container is visible
             particles.forEach(p => {
-                p.style.display = 'block'; // Ensure visible
-                p.style.opacity = intensity;
+                p.style.opacity = intensity; // Apply intensity dynamically
+                p.style.display = 'block'; // Ensure individual particles are visible
             });
         }
 
-        const fishElements = document.querySelectorAll('.fish');
+        const fishElements = particlesContainer.querySelectorAll('.fish');
         fishElements.forEach(fish => {
             if (this.prefersReducedMotion) {
                 fish.style.display = 'none';
             } else if (this.locations[locationId]?.depth >= 2) { // Deeper/darker zones
-                fish.style.opacity = '0.4';
+                fish.style.opacity = '0.4'; // Less visible
                 fish.style.animationDuration = (25 + Math.random() * 10) + 's'; // Slower swim
                 fish.style.display = 'block';
             } else {
-                fish.style.opacity = '0.8';
+                fish.style.opacity = '0.8'; // More visible
                 fish.style.animationDuration = (15 + Math.random() * 10) + 's';
                 fish.style.display = 'block';
             }
@@ -241,7 +263,7 @@ class UnderwaterWorld {
             return;
         }
 
-        // Create initial particles and then recycle them
+        // Initialize and recycle particles
         const numParticles = 30;
         const numBubbles = 15;
         const numFish = 5;
@@ -262,8 +284,9 @@ class UnderwaterWorld {
         
         container.appendChild(particle);
         
+        // Use a single animationend listener for recycling
         particle.addEventListener('animationend', () => {
-            if (particle.parentNode === container) { // Ensure it's still in the container before recycling
+            if (particle.parentNode === container) {
                 particle.remove();
                 this.createParticle(container);
             }
@@ -319,7 +342,6 @@ class UnderwaterWorld {
                 anemone.style.transform = 'scale(1.15)';
                 anemone.style.filter = 'brightness(1.3)';
             });
-            
             anemone.addEventListener('mouseleave', () => {
                 anemone.style.transform = 'scale(1)';
                 anemone.style.filter = 'brightness(1)';
@@ -347,17 +369,20 @@ class UnderwaterWorld {
         
         document.body.appendChild(current);
         
-        setTimeout(() => {
-            current.remove();
-        }, 3000);
+        // Remove current effect after animation to clean up DOM
+        current.addEventListener('animationend', () => {
+            if (current.parentNode) {
+                current.remove();
+            }
+        });
     }
 
     addEventListeners() {
-        // Navigation Orbs and Back Orbs
+        // Orb and Back Orb clicks
         document.querySelectorAll('.nav-orb, .back-orb').forEach(orb => {
             orb.addEventListener('click', (e) => {
                 const targetId = e.currentTarget.dataset.target;
-                this.navigateTo(targetId);
+                if (targetId) this.navigateTo(targetId);
             });
         });
 
@@ -365,75 +390,71 @@ class UnderwaterWorld {
         const siteLogo = document.getElementById('site-logo');
         if (siteLogo) {
             siteLogo.addEventListener('click', (e) => {
-                e.preventDefault();
+                e.preventDefault(); // Prevent default link behavior
                 this.navigateTo('anemone-center');
             });
+            siteLogo.setAttribute('tabindex', '0'); // Make it tabbable
         }
 
-        // Quick Navigation Toggle
-        const quickNavToggle = document.getElementById('quick-nav-toggle');
-        const quickNavOverlay = document.getElementById('quick-nav-overlay');
+        // Quick Navigation Toggle Button
         const quickNavClose = document.getElementById('quick-nav-close');
         
-        if (quickNavToggle && quickNavOverlay && quickNavClose) {
-            quickNavToggle.addEventListener('click', () => {
+        if (this.quickNavToggle && this.quickNavOverlay && quickNavClose) {
+            this.quickNavToggle.addEventListener('click', () => {
                 this.toggleQuickNav(true);
             });
             quickNavClose.addEventListener('click', () => {
                 this.toggleQuickNav(false);
             });
-            // Close if clicking outside the menu
-            quickNavOverlay.addEventListener('click', (e) => {
-                if (e.target === quickNavOverlay) {
+            // Close if clicking outside the menu, but only on the overlay itself
+            this.quickNavOverlay.addEventListener('click', (e) => {
+                if (e.target === this.quickNavOverlay) {
                     this.toggleQuickNav(false);
                 }
             });
 
             // Handle clicks on quick-nav menu items to navigate and close
-            quickNavOverlay.querySelectorAll('.quick-nav-menu a').forEach(link => {
+            this.quickNavOverlay.querySelectorAll('.quick-nav-menu a').forEach(link => {
                 link.addEventListener('click', (e) => {
-                    // Check if the link is to index.html and has a hash
                     const url = new URL(e.currentTarget.href);
-                    if (url.pathname.endsWith('index.html') || url.pathname === '/') {
+                    if (url.origin === window.location.origin && (url.pathname === '/index.html' || url.pathname === '/' || url.pathname === '')) {
+                        // This is an internal link to the index.html or root with a hash
                         e.preventDefault(); // Prevent full page reload
                         const targetHash = url.hash.substring(1);
                         const targetNodeId = this.findNearestNodeId(targetHash);
                         this.navigateTo(targetNodeId);
                         this.toggleQuickNav(false); // Close quick-nav after navigation
                     } else {
-                        // For external page links, just let them navigate normally
-                        this.toggleQuickNav(false);
+                        // This is an external page link (e.g., to episodes.html). Let default behavior occur.
+                        this.toggleQuickNav(false); // Close quick-nav on external page navigation
                     }
                 });
             });
         }
         
-        // Keyboard navigation
+        // Keyboard navigation (main ocean world)
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && quickNavOverlay.classList.contains('active')) {
-                this.toggleQuickNav(false);
-                return;
-            }
-
             // If quick nav is active, only handle Escape, otherwise block arrow keys for ocean navigation
-            if (quickNavOverlay && quickNavOverlay.classList.contains('active')) {
-                // Let tab key function normally within the overlay
-                return;
+            if (this.quickNavOverlay.classList.contains('active')) {
+                if (e.key === 'Escape') {
+                    this.toggleQuickNav(false);
+                }
+                return; // Block other keydown events when overlay is active
             }
 
             const currentNavTargets = this.locations[this.currentLocation]?.navTargets;
-            if (!currentNavTargets) return;
+            if (!currentNavTargets) return; // No navigation targets from current node
 
             let nextNodeId = null;
 
             switch(e.key) {
                 case 'c':
                 case 'Home':
-                    e.preventDefault();
+                    e.preventDefault(); // Prevent default browser behavior for Home key
                     nextNodeId = 'anemone-center';
                     break;
                 case 'ArrowUp':
-                    e.preventDefault();
+                    e.preventDefault(); // Prevent page scroll
                     nextNodeId = currentNavTargets.up;
                     break;
                 case 'ArrowLeft':
@@ -450,19 +471,25 @@ class UnderwaterWorld {
                     break;
             }
 
-            if (nextNodeId && this.locations[nextNodeId]) {
+            if (nextNodeId && this.locations[nextNodeId]) { // Check if the target node actually exists
                 this.navigateTo(nextNodeId);
             }
         });
 
         // Mouse wheel "depth" control - linear progression
         document.addEventListener('wheel', (e) => {
+            // Prevent scrolling if quick nav is open
+            if (this.quickNavOverlay.classList.contains('active')) {
+                e.preventDefault();
+                return;
+            }
+
             // Define a linear order for mouse wheel scrolling that makes sense
             const linearScrollOrder = [
                 'shark-cove-node',
-                'jellyfield-node',
+                'jellyfield-node', // Arbitrary placement in linear order
                 'anemone-center',
-                'eac-current-node',
+                'eac-current-node', // Arbitrary placement in linear order
                 'sydney-harbor-node',
                 'reef-return-node'
             ];
@@ -473,15 +500,14 @@ class UnderwaterWorld {
             } else if (e.deltaY < 0 && linearIndex > 0) { // Scroll up (surface)
                 this.navigateTo(linearScrollOrder[linearIndex - 1]);
             }
-        });
+        }, { passive: false }); // Use passive: false to allow e.preventDefault() for mouse wheel
 
         // Handle browser back/forward buttons
-        window.addEventListener('popstate', (e) => {
+        window.addEventListener('popstate', () => {
             const hash = window.location.hash.substring(1);
             if (hash && this.locations[hash]) {
-                // Ensure the transition is animated if not reduced motion
-                const oceanWorld = document.getElementById('oceanWorld');
-                oceanWorld.style.transition = `transform ${this.prefersReducedMotion ? '0s' : '1.5s var(--water-ease)'}`;
+                // Ensure the transition is animated if not reduced motion (or immediate if reduced motion)
+                this.oceanWorld.style.transition = `transform ${this.prefersReducedMotion ? '0s' : '1.5s var(--water-ease)'}`;
                 this.navigateTo(hash);
             } else {
                 // If hash is empty or invalid, go to center
@@ -492,35 +518,49 @@ class UnderwaterWorld {
 
     // Toggles the quick navigation overlay and manages focus for accessibility
     toggleQuickNav(open) {
-        const quickNavOverlay = document.getElementById('quick-nav-overlay');
-        const quickNavToggle = document.getElementById('quick-nav-toggle');
-        const firstFocusableElement = quickNavOverlay.querySelector('a, button'); // First focusable element inside the menu
-
+        const quickNavClose = document.getElementById('quick-nav-close');
+        const focusableElements = this.quickNavOverlay.querySelectorAll('a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])');
+        const firstFocusableElement = focusableElements[0];
+        
         if (open) {
             this.focusedElementBeforeModal = document.activeElement; // Save currently focused element
-            quickNavOverlay.classList.add('active');
-            quickNavOverlay.setAttribute('aria-modal', 'true');
-            quickNavOverlay.setAttribute('role', 'dialog');
+            this.quickNavOverlay.classList.add('active');
+            this.quickNavOverlay.setAttribute('aria-hidden', 'false');
+            this.quickNavOverlay.setAttribute('tabindex', '0'); // Make overlay tabbable
+            this.quickNavOverlay.setAttribute('aria-modal', 'true');
+            this.quickNavOverlay.setAttribute('role', 'dialog');
+            
             if (firstFocusableElement) {
                 firstFocusableElement.focus(); // Move focus into the modal
+            } else {
+                quickNavClose.focus(); // Fallback if no other focusable elements
             }
-            this.trapFocus(quickNavOverlay); // Start focus trap
+            this.trapFocus(this.quickNavOverlay); // Start focus trap
+            this.quickNavToggle.setAttribute('aria-expanded', 'true');
         } else {
-            quickNavOverlay.classList.remove('active');
-            quickNavOverlay.removeAttribute('aria-modal');
-            quickNavOverlay.removeAttribute('role');
-            if (this.focusedElementBeforeModal) {
+            this.quickNavOverlay.classList.remove('active');
+            this.quickNavOverlay.setAttribute('aria-hidden', 'true');
+            this.quickNavOverlay.setAttribute('tabindex', '-1'); // Make overlay untabbable
+            this.quickNavOverlay.removeAttribute('aria-modal');
+            this.quickNavOverlay.removeAttribute('role');
+            
+            if (this.focusedElementBeforeModal && document.body.contains(this.focusedElementBeforeModal)) {
                 this.focusedElementBeforeModal.focus(); // Return focus to where it was
+            } else {
+                this.quickNavToggle.focus(); // Fallback to toggle button
             }
             this.untrapFocus(); // Stop focus trap
+            this.quickNavToggle.setAttribute('aria-expanded', 'false');
         }
     }
 
     // Traps focus within a given element (modal)
     trapFocus(element) {
-        const focusableElements = element.querySelectorAll('a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])');
+        const focusableElements = Array.from(element.querySelectorAll('a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])'));
         this.firstFocusableElement = focusableElements[0];
         this.lastFocusableElement = focusableElements[focusableElements.length - 1];
+
+        if (focusableElements.length === 0) return; // No focusable elements to trap
 
         this.handleTabKey = (e) => {
             if (e.key === 'Tab') {
@@ -543,9 +583,8 @@ class UnderwaterWorld {
 
     // Removes focus trap
     untrapFocus() {
-        const quickNavOverlay = document.getElementById('quick-nav-overlay');
-        if (quickNavOverlay && this.handleTabKey) {
-            quickNavOverlay.removeEventListener('keydown', this.handleTabKey);
+        if (this.quickNavOverlay && this.handleTabKey) {
+            this.quickNavOverlay.removeEventListener('keydown', this.handleTabKey);
             this.handleTabKey = null; // Clear the handler
         }
     }
@@ -569,20 +608,31 @@ class UnderwaterWorld {
                         • 'C' or 'Home' key returns to the Anemone Hub
                         • Mouse wheel allows you to 'dive' through key areas
                     </p>
-                    <button onclick="this.closest('.welcome-overlay').remove(); sessionStorage.setItem('welcomeShown', 'true');">Begin Journey</button>
+                    <button id="beginJourneyButton">Begin Journey</button>
                 </div>
             `;
             document.body.appendChild(welcomeOverlay);
-            // Ensure focus is managed for welcome message
-            const beginButton = welcomeOverlay.querySelector('button');
+
+            const beginButton = document.getElementById('beginJourneyButton');
             if (beginButton) {
-                beginButton.focus();
+                beginButton.focus(); // Ensure the button is focused for accessibility
+                beginButton.addEventListener('click', () => {
+                    welcomeOverlay.remove();
+                    sessionStorage.setItem('welcomeShown', 'true');
+                    // Restore focus to original element if it exists and is still in DOM
+                    if (this.focusedElementBeforeModal && document.body.contains(this.focusedElementBeforeModal)) {
+                        this.focusedElementBeforeModal.focus();
+                    } else {
+                        // Fallback: focus a relevant element on the page, e.g., site logo or quick-nav toggle
+                        this.quickNavToggle.focus();
+                    }
+                });
             }
-        }, 1000);
+        }, 1000); // Short delay to let initial page render
     }
 }
 
-// Global helper for `onclick` attributes in HTML
+// Global helper for `onclick` attributes in HTML (if used, though event listeners are preferred)
 function navigateTo(locationId) {
     if (window.underwaterWorld) {
         window.underwaterWorld.navigateTo(locationId);
