@@ -243,12 +243,32 @@ audio { width:100%; }
 .related-links a:hover { background:var(--color-accent-orange); color:var(--color-text-primary); }
 
 /* --- Footer --- */
-.footer { padding:3rem 0; text-align:center; background:var(--color-deep-ocean); border-top:1px solid rgba(168,193,209,0.08); }
+
+.footer { position: relative; padding:3.5rem 0 4.5rem 0; text-align:center; background:var(--color-deep-ocean); border-top:1px solid rgba(168,193,209,0.08); }
 .footer p { color:#64748b; margin-bottom:1.5rem; }
 .footer-quote { font-family:var(--font-heading); font-style:italic; color:var(--color-text-secondary); max-width:600px; margin:0 auto; font-size:1.1rem; opacity:0.85; }
 
-/* Footer logo */
-.footer-logo { height:56px; width:auto; display:block; margin:0 auto 1rem auto; }
+/* Footer logo (circular, bottom-left inside the container) */
+.footer .container { position: relative; }
+.footer-logo {
+    position: absolute;
+    left: 0.5rem;
+    bottom: 0.5rem;
+    height: 72px;
+    width: 72px;
+    border-radius: 9999px;
+    object-fit: cover;
+    display: block;
+    box-shadow: var(--shadow-soft);
+    border: 2px solid rgba(255,255,255,0.06);
+    background: var(--color-surface-glass);
+    transform: translate(-8px, 8px);
+}
+
+/* Make sure footer content doesn't overlap the logo on wide screens */
+@media (min-width: 769px) {
+    .footer .container { padding-left: 96px; }
+}
 
 /* Header placeholder */
 .logo-placeholder { display:inline-block; padding:.35rem .6rem; border-radius:8px; background:rgba(168,193,209,0.06); color:var(--color-text-secondary); font-weight:700; }
@@ -269,4 +289,7 @@ audio { width:100%; }
 
     /* Slightly smaller logo on narrow viewports */
     .logo-img { height:36px; }
+
+    /* Footer logo centered and smaller on narrow viewports */
+    .footer-logo { left: 50%; transform: translateX(-50%); bottom: 1rem; height:48px; width:48px; }
 }
