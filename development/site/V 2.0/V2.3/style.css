@@ -1,16 +1,18 @@
 /* CSS Custom Properties for the Palette */
 :root {
-    --golden-gate-bridge: #f24702;
-    --palatinate-blue: #013fe8;
-    --prussian-blue: #0e3952;
-    --indigo-dye: #0c437b;
-    --sea-green: #389054;
+    /* Primary Colors */
+    --golden-gate-bridge: #f24702; /* Orange/Red - Accent, highlights, active states */
+    --palatinate-blue: #013fe8;   /* Bright Blue - Interaction, primary actions */
+    --prussian-blue: #0e3952;    /* Deep Blue - Base for mid-depths */
+    --indigo-dye: #0c437b;       /* Indigo - Mid-to-deep waters, elements */
+    --sea-green: #389054;        /* Sea Green - Organic elements, secondary accents */
 
-    --text-light: #e0f2f7; /* Lighter shade for text */
-    --text-muted: rgba(224, 242, 247, 0.7);
-    --text-dark-contrast: #1a1a1a; /* For text on light elements, if ever needed */
+    /* Text Colors */
+    --text-light: #e0f2f7; /* Very light blue for primary text */
+    --text-muted: rgba(224, 242, 247, 0.7); /* Muted light text */
+    --text-dark-contrast: #1a1a1a; /* For text on light elements (not heavily used in this theme) */
 
-    /* Primary and Secondary button colors derived from palette */
+    /* Button Colors (derived from palette) */
     --button-primary-bg-start: var(--golden-gate-bridge);
     --button-primary-bg-end: var(--palatinate-blue);
     --button-primary-hover-bg-start: var(--sea-green);
@@ -21,12 +23,19 @@
     --button-secondary-hover-bg-start: var(--palatinate-blue);
     --button-secondary-hover-bg-end: var(--sea-green);
 
-    /* General background for content cards */
+    /* General Background for Content Cards */
     --card-background: rgba(0, 0, 0, 0.2);
     --card-border: rgba(255, 255, 255, 0.1);
     --card-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
 
+    /* Depth Tokens for Background Transition */
+    --depth-0-bg: radial-gradient(circle at 50% 50%, #4682B4 0%, #104e8b 70%, #001a33 100%); /* Lighter, more vibrant blue for shallow/hub */
+    --depth-1-bg: radial-gradient(circle at 50% 50%, var(--indigo-dye) 0%, var(--prussian-blue) 70%, #051a2aff 100%); /* Default deep blue */
+    --depth-2-bg: radial-gradient(circle at 50% 50%, #0c3664 0%, #082d47 70%, #021a2c 100%); /* Deeper navy for lower sections */
+    --depth-3-bg: radial-gradient(circle at 50% 50%, #08203d 0%, #051a2aff 70%, #000a12 100%); /* Abyssal dark for deepest */
+
     /* Spacing variables for consistency */
+    --space-0-5: 0.25rem; /* 4px */
     --space-1: 0.5rem;   /* 8px */
     --space-2: 1rem;     /* 16px */
     --space-3: 1.5rem;   /* 24px */
@@ -35,6 +44,9 @@
     --space-6: 3rem;     /* 48px */
     --space-7: 4rem;     /* 64px */
     --space-8: 5rem;     /* 80px */
+
+    /* Animation Easing */
+    --water-ease: cubic-bezier(.22,.61,.36,1);
 }
 
 /* Base Styles */
@@ -46,13 +58,13 @@
 
 body, html {
     font-family: 'Roboto', sans-serif;
-    overflow-x: hidden; /* Only allow vertical scroll on content pages */
+    overflow-x: hidden; /* Only allow vertical scroll on content pages, controlled via JS for index */
     height: 100%; /* Html height for content pages */
-    background: radial-gradient(circle at 50% 50%, var(--indigo-dye) 0%, var(--prussian-blue) 70%, #051a2aff 100%); /* Deep ocean base */
+    background: var(--depth-1-bg); /* Default background for all pages, will be overridden for index sections */
     color: var(--text-light);
     cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewport="0 0 100 100" style="fill:white;font-size:24px;"><text y="50%">🐟</text></svg>') 15 15, auto; /* Subtle fish cursor */
-    transition: background 3s ease-in-out; /* Smooth background transitions for depth changes */
-    will-change: background;
+    transition: background 1.5s var(--water-ease); /* Smooth background transitions for depth changes */
+    will-change: background, transform;
 }
 
 /* Skip to Content for Accessibility */
@@ -104,7 +116,7 @@ header {
     padding: 0 var(--space-4);
 }
 
-header .logo, #site-logo { /* Unify logo styling */
+header .logo { /* Unify logo styling */
     font-family: 'Orbitron', sans-serif;
     font-size: 1.5rem;
     font-weight: bold;
@@ -159,7 +171,7 @@ header nav a:hover, header nav a.active {
 }
 
 /* ==================================== */
-/* Main Content Sections */
+/* Main Content Sections (for content pages) */
 /* ==================================== */
 main {
     padding: var(--space-6) 0;
@@ -241,8 +253,8 @@ strong {
     backdrop-filter: blur(8px);
 }
 
-/* Buttons */
-.btn { /* General button style for all pages */
+/* Buttons (for content pages and the "Dive Deeper" on index) */
+.btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -253,13 +265,14 @@ strong {
     font-size: 1.1rem;
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: all 0.4s var(--water-ease); /* Apply water-ease */
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     text-decoration: none;
     position: relative;
     overflow: hidden;
     letter-spacing: 0.5px;
     text-transform: uppercase;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
 
 .btn.primary {
@@ -338,39 +351,49 @@ footer p {
 }
 
 /* ==================================== */
-/* Specific Page Elements & Adjustments */
+/* Index Page Specific Overrides/Additions */
 /* ==================================== */
 
-/* Index Page Overrides/Additions (from previous step) */
-body.index-page { /* Add this class to your index.html body */
+body.index-page { /* This class will be added to index.html body */
     overflow: hidden; /* Only index page is fully controlled by JS transform */
     height: 100vh;
 }
 
-.index-page header, .index-page footer { /* Hide header/footer on index if present */
+.index-page header, .index-page footer { /* Hide header/footer on index.html */
     display: none;
 }
 
-/* This is the logo fixed on the bottom left for the index page */
-#site-logo {
+/* Base ocean background for particles/caustics to float on */
+.ocean-bg-layer {
     position: fixed;
-    bottom: var(--space-4);
-    left: var(--space-4);
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: var(--text-light);
-    opacity: 0.7;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
-    pointer-events: none;
-    z-index: 1000;
-    background: linear-gradient(45deg, var(--golden-gate-bridge), var(--palatinate-blue));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--depth-1-bg); /* Default depth 1 */
+    transition: background 1.5s var(--water-ease);
+    z-index: -2; /* Below everything */
 }
 
-.viewport { /* Index page specific */
+/* Caustics layer for water feel */
+.caustics-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 105%; /* Slightly larger for parallax */
+    height: 105%;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.15"><filter id="blur"><feGaussianBlur stdDeviation="1.5" /></filter><path fill="%23FFFFFF" filter="url(%23blur)" d="M0,0 L0,50 C20,30 40,70 60,50 C80,30 100,70 100,50 L100,0 Z" transform="scale(0.5) rotate(15) translate(10, -5)"/><path fill="%23FFFFFF" filter="url(%23blur)" d="M0,0 L0,50 C25,25 50,75 75,50 C100,25 100,50 100,50 L100,0 Z" transform="scale(0.4) rotate(45) translate(-10, 15)"/><path fill="%23FFFFFF" filter="url(%23blur)" d="M0,0 L0,50 C15,40 30,60 45,50 C60,40 75,60 100,50 L100,0 Z" transform="scale(0.6) rotate(80) translate(20, 20)"/></svg>');
+    background-size: 200px 200px; /* Small, repeating pattern */
+    animation: caustics-move 60s linear infinite alternate; /* Slow movement */
+    opacity: 0.2; /* Subtle visibility */
+    transition: opacity 1.5s var(--water-ease); /* Fade for depth */
+    z-index: -1; /* Above ocean-bg-layer, below particles */
+    pointer-events: none;
+}
+
+
+/* Main interactive viewport for index page */
+.viewport {
     position: fixed;
     top: 0;
     left: 0;
@@ -380,18 +403,20 @@ body.index-page { /* Add this class to your index.html body */
     overflow: hidden;
 }
 
-.ocean-world { /* Index page specific */
+/* Container for all sections that will be transformed */
+.ocean-world {
     position: absolute;
-    width: 300vw;
-    height: 300vh;
-    left: -100vw;
-    top: -100vh;
-    transition: transform 2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    width: 300vw; /* 3 sections wide */
+    height: 500vh; /* 5 sections tall to fit the 2D map */
+    left: -100vw; /* Start at center-left */
+    top: -100vh;  /* Start at center-top */
+    transition: transform 1.5s var(--water-ease); /* Apply water-ease */
     transform-origin: center center;
     will-change: transform;
 }
 
-.section.ocean-section { /* Index page specific */
+/* General style for sections within the ocean-world (index only) */
+.section.ocean-node { /* Renamed from .ocean-section to .ocean-node for clarity */
     position: absolute;
     width: 100vw;
     height: 100vh;
@@ -402,32 +427,74 @@ body.index-page { /* Add this class to your index.html body */
     padding: var(--space-7);
     box-sizing: border-box;
     backdrop-filter: blur(8px);
-    transition: all 1s ease;
+    transition: opacity 1s ease; /* Only opacity transition for nodes */
     text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
     opacity: 0; /* Hidden by default */
 }
 
-/* Index page specific section backgrounds */
-.hub { left: 100vw; top: 100vh; background: radial-gradient(circle, rgba(12, 67, 123, 0.3), rgba(14, 57, 82, 0.5)); z-index: 10;}
-.narrative-currents-section { left: 100vw; top: 0vh; background: radial-gradient(circle, rgba(56, 144, 84, 0.4), rgba(12, 67, 123, 0.6)); }
-.character-depths-section { left: 0vw; top: 100vh; background: radial-gradient(circle, rgba(1, 63, 232, 0.4), rgba(14, 57, 82, 0.6)); }
-.mythic-echoes-section { left: 200vw; top: 100vh; background: radial-gradient(circle, rgba(12, 67, 123, 0.6), rgba(5, 26, 42, 0.9)); }
-.companion-currents-section { left: 100vw; top: 200vh; background: radial-gradient(circle, rgba(242, 71, 2, 0.3), rgba(12, 67, 123, 0.7)); }
+.section.ocean-node.active {
+    opacity: 1;
+}
+
+/* Index page specific section backgrounds - these will be invisible */
+/* The main background is controlled by body background change */
+.hub { left: 100vw; top: 100vh; } /* Position in the 3x5 grid */
+.shark-cove-node { left: 100vw; top: 0vh; }
+.jellyfield-node { left: 0vw; top: 100vh; }
+.eac-current-node { left: 200vw; top: 100vh; }
+.sydney-harbor-node { left: 100vw; top: 200vh; }
+.reef-return-node { left: 100vw; top: 300vh; }
+
 
 /* Index page specific elements */
-.anemone-center-visual { position: relative; width: 400px; height: 400px; display: flex; align-items: center; justify-content: center; margin-bottom: var(--space-4); }
-.anemone { width: 250px; height: 250px; border-radius: 50%; background: radial-gradient(circle, var(--golden-gate-bridge), var(--palatinate-blue)); display: flex; align-items: center; justify-content: center; animation: anemone-pulse 3s ease-in-out infinite; cursor: pointer; position: relative; z-index: 10; box-shadow: 0 0 30px rgba(242, 71, 2, 0.6); }
-.anemone-text { z-index: 20; font-family: 'Orbitron', sans-serif; font-size: 1.6rem; font-weight: bold; color: var(--text-light); text-shadow: 0 0 10px rgba(0, 0, 0, 0.8); }
-.anemone::before, .anemone::after { content: ''; position: absolute; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.3); animation: ripple-wave 4s linear infinite; z-index: 9; }
+.anemone-center-visual {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-4);
+}
+.anemone {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--golden-gate-bridge), var(--palatinate-blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: anemone-pulse 3s ease-in-out infinite;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 0 30px rgba(242, 71, 2, 0.6);
+}
+.anemone-text {
+    z-index: 20;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: var(--text-light);
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+.anemone::before, .anemone::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    animation: ripple-wave 4s linear infinite;
+    z-index: 9;
+}
 .anemone::before { width: 300px; height: 300px; animation-delay: 0s; }
 .anemone::after { width: 350px; height: 350px; border: 1px solid rgba(242, 71, 2, 0.2); animation-delay: 1s; }
 .tentacles { position: absolute; width: 100%; height: 100%; }
 .tentacle { position: absolute; width: 6px; background: linear-gradient(to bottom, var(--golden-gate-bridge), transparent); border-radius: 3px; transform-origin: bottom center; animation: tentacle-sway 4s ease-in-out infinite; opacity: 0.8; }
 
-.nav-orb {
+.nav-orb { /* Styling for the circular navigation buttons on the hub */
     position: absolute;
-    width: 130px;
-    height: 130px;
+    width: 140px; /* Slightly larger */
+    height: 140px;
     border-radius: 50%;
     display: flex;
     flex-direction: column;
@@ -435,23 +502,81 @@ body.index-page { /* Add this class to your index.html body */
     justify-content: center;
     cursor: pointer;
     border: 2px solid rgba(255, 255, 255, 0.4);
+    background: rgba(var(--palatinate-blue), 0.5); /* Default orb background */
     backdrop-filter: blur(10px);
     text-align: center;
     font-weight: bold;
     font-size: 1rem;
     animation: float 6s ease-in-out infinite;
     color: var(--text-light);
-    padding: 10px;
+    padding: var(--space-1); /* Adjust padding */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
     text-shadow: 0 1px 5px rgba(0, 0, 0, 0.7);
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: all 0.4s var(--water-ease);
 }
 .nav-orb:hover { transform: scale(1.2); border-color: white; box-shadow: 0 0 40px rgba(255, 255, 255, 0.6); }
-.orb-episodes { top: -80px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--sea-green), rgba(56, 144, 84, 0.7)); animation-delay: 0s; }
-.orb-characters { top: 50%; left: -100px; transform: translateY(-50%); background: linear-gradient(135deg, var(--palatinate-blue), rgba(1, 63, 232, 0.7)); animation-delay: 1.5s; }
-.orb-themes { top: 50%; right: -100px; transform: translateY(-50%); background: linear-gradient(135deg, var(--indigo-dye), rgba(12, 67, 123, 0.7)); animation-delay: 3s; }
-.orb-podcast { bottom: -80px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--golden-gate-bridge), var(--indigo-dye)); animation-delay: 4.5s; }
 
+/* Orb specific colors and positions */
+/* Up from hub */
+.orb-shark-cove { top: -80px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--sea-green), rgba(56, 144, 84, 0.7)); animation-delay: 0s; }
+/* Left from hub */
+.orb-jellyfield { top: 50%; left: -100px; transform: translateY(-50%); background: linear-gradient(135deg, var(--palatinate-blue), rgba(1, 63, 232, 0.7)); animation-delay: 1.5s; }
+/* Right from hub */
+.orb-eac-current { top: 50%; right: -100px; transform: translateY(-50%); background: linear-gradient(135deg, var(--indigo-dye), rgba(12, 67, 123, 0.7)); animation-delay: 3s; }
+/* Down from hub (Sydney Harbor) */
+.orb-sydney-harbor { bottom: -80px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--golden-gate-bridge), var(--indigo-dye)); animation-delay: 4.5s; }
+/* Further down from Sydney (Reef Return - not a direct orb, but conceptually) */
+/* This will be navigated to directly from Sydney, or via quick-nav */
+
+/* Panel Content Styling (for content cards on index page) */
+.ocean-node .content-card { /* Content within each index node */
+    max-width: 800px;
+    text-align: center;
+    z-index: 5;
+    background: var(--card-background);
+    padding: var(--space-6);
+    border-radius: 15px;
+    border: 1px solid var(--card-border);
+    box-shadow: var(--card-shadow);
+    backdrop-filter: blur(8px);
+}
+.ocean-node .eyebrow {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--sea-green);
+    font-size: 1rem;
+    text-transform: uppercase;
+    margin-bottom: var(--space-1);
+    letter-spacing: 1px;
+}
+.ocean-node .title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.8rem;
+    margin-bottom: var(--space-2);
+    color: var(--palatinate-blue);
+    line-height: 1.2;
+    text-shadow: 0 0 15px rgba(1, 63, 232, 0.4);
+}
+.ocean-node .one-liner {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: var(--space-3);
+}
+.ocean-node .theme-chip-tag {
+    display: inline-block;
+    background-color: var(--indigo-dye);
+    color: var(--text-light);
+    padding: var(--space-0-5) var(--space-2);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: var(--space-4);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Back Orb for content sections (on index page) */
 .back-orb {
     position: absolute;
     top: var(--space-4);
@@ -465,14 +590,138 @@ body.index-page { /* Add this class to your index.html body */
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s var(--water-ease);
     font-size: 1.8rem;
     backdrop-filter: blur(10px);
     z-index: 100;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
 .back-orb:hover { background: rgba(255, 255, 255, 0.25); transform: scale(1.1); border-color: white; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); }
 
+/* Bottom-left logo on index page */
+#site-logo { /* Now a proper link for returning to hub */
+    position: fixed;
+    bottom: var(--space-4);
+    left: var(--space-4);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--text-light);
+    opacity: 0.8;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    background: linear-gradient(45deg, var(--golden-gate-bridge), var(--palatinate-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+#site-logo:hover {
+    opacity: 1;
+}
+
+/* Bottom-right compass quick-nav */
+#quick-nav-toggle {
+    position: fixed;
+    bottom: var(--space-4);
+    right: var(--space-4);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, var(--sea-green), var(--indigo-dye));
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s var(--water-ease);
+    backdrop-filter: blur(10px);
+    color: var(--text-light);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+#quick-nav-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Quick Nav Overlay */
+.quick-nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(15px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+.quick-nav-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.quick-nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    text-align: center;
+    transform: scale(0.8);
+    transition: transform 0.3s var(--water-ease);
+}
+.quick-nav-overlay.active .quick-nav-menu {
+    transform: scale(1);
+}
+
+.quick-nav-menu a {
+    display: block;
+    background: linear-gradient(45deg, var(--indigo-dye), var(--prussian-blue));
+    color: var(--text-light);
+    padding: var(--space-3) var(--space-5);
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s var(--water-ease);
+}
+.quick-nav-menu a:hover {
+    background: linear-gradient(45deg, var(--sea-green), var(--palatinate-blue));
+    transform: translateX(10px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+.quick-nav-close {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    background: none;
+    border: none;
+    font-size: 3rem;
+    color: var(--text-light);
+    cursor: pointer;
+    z-index: 2001;
+    transition: transform 0.3s ease;
+}
+.quick-nav-close:hover {
+    transform: rotate(90deg) scale(1.1);
+    color: var(--golden-gate-bridge);
+}
+
+/* Depth indicator for index page */
 .depth-indicator {
     position: fixed;
     top: var(--space-4);
@@ -488,8 +737,9 @@ body.index-page { /* Add this class to your index.html body */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
-.particles { /* Index page specific */
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;
+/* Particle System (Ambient details for index page) */
+.particles {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; /* Below content, above caustics */
 }
 .particle { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.7); animation: particle-float 12s linear infinite; opacity: 0; }
 .bubble { position: absolute; border-radius: 50%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.1)); border: 1px solid rgba(255, 255, 255, 0.3); animation: bubble-rise 8s ease-out infinite; opacity: 0; }
@@ -505,6 +755,36 @@ body.index-page { /* Add this class to your index.html body */
 .welcome-box button { background: linear-gradient(45deg, var(--golden-gate-bridge), var(--palatinate-blue)); border: none; color: white; padding: var(--space-2) var(--space-4); border-radius: 25px; cursor: pointer; margin-top: var(--space-3); font-weight: bold; font-size: 1.1rem; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); }
 .welcome-box button:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); }
 
+/* Mute toggle (optional) */
+#mute-toggle {
+    position: fixed;
+    top: var(--space-4);
+    right: var(--space-4);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    opacity: 0.5;
+}
+#mute-toggle:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+
+/* ==================================== */
+/* Content Page Specific Elements */
+/* ==================================== */
 
 /* Episodes Page Specific */
 .kicker {
@@ -639,6 +919,7 @@ body.index-page { /* Add this class to your index.html body */
     display: flex;
     flex-direction: column;
     border-left: 5px solid var(--indigo-dye);
+    transition: all 0.3s ease; /* For hover effect */
 }
 .podcast-list li:hover {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
@@ -734,6 +1015,9 @@ body.index-page { /* Add this class to your index.html body */
     font-size: 1.4rem;
     color: var(--text-light);
 }
+.character-grid-section { /* Wrapper for grid */
+    padding-bottom: var(--space-6); /* Add some padding at the bottom */
+}
 .character-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -797,6 +1081,11 @@ body.index-page { /* Add this class to your index.html body */
     100% { text-shadow: 0 0 40px rgba(242, 71, 2, 0.4), 0 0 60px rgba(1, 63, 232, 0.3); }
 }
 
+@keyframes caustics-move {
+    0% { background-position: 0 0; }
+    100% { background-position: 500px 500px; } /* Adjust as needed for effect */
+}
+
 @keyframes particle-float { /* Index only */
     0% { transform: translateY(100vh) translateX(0px); opacity: 0; }
     10% { opacity: 0.7; }
@@ -839,6 +1128,28 @@ body.index-page { /* Add this class to your index.html body */
 
 
 /* ==================================== */
+/* Reduced Motion for Accessibility */
+/* ==================================== */
+@media (prefers-reduced-motion: reduce) {
+    body, html {
+        transition: none !important;
+        animation: none !important;
+    }
+    .ocean-world, .section.ocean-node, .nav-orb, .btn, .back-orb, #quick-nav-toggle {
+        transition: none !important;
+        animation: none !important;
+    }
+    .caustics-layer, .particle, .bubble, .fish {
+        display: none !important;
+        opacity: 0 !important;
+    }
+    .quick-nav-overlay.active .quick-nav-menu {
+        transform: scale(1); /* No scale animation */
+    }
+}
+
+
+/* ==================================== */
 /* Responsive Design */
 /* ==================================== */
 @media (max-width: 1024px) {
@@ -854,6 +1165,18 @@ body.index-page { /* Add this class to your index.html body */
     .btn, header nav a { padding: 0.8rem 1.5rem; font-size: 1rem; }
     header nav ul { gap: var(--space-3); }
     header .logo { font-size: 1.3rem; }
+
+    /* Index Page Adjustments */
+    .ocean-node .title { font-size: 2.2rem; }
+    .ocean-node .one-liner { font-size: 1.05rem; }
+    .nav-orb { width: 120px; height: 120px; font-size: 0.9rem; padding: var(--space-0-5); }
+    .anemone { width: 200px; height: 200px; }
+    .anemone::before { width: 250px; height: 250px; }
+    .anemone::after { width: 290px; height: 290px; }
+    .anemone-text { font-size: 1.4rem; }
+    #site-logo { font-size: 1.5rem; }
+    #quick-nav-toggle { width: 70px; height: 70px; font-size: 2rem; }
+    .depth-indicator { font-size: 1rem; }
 
     .themes-grid, .grid-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
     .character-card h2 { font-size: 2rem; }
@@ -882,6 +1205,33 @@ body.index-page { /* Add this class to your index.html body */
     .btn, header nav a { padding: 0.7rem 1.2rem; font-size: 0.9rem; }
     .actions { flex-direction: column; align-items: center; gap: var(--space-2); }
     .btn { width: 100%; max-width: 280px; } /* Stack buttons */
+
+    /* Index Page Adjustments */
+    .ocean-node .content-card { padding: var(--space-4); }
+    .ocean-node .title { font-size: 1.8rem; }
+    .ocean-node .one-liner { font-size: 0.95rem; }
+    .ocean-node .theme-chip-tag { margin-bottom: var(--space-3); }
+    .nav-orb { width: 100px; height: 100px; font-size: 0.8rem; }
+    /* Adjust orb positions to prevent overlap on smaller screens if needed */
+    .orb-shark-cove { top: -60px; }
+    .orb-jellyfield { left: -80px; }
+    .orb-eac-current { right: -80px; }
+    .orb-sydney-harbor { bottom: -60px; }
+
+    .anemone-center-visual { width: 300px; height: 300px; }
+    .anemone { width: 150px; height: 150px; }
+    .anemone::before { width: 190px; height: 190px; }
+    .anemone::after { width: 220px; height: 220px; }
+    .anemone-text { font-size: 1.2rem; }
+    #site-logo { font-size: 1.2rem; bottom: var(--space-3); left: var(--space-3); }
+    #quick-nav-toggle { width: 60px; height: 60px; font-size: 1.8rem; bottom: var(--space-3); right: var(--space-3); }
+    .back-orb { width: 60px; height: 60px; font-size: 1.5rem; top: var(--space-3); right: var(--space-3); }
+    .depth-indicator { font-size: 0.9rem; padding: var(--space-1) var(--space-2); top: var(--space-3); }
+    .welcome-box { padding: var(--space-4); }
+    .welcome-box h3 { font-size: 1.5rem; }
+    .welcome-box p { font-size: 1rem; }
+    .welcome-box p.small-text { font-size: 0.9rem; }
+
 
     .hero { padding: var(--space-6) var(--space-3); }
     .hero h1 { font-size: 2.8rem; }
@@ -915,6 +1265,19 @@ body.index-page { /* Add this class to your index.html body */
 
     .card { padding: var(--space-3); margin-bottom: var(--space-3); }
     .btn { max-width: 250px; }
+
+    /* Index Page Adjustments */
+    .ocean-node .title { font-size: 1.5rem; }
+    .ocean-node .one-liner { font-size: 0.85rem; }
+    .nav-orb { width: 80px; height: 80px; font-size: 0.75rem; }
+    .anemone-center-visual { width: 250px; height: 250px; }
+    .anemone { width: 120px; height: 120px; }
+    .anemone::before { width: 150px; height: 150px; }
+    .anemone::after { width: 170px; height: 170px; }
+    .anemone-text { font-size: 1rem; }
+    .welcome-box h3 { font-size: 1.3rem; }
+    .welcome-box p { font-size: 0.9rem; }
+    .welcome-box button { font-size: 1rem; padding: var(--space-1) var(--space-3); }
 
     .hero { padding: var(--space-4) var(--space-2); }
     .hero h1 { font-size: 2.2rem; }

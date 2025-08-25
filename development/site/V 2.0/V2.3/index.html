@@ -11,91 +11,118 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div class="logo">Odyssey Beneath the Waves</div>
-    <div class="depth-indicator" id="depthIndicator">Anemone Hub</div>
+<body class="index-page">
+    <a href="index.html#anemone-center" id="site-logo" aria-label="Back to Drop-Off Hub">Odyssey Beneath the Waves</a>
+    <div id="quick-nav-toggle" aria-label="Open Quick Navigation">🧭</div>
+    <div class="depth-indicator" id="depthIndicator">Drop-Off / Anemone Hub</div>
     
+    <!-- Optional: Mute Toggle -->
+    <button id="mute-toggle" aria-label="Toggle sound">🔇</button>
+
+    <!-- Caustics Layer for subtle water movement -->
+    <div class="caustics-layer"></div>
+
     <div class="viewport">
         <div class="ocean-world" id="oceanWorld">
             <!-- Central Hub -->
-            <div class="section hub active" id="anemone-center">
+            <div class="section hub active ocean-node" id="anemone-center" data-depth="1">
                 <div class="anemone-center-visual">
                     <div class="anemone" id="mainAnemone">
                         <div class="tentacles" id="tentacles"></div>
                         <span class="anemone-text">The Drop-off</span>
                     </div>
                 </div>
+                <div class="content-card">
+                    <h2 class="title">The Heart of the Story</h2>
+                    <p class="one-liner">A hero's journey begins with a wound, and the call to brave the unknown.</p>
+                    <span class="theme-chip-tag">Wound & Call</span>
+                </div>
                 
-                <div class="nav-orb orb-episodes" data-target="narrative-currents-top">
-                    📚<br>Narrative<br>Currents
+                <div class="nav-orb orb-shark-cove" data-target="shark-cove-node">
+                    🦈<br>Shark<br>Cove
                 </div>
-                <div class="nav-orb orb-characters" data-target="character-depths-left">
-                    🎭<br>Character<br>Depths
+                <div class="nav-orb orb-jellyfield" data-target="jellyfield-node">
+                    🦑<br>Jellyfield<br>Crisis
                 </div>
-                <div class="nav-orb orb-themes" data-target="mythic-echoes-right">
-                    💡<br>Mythic<br>Echoes
+                <div class="nav-orb orb-eac-current" data-target="eac-current-node">
+                    🌊<br>EAC<br>Current
                 </div>
-                <div class="nav-orb orb-podcast" data-target="companion-currents-bottom">
-                    🎧<br>Companion<br>Currents
+                <div class="nav-orb orb-sydney-harbor" data-target="sydney-harbor-node">
+                    🚢<br>Sydney<br>Harbor
                 </div>
             </div>
 
-            <!-- Narrative Currents: Episodes (Top) -->
-            <div class="section narrative-currents-section" id="narrative-currents-top">
+            <!-- Shark Cove (Trials) - Node 1,1 (up from hub) -->
+            <div class="section shark-cove-node ocean-node" id="shark-cove-node" data-depth="0">
                 <div class="back-orb" data-target="anemone-center">↩️</div>
-                <div class="section-content">
-                    <h1 class="section-title">Narrative Currents: Episodes</h1>
-                    <p class="section-description">
-                        Chart the story's arc, from the initial wound to the journey's integrated return. Each act is a chapter in this profound psychological odyssey.
-                    </p>
-                    <div class="action-buttons">
-                        <a href="episodes.html" class="dive-btn">🌊 Explore Episodes</a>
-                        <a href="podcast.html#ep-1" class="dive-btn secondary">🎧 Listen to Act I</a>
+                <div class="content-card">
+                    <div class="eyebrow">Act IIa</div>
+                    <h2 class="title">Road of Trials</h2>
+                    <p class="one-liner">Help arrives wearing unexpected faces, testing resolve in strange currents.</p>
+                    <span class="theme-chip-tag">Allies & Thresholds</span>
+                    <div class="actions">
+                        <a href="episodes.html#act-2a" class="btn primary">🐠 Dive Deeper</a>
+                        <a href="podcast.html#ep-2" class="btn secondary">🎧 Play Companion</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Character Depths: Archetypes (Left) -->
-            <div class="section character-depths-section" id="character-depths-left">
+            <!-- Jellyfield (Crisis) - Node 0,1 (left from hub) -->
+            <div class="section jellyfield-node ocean-node" id="jellyfield-node" data-depth="1">
                 <div class="back-orb" data-target="anemone-center">↩️</div>
-                <div class="section-content">
-                    <h1 class="section-title">Character Depths: Archetypes</h1>
-                    <p class="section-description">
-                        Meet the unforgettable inhabitants of this underwater world—each an archetype guiding the hero's journey through trials and transformation.
-                    </p>
-                    <div class="action-buttons">
-                        <a href="characters.html" class="dive-btn">🐠 Meet the Characters</a>
-                        <a href="index.html#podcast" class="dive-btn secondary">🎙️ Podcast Insights</a>
+                <div class="content-card">
+                    <div class="eyebrow">Act IIb</div>
+                    <h2 class="title">Deepening Crisis</h2>
+                    <p class="one-liner">Exhaustion tests the bonds, revealing where force gives way to flow.</p>
+                    <span class="theme-chip-tag">Flow vs. Force</span>
+                    <div class="actions">
+                        <a href="episodes.html#act-2b" class="btn primary">🦑 Dive Deeper</a>
+                        <a href="podcast.html#ep-3" class="btn secondary">🎧 Play Companion</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Mythic Echoes: Themes (Right) -->
-            <div class="section mythic-echoes-section" id="mythic-echoes-right">
+            <!-- EAC Current (Trust & Flow) - Node 2,1 (right from hub) -->
+            <div class="section eac-current-node ocean-node" id="eac-current-node" data-depth="1">
                 <div class="back-orb" data-target="anemone-center">↩️</div>
-                <div class="section-content">
-                    <h1 class="section-title">Mythic Echoes: Themes</h1>
-                    <p class="section-description">
-                        Uncover the profound psychological and mythological themes woven into the narrative, from courage and surrender to death and rebirth.
-                    </p>
-                    <div class="action-buttons">
-                        <a href="themes.html" class="dive-btn">💡 Explore Themes</a>
-                        <a href="index.html#extras" class="dive-btn secondary">📚 Related Resources</a>
+                <div class="content-card">
+                    <div class="eyebrow">Theme</div>
+                    <h2 class="title">Trust & Flow</h2>
+                    <p class="one-liner">Learning to navigate life's currents with faith rather than control.</p>
+                    <span class="theme-chip-tag">Surrender to Current</span>
+                    <div class="actions">
+                        <a href="themes.html#trust-flow" class="btn primary">🌊 Dive Deeper</a>
+                        <a href="characters.html#crush" class="btn secondary">🐢 Meet Crush</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Companion Currents: Podcast (Bottom) -->
-            <div class="section companion-currents-section" id="companion-currents-bottom">
+            <!-- Sydney Harbor (Ordeal) - Node 1,2 (down from hub) -->
+            <div class="section sydney-harbor-node ocean-node" id="sydney-harbor-node" data-depth="2">
                 <div class="back-orb" data-target="anemone-center">↩️</div>
-                <div class="section-content">
-                    <h1 class="section-title">Companion Currents: Podcast</h1>
-                    <p class="section-description">
-                        Dive deeper with our podcast series, offering act-by-act companions and insightful reflections on the journey's psychological undertow.
-                    </p>
-                    <div class="action-buttons">
-                        <a href="podcast.html" class="dive-btn">🎧 Listen to Podcast</a>
-                        <a href="index.html#extras" class="dive-btn secondary">🌟 Discover Extras</a>
+                <div class="content-card">
+                    <div class="eyebrow">Act III</div>
+                    <h2 class="title">Ordeal & Transformation</h2>
+                    <p class="one-liner">Surrender becomes the only stroke left—and courage surfaces.</p>
+                    <span class="theme-chip-tag">Death / Rebirth</span>
+                    <div class="actions">
+                        <a href="episodes.html#act-3" class="btn primary">🚢 Dive Deeper</a>
+                        <a href="podcast.html#ep-4" class="btn secondary">🎧 Play Companion</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reef Return (Integration) - Node 1,3 (further down from Sydney) -->
+            <div class="section reef-return-node ocean-node" id="reef-return-node" data-depth="3">
+                <div class="back-orb" data-target="anemone-center">↩️</div>
+                <div class="content-card">
+                    <div class="eyebrow">Act IV</div>
+                    <h2 class="title">Return & Integration</h2>
+                    <p class="one-liner">Same reef, different heart. Love learns to send, not just hold.</p>
+                    <span class="theme-chip-tag">Integrated Self</span>
+                    <div class="actions">
+                        <a href="episodes.html#act-4" class="btn primary">🐠 Dive Deeper</a>
+                        <a href="podcast.html#ep-5" class="btn secondary">🎧 Play Companion</a>
                     </div>
                 </div>
             </div>
@@ -103,6 +130,19 @@
     </div>
 
     <div class="particles" id="particles"></div>
+
+    <!-- Quick Navigation Overlay -->
+    <div class="quick-nav-overlay" id="quick-nav-overlay">
+        <button class="quick-nav-close" id="quick-nav-close" aria-label="Close Quick Navigation">✕</button>
+        <div class="quick-nav-menu">
+            <a href="index.html#anemone-center" data-target="anemone-center">Home: Anemone Hub</a>
+            <a href="episodes.html">Episodes: Narrative Currents</a>
+            <a href="characters.html">Characters: Depths</a>
+            <a href="themes.html">Themes: Mythic Echoes</a>
+            <a href="podcast.html">Podcast: Companion Currents</a>
+            <a href="extras.html">Extras</a>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
