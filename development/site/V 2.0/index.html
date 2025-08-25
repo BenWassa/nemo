@@ -3,110 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>One Ocean, Many Currents</title>
-    <meta name="description" content="Explore narrative currents in an immersive oceanic experience.">
-    <meta property="og:title" content="One Ocean, Many Currents">
-    <meta property="og:description" content="Dive into a unique, non-linear narrative journey beneath the waves.">
-    <meta property="og:type" content="website">
+    <title>Filmseele: Finding Nemo</title>
+    <meta name="description" content="Navigate placeholder currents across episodes, characters, and themes.">
     <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            overflow-y: auto;
+            height: auto;
+            cursor: default;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+        header h1 {
+            font-size: 1.5rem;
+        }
+        nav a {
+            margin-left: 0.5rem;
+        }
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 4rem 1rem;
+            text-align: center;
+        }
+        .hero .chip {
+            margin-top: 1.5rem;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .features .card {
+            height: 100%;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.9rem;
+        }
+    </style>
 </head>
 <body>
-    <div class="cursor"></div>
-    
-    <main id="ocean">
-        <!-- Hub / Drop-Off (Anemone Center) -->
-        <section id="hub-dropoff" class="panel depth-0">
-            <div class="card">
-                <h1>One Ocean, Many Currents</h1>
-                <p>Your journey begins at the drop-off. Choose your current and dive into the depths of narrative exploration.</p>
-                <div>
-                    <a href="#shark-cove" class="chip">Trials</a>
-                    <a href="#jellyfield" class="chip">Crisis</a>
-                    <a href="#eac-current" class="chip">Trust & Flow</a>
-                    <a href="#sydney-harbor" class="chip">Ordeal</a>
-                    <a href="#reef-return" class="chip">Integration</a>
-                </div>
-            </div>
+    <header>
+        <h1>Filmseele</h1>
+        <nav aria-label="Main">
+            <a href="episodes.html" class="chip">Episodes</a>
+            <a href="characters.html" class="chip">Characters</a>
+            <a href="themes.html" class="chip">Themes</a>
+            <a href="podcast.html" class="chip">Podcast</a>
+            <a href="extras.html" class="chip">Extras</a>
+        </nav>
+    </header>
+    <main>
+        <section class="hero card">
+            <h2>One Ocean, Many Currents</h2>
+            <p>Embark on a modular narrative journey beneath the waves.</p>
+            <a href="episodes.html" class="chip">Start Exploring</a>
         </section>
-
-        <!-- Shark Cove (Trials) -->
-        <section id="shark-cove" class="panel depth-1">
-            <div class="card">
-                <h2>Shark Cove</h2>
-                <p>Episode 2: The trials begin beneath the surface. Navigate the challenges that test your resolve.</p>
-                <div>
-                    <a href="#" class="chip">Watch Episode</a>
-                    <a href="#" class="chip">Behind the Scenes</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Jellyfield (Crisis) -->
-        <section id="jellyfield" class="panel depth-1">
-            <div class="card">
-                <h2>Jellyfield</h2>
-                <p>Episode 3: Drift through the crisis zone where danger and beauty intertwine in ethereal harmony.</p>
-                <div>
-                    <a href="#" class="chip">Explore Crisis</a>
-                    <a href="#" class="chip">Character Insights</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- EAC Current (Trust & Flow) -->
-        <section id="eac-current" class="panel depth-1">
-            <div class="card">
-                <h2>EAC Current</h2>
-                <p>Trust the flow. Let the current guide you through themes of connection and surrender.</p>
-                <div>
-                    <a href="#" class="chip">Flow State</a>
-                    <a href="#" class="chip">Trust Themes</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sydney Harbor (Ordeal) -->
-        <section id="sydney-harbor" class="panel depth-2">
-            <div class="card">
-                <h2>Sydney Harbor</h2>
-                <p>Episode 4: The deepest point of the journey. Face the ultimate ordeal in the harbor's depths.</p>
-                <div>
-                    <a href="#" class="chip">Deep Dive</a>
-                    <a href="#" class="chip">Ordeal Analysis</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Reef Return (Integration) -->
-        <section id="reef-return" class="panel depth-0">
-            <div class="card">
-                <h2>Reef Return</h2>
-                <p>Episode 5: Return to the light. Integrate the wisdom gained from the depths of your journey.</p>
-                <div>
-                    <a href="#" class="chip">Integration</a>
-                    <a href="#" class="chip">Reflection Guide</a>
-                </div>
-            </div>
+        <section class="features">
+            <article class="card">
+                <h3>Episodes</h3>
+                <p>Browse the narrative currents episode by episode.</p>
+                <a href="episodes.html" class="chip">Dive In</a>
+            </article>
+            <article class="card">
+                <h3>Characters</h3>
+                <p>Meet the archetypes guiding this oceanic tale.</p>
+                <a href="characters.html" class="chip">Meet the Cast</a>
+            </article>
+            <article class="card">
+                <h3>Themes</h3>
+                <p>Explore the deeper meanings and motifs.</p>
+                <a href="themes.html" class="chip">See Themes</a>
+            </article>
+            <article class="card">
+                <h3>Podcast</h3>
+                <p>Listen to discussions and behind-the-scenes insights.</p>
+                <a href="podcast.html" class="chip">Tune In</a>
+            </article>
+            <article class="card">
+                <h3>Extras</h3>
+                <p>Find additional resources and interactive pieces.</p>
+                <a href="extras.html" class="chip">View Extras</a>
+            </article>
         </section>
     </main>
-
-    <!-- Navigation -->
-    <a class="brand-home" href="#hub-dropoff" aria-label="Back to Drop-Off">Filmseele</a>
-    <button class="compass-toggle" aria-haspopup="dialog" aria-controls="nav-compass" aria-label="Open navigation compass">☊</button>
-    <!-- Unicode compass rose ☸ or anchor ☊ -->
-
-    <!-- Compass Modal -->
-    <dialog id="nav-compass" class="compass">
-        <div class="compass-nav">
-            <a href="#shark-cove" class="compass-item">Shark Cove<br>(Trials)</a>
-            <a href="#jellyfield" class="compass-item">Jellyfield<br>(Crisis)</a>
-            <a href="#eac-current" class="compass-item">EAC Current<br>(Flow)</a>
-            <a href="#sydney-harbor" class="compass-item">Sydney Harbor<br>(Ordeal)</a>
-            <a href="#hub-dropoff" class="compass-item center">Drop-Off<br>(Hub)</a>
-            <a href="#reef-return" class="compass-item">Reef Return<br>(Integration)</a>
-        </div>
-    </dialog>
-
-    <script src="script.js" defer></script>
+    <footer>
+        <p>&copy; 2024 Filmseele. All placeholders.</p>
+    </footer>
 </body>
 </html>
