@@ -3,120 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nemo: Underwater Navigation Experience</title>
+    <title>Odyssey Beneath the Waves</title>
     <meta name="description" content="Embark on an immersive underwater journey exploring narrative depths through interactive ocean navigation.">
-    <meta property="og:title" content="Nemo: Underwater Navigation Experience">
+    <meta property="og:title" content="Odyssey Beneath the Waves">
     <meta property="og:description" content="Immersive underwater navigation experience with glass morphism design and accessibility-first interactions.">
     <meta property="og:type" content="website">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <!-- Custom cursor -->
-    <div class="cursor"></div>
-    
-    <!-- Main ocean container -->
-    <div id="ocean">
-        
-        <!-- Hub Panel -->
-        <div class="panel" id="hub-dropoff">
-            <div class="card">
-                <h1>🌊 The Anemone Hub</h1>
-                <p>Welcome to the heart of the underwater odyssey. Choose your current to begin the journey through narrative depths.</p>
-                <div>
-                    <a href="#shark-cove" class="chip">🦈 Road of Trials</a>
-                    <a href="#jellyfield" class="chip">🪼 Deepening Crisis</a>
-                    <a href="#eac-current" class="chip">🌊 Trust & Flow</a>
-                    <a href="#sydney-harbor" class="chip">🚢 The Ordeal</a>
-                    <a href="#reef-return" class="chip">🏠 Return Home</a>
-                </div>
+<body data-depth="0">
+    <a href="#main-content" class="skip-to-content">Skip to content</a>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">Odyssey Beneath the Waves</a>
+            <nav>
+                <ul>
+                    <li><a href="episodes.html">Episodes</a></li>
+                    <li><a href="characters.html">Characters</a></li>
+                    <li><a href="themes.html">Themes</a></li>
+                    <li><a href="podcast.html">Podcast</a></li>
+                    <li><a href="extras.html">Extras</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <section class="landing-hero">
+            <div class="wrap">
+                <h1 class="landing-title">Odyssey Beneath the Waves</h1>
+                <p class="landing-tagline">Dive into narrative depths—explore episodes, characters, themes, and more inspired by <em>Finding Nemo</em>.</p>
             </div>
-        </div>
+        </section>
 
-        <!-- Shark Cove Panel -->
-        <div class="panel" id="shark-cove">
-            <div class="card">
-                <h2>🦈 Shark Cove: Road of Trials</h2>
-                <p>Help arrives wearing unexpected faces, testing resolve in strange currents. The hero encounters allies and crosses the first threshold.</p>
-                <div>
-                    <a href="episodes.html#act-2a" class="chip">📚 Dive Deeper</a>
-                    <a href="podcast.html#ep-2" class="chip">🎧 Play Companion</a>
-                    <a href="#hub-dropoff" class="chip">🏠 Return to Hub</a>
-                </div>
+        <section class="landing-links">
+            <div class="wrap card-grid">
+                <a href="episodes.html" class="card-link">
+                    <h3>Episodes</h3>
+                    <p>Break down the story act by act.</p>
+                </a>
+                <a href="characters.html" class="card-link">
+                    <h3>Characters</h3>
+                    <p>Meet allies, mentors, and shapeshifters.</p>
+                </a>
+                <a href="themes.html" class="card-link">
+                    <h3>Themes</h3>
+                    <p>Uncover the mythic currents beneath the tale.</p>
+                </a>
+                <a href="podcast.html" class="card-link">
+                    <h3>Podcast</h3>
+                    <p>Listen to companion episodes.</p>
+                </a>
+                <a href="extras.html" class="card-link">
+                    <h3>Extras</h3>
+                    <p>Go beyond the reef with resources and more.</p>
+                </a>
             </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <nav class="footer-nav">
+                <a href="episodes.html">Episodes</a>
+                <a href="characters.html">Characters</a>
+                <a href="themes.html">Themes</a>
+                <a href="podcast.html">Podcast</a>
+                <a href="extras.html">Extras</a>
+            </nav>
+            <p>&copy; 2025 Odyssey Beneath the Waves</p>
+            <p class="footer-tagline">Built as a study in story & psychology</p>
         </div>
-
-        <!-- Jellyfield Panel -->
-        <div class="panel" id="jellyfield">
-            <div class="card">
-                <h2>🪼 Jellyfield: Deepening Crisis</h2>
-                <p>Exhaustion tests the bonds, revealing where force gives way to flow. The journey becomes more challenging and complex.</p>
-                <div>
-                    <a href="episodes.html#act-2b" class="chip">📚 Dive Deeper</a>
-                    <a href="podcast.html#ep-3" class="chip">🎧 Play Companion</a>
-                    <a href="#hub-dropoff" class="chip">🏠 Return to Hub</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- EAC Current Panel -->
-        <div class="panel" id="eac-current">
-            <div class="card">
-                <h2>🌊 EAC Current: Trust & Flow</h2>
-                <p>Learning to navigate life's currents with faith rather than control. The theme of surrender emerges as essential wisdom.</p>
-                <div>
-                    <a href="themes.html#trust-flow" class="chip">💡 Explore Theme</a>
-                    <a href="characters.html#crush" class="chip">🐢 Meet Crush</a>
-                    <a href="#hub-dropoff" class="chip">🏠 Return to Hub</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sydney Harbor Panel -->
-        <div class="panel" id="sydney-harbor">
-            <div class="card">
-                <h2>🚢 Sydney Harbor: The Ordeal</h2>
-                <p>Surrender becomes the only stroke left—and courage surfaces. The climactic moment where everything hangs in the balance.</p>
-                <div>
-                    <a href="episodes.html#act-3" class="chip">📚 Dive Deeper</a>
-                    <a href="podcast.html#ep-4" class="chip">🎧 Play Companion</a>
-                    <a href="#reef-return" class="chip">⬇️ Continue Journey</a>
-                    <a href="#hub-dropoff" class="chip">🏠 Return to Hub</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Reef Return Panel -->
-        <div class="panel" id="reef-return">
-            <div class="card">
-                <h2>🏠 Reef Return: Integration</h2>
-                <p>Same reef, different heart. Love learns to send, not just hold. The hero returns transformed with new wisdom.</p>
-                <div>
-                    <a href="episodes.html#act-4" class="chip">📚 Dive Deeper</a>
-                    <a href="podcast.html#ep-5" class="chip">🎧 Play Companion</a>
-                    <a href="#hub-dropoff" class="chip">🏠 Return to Hub</a>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Navigation Elements -->
-    <a href="#hub-dropoff" class="brand-home">Nemo</a>
-    
-    <button class="compass-toggle" aria-expanded="false" aria-label="Open navigation compass">🧭</button>
-    
-    <!-- Navigation Compass Dialog -->
-    <dialog id="nav-compass" class="compass">
-        <div class="compass-nav">
-            <a href="#shark-cove" class="compass-item">🦈<br>Trials</a>
-            <a href="#jellyfield" class="compass-item">🪼<br>Crisis</a>
-            <a href="#hub-dropoff" class="compass-item center">🌊<br>Hub</a>
-            <a href="#eac-current" class="compass-item">🌊<br>Flow</a>
-            <a href="#sydney-harbor" class="compass-item">🚢<br>Ordeal</a>
-            <a href="#reef-return" class="compass-item">🏠<br>Return</a>
-        </div>
-    </dialog>
-
-    <script src="script.js"></script>
+    </footer>
 </body>
 </html>
