@@ -11,14 +11,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body data-depth="0"> <!-- Sets the depth for this page, matching shark-cove-node -->
+<body data-depth="0">
     <a href="#main-content" class="skip-to-content">Skip to content</a>
-    
-    <!-- Global Navigation Elements (from index.html) -->
-    <a href="index.html#anemone-center" id="site-logo" aria-label="Back to Drop-Off Hub">Odyssey Beneath the Waves</a>
-    <button id="quick-nav-toggle" aria-label="Open Quick Navigation">🧭</button>
-    <button id="mute-toggle" aria-label="Mute sound">🔊</button>
-    
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">Odyssey Beneath the Waves</a>
+            <nav>
+                <ul>
+                    <li><a href="episodes.html" class="active">Episodes</a></li>
+                    <li><a href="characters.html">Characters</a></li>
+                    <li><a href="themes.html">Themes</a></li>
+                    <li><a href="podcast.html">Podcast</a></li>
+                    <li><a href="extras.html">Extras</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
     <!-- Immersive Background Layers -->
     <div class="caustics-layer"></div>
     <div class="particles" id="particles"></div>
@@ -166,26 +176,24 @@
 
                 <div class="actions">
                     <!-- "Back to Home" button returns to the central anemone hub -->
-                    <a href="index.html#anemone-center" class="btn ghost">← Back to Home</a>
+                    <a href="index.html" class="btn ghost">← Back to Home</a>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Quick Navigation Overlay (needed on all pages with quick-nav-toggle) -->
-    <div class="quick-nav-overlay" id="quick-nav-overlay" aria-hidden="true" tabindex="-1">
-        <button class="quick-nav-close" id="quick-nav-close" aria-label="Close Quick Navigation">✕</button>
-        <div class="quick-nav-menu">
-            <a href="index.html#anemone-center" data-target="anemone-center" aria-label="Go to Anemone Hub">Home: Drop-Off</a>
-            <a href="index.html#shark-cove-node" data-target="shark-cove-node" class="active" aria-label="Go to Episodes Page">Episodes: Narrative Currents</a>
-            <a href="index.html#jellyfield-node" data-target="jellyfield-node" aria-label="Go to Characters Page">Characters: Depths</a>
-            <a href="index.html#eac-current-node" data-target="eac-current-node" aria-label="Go to Themes Page">Themes: Mythic Echoes</a>
-            <a href="index.html#sydney-harbor-node" data-target="sydney-harbor-node" aria-label="Go to Podcast Page">Podcast: Companion Currents</a>
-            <a href="index.html#reef-return-node" data-target="reef-return-node" aria-label="Go to Extras Page">Extras: Beyond the Reef</a>
+    <footer>
+        <div class="footer-content">
+            <nav class="footer-nav">
+                <a href="episodes.html" class="active">Episodes</a>
+                <a href="characters.html">Characters</a>
+                <a href="themes.html">Themes</a>
+                <a href="podcast.html">Podcast</a>
+                <a href="extras.html">Extras</a>
+            </nav>
+            <p>&copy; 2025 Odyssey Beneath the Waves</p>
+            <p class="footer-tagline">Built as a study in story & psychology</p>
         </div>
-    </div>
-
-    <!-- Script must be included on content pages to manage global navigation -->
-    <script src="script.js"></script>
+    </footer>
 </body>
 </html>
