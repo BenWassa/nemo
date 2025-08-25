@@ -1,0 +1,253 @@
+/* =============================================
+   FilmSeele: Finding Nemo - Main Stylesheet
+   ============================================= */
+
+/* --- Design Tokens & Custom Properties --- */
+:root {
+    /* Core Colors */
+    --color-deep-ocean: #030d15;
+    --color-prussian-blue: #0e3952;
+    --color-text-primary: #e0f2f7;
+    --color-text-secondary: #a8c1d1;
+    --color-accent-orange: #f24702;
+    
+    /* Typography */
+    --font-heading: 'Quicksand', sans-serif;
+    --font-body: 'Nunito', sans-serif;
+    
+    /* Layout & Effects */
+    --border-radius: 16px;
+    --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --shadow-strong: 0 12px 48px rgba(0, 0, 0, 0.4);
+    --transition-smooth: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* --- Base & Reset Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--color-text-primary);
+    background: linear-gradient(to top, var(--color-deep-ocean), var(--color-prussian-blue));
+    overflow-x: hidden;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* --- Atmospheric Background Effects --- */
+.ocean-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.light-rays {
+    position: absolute;
+    top: -20%;
+    left: 50%;
+    width: 150vw;
+    height: 100vh;
+    background: radial-gradient(ellipse at 50% 0%, rgba(168, 193, 209, 0.1), transparent 60%);
+    transform: translateX(-50%);
+    animation: sway 25s ease-in-out infinite alternate;
+}
+
+@keyframes sway {
+    to { transform: translateX(-50%) rotate(5deg); }
+}
+
+.bubbles span {
+    position: absolute;
+    bottom: -150px;
+    width: 25px;
+    height: 25px;
+    background: rgba(168, 193, 209, 0.1);
+    border-radius: 50%;
+    animation: bubble-rise 20s linear infinite;
+}
+
+@keyframes bubble-rise {
+    to { transform: translateY(-120vh); }
+}
+.bubbles span { left: calc(var(--i) * 4%); animation-delay: calc(var(--i) * 0.7s); }
+.bubbles span:nth-child(even) { transform: scale(0.6); animation-duration: 30s; }
+
+/* --- Fixed Header & Navigation --- */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 1rem 0;
+    transition: background-color 0.4s ease, backdrop-filter 0.4s ease, border-bottom-color 0.4s ease;
+    border-bottom: 1px solid transparent;
+}
+
+.main-header.scrolled {
+    background: rgba(14, 57, 82, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom-color: rgba(168, 193, 209, 0.1);
+}
+
+.header-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+}
+
+.main-nav a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-left: 2.5rem;
+    position: relative;
+    padding: 0.5rem 0;
+    transition: var(--transition-smooth);
+}
+
+.main-nav a:hover {
+    color: var(--color-text-primary);
+    text-shadow: 0 0 10px rgba(242, 71, 2, 0.5);
+}
+
+.main-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-accent-orange);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.main-nav a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+
+/* --- Main Content Sections --- */
+.ocean-section {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 120px 20px;
+}
+
+/* --- Glassmorphism Content Panel --- */
+.content-panel {
+    width: 90%;
+    max-width: 700px;
+    padding: 3rem;
+    background: rgba(14, 57, 82, 0.2);
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(168, 193, 209, 0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: var(--shadow-soft);
+    text-align: center;
+    transition: var(--transition-smooth);
+    
+    /* Initial state for scroll animation */
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1), transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.content-panel.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.content-panel h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    color: var(--color-text-primary);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.content-panel h3 {
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    color: var(--color-accent-orange);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    text-shadow: 0 0 12px rgba(242, 71, 2, 0.5);
+}
+
+.content-panel p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+}
+
+/* --- Footer --- */
+.footer {
+    padding: 3rem 0;
+    text-align: center;
+    background: var(--color-deep-ocean);
+    border-top: 1px solid rgba(168, 193, 209, 0.1);
+}
+
+.footer p {
+    color: #64748b;
+    margin-bottom: 1.5rem;
+}
+
+.footer-quote {
+    font-family: var(--font-heading);
+    font-style: italic;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+    opacity: 0.8;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    html { scroll-padding-top: 80px; }
+    
+    .main-nav { display: none; }
+    .header-container { justify-content: center; }
+    .logo { font-size: 1.25rem; }
+    
+    .ocean-section { padding: 100px 15px; }
+    .content-panel { padding: 2rem 1.5rem; }
+}

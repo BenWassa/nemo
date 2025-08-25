@@ -5,10 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>FilmSeele · Finding Nemo — Ocean Hub</title>
   <meta name="description" content="An immersive, narrative-first ocean hub for FilmSeele: Finding Nemo — parallax depth, glassmorphism UI, subtle audio, and delightful micro‑interactions." />
+  <meta name="theme-color" content="#0c437b" />
+  <!-- Fonts: Inter for UI, Crimson Text for headings (inspired by the examples) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header" role="banner" aria-label="Site header">
+    <div class="brand">
+      <a href="#main" class="brand-home" aria-label="FilmSeele Home">
+        <strong>FilmSeele</strong>
+        <small>Finding Nemo — Ocean Hub</small>
+      </a>
+    </div>
+    <div class="header-controls">
+      <button id="themeToggle" class="ctrl" aria-pressed="false" aria-label="Toggle theme">🌙</button>
+      <button id="motionToggle" class="ctrl" aria-pressed="false" aria-label="Toggle motion drift">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 4h6v2H6v4H4V4zm14 12h-4v4h-2v-6h6v2zM4 20h6v-2H6v-4H4v6zm16-8h-2V8h-4V6h6v6z"/></svg>
+        <span>Motion</span>
+      </button>
+      <button class="ctrl" id="sndToggle" aria-pressed="false" aria-label="Toggle ambient sound">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10v4h3l4 4V6L6 10H3zm13.5 2a4.5 4.5 0 0 0-2.7-4.1v8.2A4.5 4.5 0 0 0 16.5 12zm-2.7-7.9v2.1a7 7 0 0 1 0 11.6v2.1a9.1 9.1 0 0 0 0-15.8z"/></svg>
+        <span>Sound</span>
+      </button>
+    </div>
+  </header>
 
   <div class="scene" aria-hidden="true">
     <div class="ocean-bg layer" data-depth="-300"></div>

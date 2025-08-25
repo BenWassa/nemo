@@ -23,16 +23,57 @@
   --text-dim: #a8c6d9;
 
   --maxw: 1100px;
+  /* Typography tokens */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  --font-serif: 'Crimson Text', 'EB Garamond', 'Georgia', 'Times New Roman', serif;
+  --type-rhythm: 1.45rem;
+
+  /* Theme tokens (light/dark neutral baseline)
+    We'll allow a JavaScript toggle to switch data-theme on <html> */
+  --bg-100: var(--indigo-dye);
+  --bg-900: #03131c;
+  --text-primary: var(--text-hi);
+  --muted: var(--text-dim);
+  --accent: var(--golden-gate-bridge);
 }
 
 /* Reset-ish */
 *, *::before, *::after { box-sizing: border-box; }
 html, body { height: 100%; }
 body {
-  margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-  color: var(--text-hi); background: var(--indigo-dye);
+  margin: 0; font-family: var(--font-sans); font-size: 16px; line-height: 1.35; color: var(--text-primary);
+  background: linear-gradient(180deg, var(--bg-100) 0%, var(--bg-900) 100%);
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
   overflow: hidden; /* we keep a single-screen hub */
 }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; }
+
+/* Heading styles for improved hierarchy */
+h1, h2, h3 { font-family: var(--font-serif); margin: 0; color: var(--text-primary); }
+h1 { font-size: clamp(1.6rem, 3.6vw, 2.6rem); letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.15rem, 2.6vw, 1.6rem); }
+
+/* Header */
+.site-header { position: fixed; inset: 0 auto auto 0; right: 0; top: 0; display: flex; gap: 1rem; align-items: center; padding: 0.5rem 1rem; z-index: 40; pointer-events: auto; }
+.brand { display:flex; align-items:center; gap: .5rem; }
+.brand-home { display:flex; flex-direction:column; gap:0; color:var(--text-primary); text-decoration:none; }
+.brand-home strong { font-family: var(--font-serif); font-weight:700; font-size:1rem; }
+.brand-home small { font-size:.7rem; color:var(--muted); }
+.header-controls { display:flex; gap:.5rem; align-items:center; }
+
+/* Controls */
+.ctrl { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: .45rem .6rem; border-radius: .6rem; display:inline-flex; gap:.5rem; align-items:center; cursor:pointer; transition: transform .18s ease, box-shadow .18s ease, background .18s ease; }
+.ctrl:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(0,0,0,0.5); }
+
+/* Theme variants */
+:root[data-theme='light'] {
+  --bg-100: #f7fbff; --bg-900: #e6f2fb; --text-primary: #052235; --muted: #56707e; --accent: #a36b2a;
+  --glass-bg: rgba(255,255,255,0.85); --glass-brd: rgba(0,0,0,0.06);
+}
+
+/* Small utility */
+.visually-hidden { position:absolute; left:-9999px; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; }
 
