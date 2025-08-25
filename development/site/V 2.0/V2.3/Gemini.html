@@ -3,180 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Underwater World</title>
+    <title>Odyssey Beneath the Waves: The Journey Begins</title>
+    <meta name="description" content="Embark on an interactive underwater odyssey exploring the psychological and mythological depths of Filmseele.">
+    <meta property="og:title" content="Odyssey Beneath the Waves: The Journey Begins">
+    <meta property="og:description" content="Embark on an interactive underwater odyssey exploring the psychological and mythological depths of Filmseele.">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
-    <style>
-        /* CSS Custom Properties for the Palette */
-        :root {
-            --golden-gate-bridge: #f24702ff;
-            --palatinate-blue: #013fe8ff;
-            --prussian-blue: #0e3952ff;
-            --indigo-dye: #0c437bff;
-            --sea-green: #389054ff;
-
-            --text-light: #e0f2f7; /* Lighter shade for text */
-            --button-bg: var(--golden-gate-bridge);
-            --button-hover-bg: var(--sea-green);
-        }
-
-        /* Base Styles */
-        body, html {
-            margin: 0;
-            padding: 0;
-            overflow: hidden; /* Hide scrollbars, our JS handles navigation */
-            width: 100%;
-            height: 100%;
-            font-family: 'Roboto', sans-serif;
-            color: var(--text-light);
-            background-color: var(--prussian-blue); /* Fallback */
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewport="0 0 100 100" style="fill:black;font-size:24px;"><text y="50%">🐟</text></svg>') 15 15, auto; /* Subtle fish cursor */
-        }
-
-        /* Viewport acts as the window into our ocean */
-        #viewport {
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Ocean Container holds all sections in a grid */
-        #ocean-container {
-            position: absolute;
-            width: 300vw; /* 3 sections wide */
-            height: 300vh; /* 3 sections tall */
-            top: 0;
-            left: 0;
-            transform: translate(-100vw, -100vh); /* Start at the center section (anemone) */
-            transition: transform 1.5s ease-in-out; /* Smooth transition for movements */
-            background: radial-gradient(circle at center, var(--indigo-dye) 0%, var(--prussian-blue) 70%, #051a2aff 100%);
-            will-change: transform; /* Optimize for animation */
-        }
-
-        /* Individual Sections */
-        .ocean-section {
-            position: absolute;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 2rem;
-            box-sizing: border-box;
-            background-size: cover;
-            background-position: center;
-            opacity: 0; /* Hidden by default, made visible by JS */
-            transition: opacity 0.8s ease-in-out; /* Smooth fade for content */
-        }
-
-        .ocean-section.active {
-            opacity: 1;
-        }
-
-        .ocean-section h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-            color: var(--text-light);
-            line-height: 1.2;
-        }
-
-        .ocean-section p {
-            max-width: 600px;
-            font-size: 1.3rem;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Section Positioning within the 3x3 grid */
-        #anemone-center { top: 100vh; left: 100vw; background-color: var(--indigo-dye); }
-        #reef-left { top: 100vh; left: 0vw; background-color: var(--prussian-blue); }
-        #deep-canyon-right { top: 100vh; left: 200vw; background-color: #051a2aff; } /* Even darker for canyon */
-        #kelp-forest-top { top: 0vh; left: 100vw; background-color: var(--sea-green); }
-        #sandy-bottom-bottom { top: 200vh; left: 100vw; background-color: var(--indigo-dye); }
-
-        /* Buttons */
-        .ocean-section button {
-            background-color: var(--button-bg);
-            color: var(--text-light);
-            border: none;
-            padding: 1rem 2rem;
-            margin: 0.5rem;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .ocean-section button:hover {
-            background-color: var(--button-hover-bg);
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-        }
-
-        .ocean-section button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Site Logo */
-        #site-logo {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            color: var(--text-light);
-            opacity: 0.7;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-            pointer-events: none; /* Make sure it doesn't interfere with clicks */
-            z-index: 100; /* Ensure it's above other content */
-        }
-
-        /* Optional: Subtle background animation (bubbles) */
-        .bubble-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .bubble {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            animation: bubbleUp 15s infinite ease-in;
-            opacity: 0;
-        }
-
-        @keyframes bubbleUp {
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 0.5; }
-            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
-        }
-
-        /* Adjustments for specific bubbles */
-        .bubble:nth-child(1) { width: 40px; height: 40px; left: 10%; animation-duration: 18s; animation-delay: 0s; }
-        .bubble:nth-child(2) { width: 25px; height: 25px; left: 25%; animation-duration: 12s; animation-delay: 2s; }
-        .bubble:nth-child(3) { width: 50px; height: 50px; left: 40%; animation-duration: 20s; animation-delay: 4s; }
-        .bubble:nth-child(4) { width: 30px; height: 30px; left: 60%; animation-duration: 15s; animation-delay: 6s; }
-        .bubble:nth-child(5) { width: 45px; height: 45px; left: 75%; animation-duration: 17s; animation-delay: 8s; }
-        .bubble:nth-child(6) { width: 35px; height: 35px; left: 5%; animation-duration: 14s; animation-delay: 10s; }
-        .bubble:nth-child(7) { width: 20px; height: 20px; left: 85%; animation-duration: 16s; animation-delay: 12s; }
-    </style>
 </head>
 <body>
 
@@ -193,104 +26,57 @@
                 <div class="bubble"></div>
             </div>
 
-            <!-- Section: Kelp Forest (Top) -->
-            <section id="kelp-forest-top" class="ocean-section">
-                <h2>The Kelp Forest</h2>
-                <p>Giant kelp stalks reach for the surface, creating a majestic underwater forest. Light filters through the canopy, revealing a hidden world of diverse creatures. Feel the gentle sway and discover life amidst the fronds.</p>
+            <!-- Section: Narrative Currents: Episodes (Top) -->
+            <section id="narrative-currents-top" class="ocean-section">
+                <h2>Narrative Currents: Episodes</h2>
+                <p>Chart the story's arc, from the initial wound to the journey's integrated return. Each act is a chapter in this profound psychological odyssey.</p>
                 <button class="nav-button" data-target="anemone-center">Descend to Anemone Hub</button>
-                <button onclick="alert('This would navigate to a deeper page about the Kelp Forest!')">Wander the Kelp (Dive Deeper)</button>
+                <a href="episodes.html" class="btn primary">Explore Episodes</a>
             </section>
 
-            <!-- Section: Reef (Left) -->
-            <section id="reef-left" class="ocean-section">
-                <h2>The Coral Reef</h2>
-                <p>A bustling metropolis of marine life, teeming with color and movement. Schools of fish dart through intricate coral formations, a testament to nature's artistry. Discover the vibrant ecosystem that thrives here.</p>
+            <!-- Section: Character Depths: Archetypes (Left) -->
+            <section id="character-depths-left" class="ocean-section">
+                <h2>Character Depths: Archetypes</h2>
+                <p>Meet the unforgettable inhabitants of this underwater world—each an archetype guiding the hero's journey through trials and transformation.</p>
                 <button class="nav-button" data-target="anemone-center">Swim to Anemone Hub</button>
-                <button onclick="alert('This would navigate to a deeper page about the Coral Reef!')">Explore Reef Life (Dive Deeper)</button>
+                <a href="characters.html" class="btn primary">Meet the Characters</a>
             </section>
 
-            <!-- Section: Anemone Hub (Center) -->
+            <!-- Section: Anemone Hub (Center) - The story's core -->
             <section id="anemone-center" class="ocean-section active">
                 <h2>The Anemone Hub</h2>
-                <p>Welcome to the heart of our underwater story. Life thrives in vibrant hues around this central anemone, a beacon in the blue. Choose your path and explore the wonders that lie beyond.</p>
-                <div>
-                    <button class="nav-button" data-target="kelp-forest-top">Ascend to Kelp Forest</button>
-                    <button class="nav-button" data-target="reef-left">Explore the Reef</button>
-                    <button class="nav-button" data-target="deep-canyon-right">Descend to the Canyon</button>
-                    <button class="nav-button" data-target="sandy-bottom-bottom">Drift to the Sandy Bottom</button>
+                <p>Welcome to the pulsating heart of our "Odyssey Beneath the Waves." From this central point, choose your path and explore the mythic depths.</p>
+                <div class="nav-buttons-container">
+                    <button class="nav-button" data-target="narrative-currents-top">Narrative Currents</button>
+                    <button class="nav-button" data-target="character-depths-left">Character Depths</button>
+                    <button class="nav-button" data-target="mythic-echoes-right">Mythic Echoes</button>
+                    <button class="nav-button" data-target="companion-currents-bottom">Companion Currents</button>
+                </div>
+                <div class="secondary-actions">
+                    <a href="extras.html" class="btn ghost">Discover Extras</a>
                 </div>
             </section>
 
-            <!-- Section: Deep Canyon (Right) -->
-            <section id="deep-canyon-right" class="ocean-section">
-                <h2>The Deep Canyon</h2>
-                <p>Mysteries lurk in the silent depths, where light barely penetrates. Strange and fascinating creatures have adapted to this extreme environment, a testament to resilience. Venture into the unknown.</p>
+            <!-- Section: Mythic Echoes: Themes (Right) -->
+            <section id="mythic-echoes-right" class="ocean-section">
+                <h2>Mythic Echoes: Themes</h2>
+                <p>Uncover the profound psychological and mythological themes woven into the narrative, from courage and surrender to death and rebirth.</p>
                 <button class="nav-button" data-target="anemone-center">Ascend to Anemone Hub</button>
-                <button onclick="alert('This would navigate to a deeper page about the Deep Canyon!')">Uncover Canyon Secrets (Dive Deeper)</button>
+                <a href="themes.html" class="btn primary">Explore Themes</a>
             </section>
 
-            <!-- Section: Sandy Bottom (Bottom) -->
-            <section id="sandy-bottom-bottom" class="ocean-section">
-                <h2>The Sandy Bottom</h2>
-                <p>Gentle currents sculpt the sand, creating shifting landscapes home to camouflaged creatures and hidden treasures. Patience reveals the subtle beauty of this often-overlooked habitat.</p>
+            <!-- Section: Companion Currents: Podcast (Bottom) -->
+            <section id="companion-currents-bottom" class="ocean-section">
+                <h2>Companion Currents: Podcast</h2>
+                <p>Dive deeper with our podcast series, offering act-by-act companions and insightful reflections on the journey's psychological undertow.</p>
                 <button class="nav-button" data-target="anemone-center">Float to Anemone Hub</button>
-                <button onclick="alert('This would navigate to a deeper page about the Sandy Bottom!')">Sift the Sands (Dive Deeper)</button>
+                <a href="podcast.html" class="btn primary">Listen to Podcast</a>
             </section>
         </div>
     </div>
 
-    <div id="site-logo">Undersea Expeditions</div>
+    <div id="site-logo">Odyssey Beneath the Waves</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const oceanContainer = document.getElementById('ocean-container');
-            const navButtons = document.querySelectorAll('.nav-button');
-            const sections = document.querySelectorAll('.ocean-section');
-
-            // Define target positions for the oceanContainer to show each section
-            // These correspond to the negative top/left of the target section's position
-            const sectionMap = {
-                'anemone-center': { x: -100, y: -100 }, // Initial center view
-                'reef-left': { x: 0, y: -100 },
-                'deep-canyon-right': { x: -200, y: -100 },
-                'kelp-forest-top': { x: -100, y: 0 },
-                'sandy-bottom-bottom': { x: -100, y: -200 }
-            };
-
-            let currentSectionId = 'anemone-center';
-
-            // Function to update the active section's opacity
-            function updateActiveSection(targetId) {
-                sections.forEach(section => {
-                    if (section.id === targetId) {
-                        section.classList.add('active');
-                    } else {
-                        section.classList.remove('active');
-                    }
-                });
-            }
-
-            // Set the initial active state
-            updateActiveSection(currentSectionId);
-
-            navButtons.forEach(button => {
-                button.addEventListener('click', (event) => {
-                    const targetId = event.target.dataset.target;
-
-                    if (targetId && sectionMap[targetId]) {
-                        const targetPosition = sectionMap[targetId];
-                        oceanContainer.style.transform = `translate(${targetPosition.x}vw, ${targetPosition.y}vh)`;
-                        currentSectionId = targetId;
-
-                        // Add a small delay for opacity change to sync with transform
-                        // Or, listen to 'transitionend' on oceanContainer for more robust sync
-                        setTimeout(() => {
-                             updateActiveSection(currentSectionId);
-                        }, 700); // Half of the transform duration
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
