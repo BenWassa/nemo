@@ -13,12 +13,11 @@
 </head>
 <body class="index-page">
     <a href="index.html#anemone-center" id="site-logo" aria-label="Back to Drop-Off Hub">Odyssey Beneath the Waves</a>
-    <div id="quick-nav-toggle" aria-label="Open Quick Navigation">🧭</div>
+    <button id="quick-nav-toggle" aria-label="Open Quick Navigation">🧭</button>
+    <button id="mute-toggle" aria-label="Mute sound">🔊</button> <!-- Added Mute Toggle -->
+    
     <div class="depth-indicator" id="depthIndicator">Drop-Off / Anemone Hub</div>
     
-    <!-- Optional: Mute Toggle -->
-    <button id="mute-toggle" aria-label="Toggle sound">🔇</button>
-
     <!-- Caustics Layer for subtle water movement -->
     <div class="caustics-layer"></div>
 
@@ -38,23 +37,23 @@
                     <span class="theme-chip-tag">Wound & Call</span>
                 </div>
                 
-                <div class="nav-orb orb-shark-cove" data-target="shark-cove-node">
+                <div class="nav-orb orb-shark-cove" data-target="shark-cove-node" aria-label="Navigate to Shark Cove: Trials">
                     🦈<br>Shark<br>Cove
                 </div>
-                <div class="nav-orb orb-jellyfield" data-target="jellyfield-node">
+                <div class="nav-orb orb-jellyfield" data-target="jellyfield-node" aria-label="Navigate to Jellyfield: Crisis">
                     🦑<br>Jellyfield<br>Crisis
                 </div>
-                <div class="nav-orb orb-eac-current" data-target="eac-current-node">
+                <div class="nav-orb orb-eac-current" data-target="eac-current-node" aria-label="Navigate to EAC Current: Trust & Flow">
                     🌊<br>EAC<br>Current
                 </div>
-                <div class="nav-orb orb-sydney-harbor" data-target="sydney-harbor-node">
+                <div class="nav-orb orb-sydney-harbor" data-target="sydney-harbor-node" aria-label="Navigate to Sydney Harbor: Ordeal">
                     🚢<br>Sydney<br>Harbor
                 </div>
             </div>
 
             <!-- Shark Cove (Trials) - Node 1,1 (up from hub) -->
             <div class="section shark-cove-node ocean-node" id="shark-cove-node" data-depth="0">
-                <div class="back-orb" data-target="anemone-center">↩️</div>
+                <button class="back-orb" data-target="anemone-center" aria-label="Back to Anemone Hub">↩️</button>
                 <div class="content-card">
                     <div class="eyebrow">Act IIa</div>
                     <h2 class="title">Road of Trials</h2>
@@ -69,7 +68,7 @@
 
             <!-- Jellyfield (Crisis) - Node 0,1 (left from hub) -->
             <div class="section jellyfield-node ocean-node" id="jellyfield-node" data-depth="1">
-                <div class="back-orb" data-target="anemone-center">↩️</div>
+                <button class="back-orb" data-target="anemone-center" aria-label="Back to Anemone Hub">↩️</button>
                 <div class="content-card">
                     <div class="eyebrow">Act IIb</div>
                     <h2 class="title">Deepening Crisis</h2>
@@ -84,7 +83,7 @@
 
             <!-- EAC Current (Trust & Flow) - Node 2,1 (right from hub) -->
             <div class="section eac-current-node ocean-node" id="eac-current-node" data-depth="1">
-                <div class="back-orb" data-target="anemone-center">↩️</div>
+                <button class="back-orb" data-target="anemone-center" aria-label="Back to Anemone Hub">↩️</button>
                 <div class="content-card">
                     <div class="eyebrow">Theme</div>
                     <h2 class="title">Trust & Flow</h2>
@@ -99,7 +98,7 @@
 
             <!-- Sydney Harbor (Ordeal) - Node 1,2 (down from hub) -->
             <div class="section sydney-harbor-node ocean-node" id="sydney-harbor-node" data-depth="2">
-                <div class="back-orb" data-target="anemone-center">↩️</div>
+                <button class="back-orb" data-target="anemone-center" aria-label="Back to Anemone Hub">↩️</button>
                 <div class="content-card">
                     <div class="eyebrow">Act III</div>
                     <h2 class="title">Ordeal & Transformation</h2>
@@ -114,7 +113,7 @@
 
             <!-- Reef Return (Integration) - Node 1,3 (further down from Sydney) -->
             <div class="section reef-return-node ocean-node" id="reef-return-node" data-depth="3">
-                <div class="back-orb" data-target="anemone-center">↩️</div>
+                <button class="back-orb" data-target="sydney-harbor-node" aria-label="Back to Sydney Harbor">↩️</button>
                 <div class="content-card">
                     <div class="eyebrow">Act IV</div>
                     <h2 class="title">Return & Integration</h2>
@@ -132,15 +131,15 @@
     <div class="particles" id="particles"></div>
 
     <!-- Quick Navigation Overlay -->
-    <div class="quick-nav-overlay" id="quick-nav-overlay">
+    <div class="quick-nav-overlay" id="quick-nav-overlay" aria-hidden="true" tabindex="-1">
         <button class="quick-nav-close" id="quick-nav-close" aria-label="Close Quick Navigation">✕</button>
         <div class="quick-nav-menu">
-            <a href="index.html#anemone-center" data-target="anemone-center">Home: Anemone Hub</a>
-            <a href="episodes.html">Episodes: Narrative Currents</a>
-            <a href="characters.html">Characters: Depths</a>
-            <a href="themes.html">Themes: Mythic Echoes</a>
-            <a href="podcast.html">Podcast: Companion Currents</a>
-            <a href="extras.html">Extras</a>
+            <a href="index.html#anemone-center" data-target="anemone-center" aria-label="Go to Anemone Hub">Home: Drop-Off</a>
+            <a href="episodes.html" aria-label="Go to Episodes Page">Episodes: Narrative Currents</a>
+            <a href="characters.html" aria-label="Go to Characters Page">Characters: Depths</a>
+            <a href="themes.html" aria-label="Go to Themes Page">Themes: Mythic Echoes</a>
+            <a href="podcast.html" aria-label="Go to Podcast Page">Podcast: Companion Currents</a>
+            <a href="extras.html" aria-label="Go to Extras Page">Extras: Beyond the Reef</a>
         </div>
     </div>
 
