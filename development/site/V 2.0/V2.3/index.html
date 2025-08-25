@@ -3,155 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Odyssey Beneath the Waves: The Journey Begins</title>
-    <meta name="description" content="Embark on an interactive underwater odyssey exploring the psychological and mythological depths of Filmseele.">
-    <meta property="og:title" content="Odyssey Beneath the Waves: The Journey Begins">
-    <meta property="og:description" content="Embark on an interactive underwater odyssey exploring the psychological and mythological depths of Filmseele.">
+    <title>Nemo: Underwater Navigation Experience</title>
+    <meta name="description" content="Embark on an immersive underwater journey exploring narrative depths through interactive ocean navigation.">
+    <meta property="og:title" content="Nemo: Underwater Navigation Experience">
+    <meta property="og:description" content="Immersive underwater navigation experience with glass morphism design and accessibility-first interactions.">
     <meta property="og:type" content="website">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Custom cursor -->
     <div class="cursor"></div>
     
-    <!-- Global fixed UI elements -->
-    <a href="index.html#anemone-center" id="site-logo" aria-label="Back to Drop-Off Hub">Odyssey Beneath the Waves</a>
-    <button id="quick-nav-toggle" aria-label="Open Quick Navigation">🧭</button>
-    <button id="mute-toggle" aria-label="Mute sound">🔊</button>
-    
-    <div class="depth-indicator" id="depthIndicator">Drop-Off / Anemone Hub</div>
-    
-    <!-- Immersive Background Layers -->
-    <div class="caustics-layer"></div>
-    <div class="particles" id="particles"></div>
-
-    <div class="viewport">
-        <div class="ocean-world" id="oceanWorld">
-            <!-- Hub / Anemone Center -->
-            <section id="anemone-center" class="ocean-node hub active" data-depth="1">
-                <div class="anemone-center-visual">
-                    <div class="anemone" id="mainAnemone">
-                        <div class="tentacles" id="tentacles"></div>
-                        <span class="anemone-text">The Drop-off</span>
-                    </div>
+    <!-- Main ocean container -->
+    <div id="ocean">
+        
+        <!-- Hub Panel -->
+        <div class="panel" id="hub-dropoff">
+            <div class="card">
+                <h1>🌊 The Anemone Hub</h1>
+                <p>Welcome to the heart of the underwater odyssey. Choose your current to begin the journey through narrative depths.</p>
+                <div>
+                    <a href="#shark-cove" class="chip">🦈 Road of Trials</a>
+                    <a href="#jellyfield" class="chip">🪼 Deepening Crisis</a>
+                    <a href="#eac-current" class="chip">🌊 Trust & Flow</a>
+                    <a href="#sydney-harbor" class="chip">🚢 The Ordeal</a>
+                    <a href="#reef-return" class="chip">🏠 Return Home</a>
                 </div>
-                <div class="content-card">
-                    <h2 class="title">The Heart of the Story</h2>
-                    <p class="one-liner">A hero's journey begins with a wound, and the call to brave the unknown.</p>
-                    <span class="theme-chip-tag">Wound & Call</span>
-                    <div class="actions">
-                        <!-- Direct link to Episode 1's podcast companion for "Wound & Call" -->
-                        <a href="podcast.html#ep-1" class="btn primary">🎧 Play Companion</a>
-                        <!-- Link to Episodes page, highlighting Act I -->
-                        <a href="episodes.html#act-1" class="btn ghost">📚 Dive Deeper into Act I</a>
-                    </div>
-                </div>
-                
-                <!-- Navigation Orbs positioned around the Anemone -->
-                <div class="nav-orb orb-shark-cove" data-target="shark-cove-node" aria-label="Navigate to Shark Cove: Road of Trials">
-                    🦈<br>Road of<br>Trials
-                </div>
-                <div class="nav-orb orb-jellyfield" data-target="jellyfield-node" aria-label="Navigate to Jellyfield: Deepening Crisis">
-                    🦑<br>Deepening<br>Crisis
-                </div>
-                <div class="nav-orb orb-eac-current" data-target="eac-current-node" aria-label="Navigate to EAC Current: Trust & Flow">
-                    🌊<br>Trust &<br>Flow
-                </div>
-                <div class="nav-orb orb-sydney-harbor" data-target="sydney-harbor-node" aria-label="Navigate to Sydney Harbor: Ordeal">
-                    🚢<br>Ordeal &<br>Transform
-                </div>
-            </section>
-
-            <!-- Shark Cove (Road of Trials) - Node: Up from hub -->
-            <section id="shark-cove-node" class="ocean-node" data-depth="0">
-                <button class="back-orb" data-target="anemone-center" aria-label="Back to Anemone Hub">↩️</button>
-                <div class="content-card">
-                    <div class="eyebrow">Act IIa</div>
-                    <h2 class="title">Road of Trials</h2>
-                    <p class="one-liner">Help arrives wearing unexpected faces, testing resolve in strange currents.</p>
-                    <span class="theme-chip-tag">Allies & Thresholds</span>
-                    <div class="actions">
-                        <a href="episodes.html#act-2a" class="btn primary">📚 Dive Deeper</a>
-                        <a href="podcast.html#ep-2" class="btn secondary">🎧 Play Companion</a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Jellyfield (Deepening Crisis) - Node: Left from hub -->
-            <section id="jellyfield-node" class="ocean-node" data-depth="1">
-                <button class="back-orb" data-target="anemone-center" aria-label="Back to Anemone Hub">↩️</button>
-                <div class="content-card">
-                    <div class="eyebrow">Act IIb</div>
-                    <h2 class="title">Deepening Crisis</h2>
-                    <p class="one-liner">Exhaustion tests the bonds, revealing where force gives way to flow.</p>
-                    <span class="theme-chip-tag">Flow vs. Force</span>
-                    <div class="actions">
-                        <a href="episodes.html#act-2b" class="btn primary">📚 Dive Deeper</a>
-                        <a href="podcast.html#ep-3" class="btn secondary">🎧 Play Companion</a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- EAC Current (Trust & Flow - Theme Focus) - Node: Right from hub -->
-            <section id="eac-current-node" class="ocean-node" data-depth="1">
-                <button class="back-orb" data-target="anemone-center" aria-label="Back to Anemone Hub">↩️</button>
-                <div class="content-card">
-                    <div class="eyebrow">Theme Insight</div>
-                    <h2 class="title">Trust & Flow</h2>
-                    <p class="one-liner">Learning to navigate life's currents with faith rather than control.</p>
-                    <span class="theme-chip-tag">Surrender to Current</span>
-                    <div class="actions">
-                        <a href="themes.html#trust-flow" class="btn primary">💡 Explore Theme</a>
-                        <a href="characters.html#crush" class="btn secondary">🐢 Meet Crush</a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Sydney Harbor (Ordeal & Transformation) - Node: Down from hub -->
-            <section id="sydney-harbor-node" class="ocean-node" data-depth="2">
-                <button class="back-orb" data-target="anemone-center" aria-label="Back to Anemone Hub">↩️</button>
-                <div class="content-card">
-                    <div class="eyebrow">Act III</div>
-                    <h2 class="title">Ordeal & Transformation</h2>
-                    <p class="one-liner">Surrender becomes the only stroke left—and courage surfaces.</p>
-                    <span class="theme-chip-tag">Death / Rebirth</span>
-                    <div class="actions">
-                        <a href="episodes.html#act-3" class="btn primary">📚 Dive Deeper</a>
-                        <a href="podcast.html#ep-4" class="btn secondary">🎧 Play Companion</a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Reef Return (Integration) - Node: Further Down from Sydney -->
-            <section id="reef-return-node" class="ocean-node" data-depth="0"> <!-- Depth 0 for return to surface -->
-                <button class="back-orb" data-target="anemone-center" aria-label="Back to Anemone Hub">↩️</button>
-                <div class="content-card">
-                    <div class="eyebrow">Act IV</div>
-                    <h2 class="title">Return & Integration</h2>
-                    <p class="one-liner">Same reef, different heart. Love learns to send, not just hold.</p>
-                    <span class="theme-chip-tag">Integrated Self</span>
-                    <div class="actions">
-                        <a href="episodes.html#act-4" class="btn primary">📚 Dive Deeper</a>
-                        <a href="podcast.html#ep-5" class="btn secondary">🎧 Play Companion</a>
-                    </div>
-                </div>
-            </section>
+            </div>
         </div>
+
+        <!-- Shark Cove Panel -->
+        <div class="panel" id="shark-cove">
+            <div class="card">
+                <h2>🦈 Shark Cove: Road of Trials</h2>
+                <p>Help arrives wearing unexpected faces, testing resolve in strange currents. The hero encounters allies and crosses the first threshold.</p>
+                <div>
+                    <a href="episodes.html#act-2a" class="chip">📚 Dive Deeper</a>
+                    <a href="podcast.html#ep-2" class="chip">🎧 Play Companion</a>
+                    <a href="#hub-dropoff" class="chip">🏠 Return to Hub</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jellyfield Panel -->
+        <div class="panel" id="jellyfield">
+            <div class="card">
+                <h2>🪼 Jellyfield: Deepening Crisis</h2>
+                <p>Exhaustion tests the bonds, revealing where force gives way to flow. The journey becomes more challenging and complex.</p>
+                <div>
+                    <a href="episodes.html#act-2b" class="chip">📚 Dive Deeper</a>
+                    <a href="podcast.html#ep-3" class="chip">🎧 Play Companion</a>
+                    <a href="#hub-dropoff" class="chip">🏠 Return to Hub</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- EAC Current Panel -->
+        <div class="panel" id="eac-current">
+            <div class="card">
+                <h2>🌊 EAC Current: Trust & Flow</h2>
+                <p>Learning to navigate life's currents with faith rather than control. The theme of surrender emerges as essential wisdom.</p>
+                <div>
+                    <a href="themes.html#trust-flow" class="chip">💡 Explore Theme</a>
+                    <a href="characters.html#crush" class="chip">🐢 Meet Crush</a>
+                    <a href="#hub-dropoff" class="chip">🏠 Return to Hub</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sydney Harbor Panel -->
+        <div class="panel" id="sydney-harbor">
+            <div class="card">
+                <h2>🚢 Sydney Harbor: The Ordeal</h2>
+                <p>Surrender becomes the only stroke left—and courage surfaces. The climactic moment where everything hangs in the balance.</p>
+                <div>
+                    <a href="episodes.html#act-3" class="chip">📚 Dive Deeper</a>
+                    <a href="podcast.html#ep-4" class="chip">🎧 Play Companion</a>
+                    <a href="#reef-return" class="chip">⬇️ Continue Journey</a>
+                    <a href="#hub-dropoff" class="chip">🏠 Return to Hub</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reef Return Panel -->
+        <div class="panel" id="reef-return">
+            <div class="card">
+                <h2>🏠 Reef Return: Integration</h2>
+                <p>Same reef, different heart. Love learns to send, not just hold. The hero returns transformed with new wisdom.</p>
+                <div>
+                    <a href="episodes.html#act-4" class="chip">📚 Dive Deeper</a>
+                    <a href="podcast.html#ep-5" class="chip">🎧 Play Companion</a>
+                    <a href="#hub-dropoff" class="chip">🏠 Return to Hub</a>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <!-- Quick Navigation Overlay (Global) -->
-    <dialog id="nav-compass" class="quick-nav-overlay" aria-hidden="true" tabindex="-1">
-        <button class="quick-nav-close" aria-label="Close Quick Navigation">✕</button>
-        <div class="quick-nav-menu">
-            <a href="index.html#anemone-center" data-target="anemone-center" aria-label="Go to Drop-Off Hub">Home: Drop-Off</a>
-            <a href="episodes.html" aria-label="Go to Episodes Page">Episodes: Narrative Currents</a>
-            <a href="characters.html" aria-label="Go to Characters Page">Characters: Depths</a>
-            <a href="themes.html" aria-label="Go to Themes Page">Themes: Mythic Echoes</a>
-            <a href="podcast.html" aria-label="Go to Podcast Page">Podcast: Companion Currents</a>
-            <a href="extras.html" aria-label="Go to Extras Page">Extras: Beyond the Reef</a>
+    <!-- Navigation Elements -->
+    <a href="#hub-dropoff" class="brand-home">Nemo</a>
+    
+    <button class="compass-toggle" aria-expanded="false" aria-label="Open navigation compass">🧭</button>
+    
+    <!-- Navigation Compass Dialog -->
+    <dialog id="nav-compass" class="compass">
+        <div class="compass-nav">
+            <a href="#shark-cove" class="compass-item">🦈<br>Trials</a>
+            <a href="#jellyfield" class="compass-item">🪼<br>Crisis</a>
+            <a href="#hub-dropoff" class="compass-item center">🌊<br>Hub</a>
+            <a href="#eac-current" class="compass-item">🌊<br>Flow</a>
+            <a href="#sydney-harbor" class="compass-item">🚢<br>Ordeal</a>
+            <a href="#reef-return" class="compass-item">🏠<br>Return</a>
         </div>
     </dialog>
 
-    <script src="script.js" defer></script>
+    <script src="script.js"></script>
 </body>
 </html>
