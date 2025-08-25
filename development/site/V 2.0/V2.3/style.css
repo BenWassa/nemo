@@ -1,18 +1,26 @@
 /* CSS Custom Properties for the Palette */
 :root {
-    --golden-gate-bridge: #f24702ff;
-    --palatinate-blue: #013fe8ff;
-    --prussian-blue: #0e3952ff;
-    --indigo-dye: #0c437bff;
-    --sea-green: #389054ff;
+    --golden-gate-bridge: #f24702;
+    --palatinate-blue: #013fe8;
+    --prussian-blue: #0e3952;
+    --indigo-dye: #0c437b;
+    --sea-green: #389054;
 
     --text-light: #e0f2f7; /* Lighter shade for text */
-    --button-bg: var(--golden-gate-bridge);
-    --button-hover-bg: var(--sea-green);
-    --button-secondary-bg: var(--palatinate-blue);
-    --button-secondary-hover-bg: var(--indigo-dye);
+    --text-muted: rgba(224, 242, 247, 0.7);
 
-    /* Spacing variables (from your other pages) */
+    /* Primary and Secondary button colors derived from palette */
+    --button-primary-bg-start: var(--golden-gate-bridge);
+    --button-primary-bg-end: var(--palatinate-blue);
+    --button-primary-hover-bg-start: var(--sea-green);
+    --button-primary-hover-bg-end: var(--indigo-dye);
+
+    --button-secondary-bg-start: var(--indigo-dye);
+    --button-secondary-bg-end: var(--prussian-blue);
+    --button-secondary-hover-bg-start: var(--palatinate-blue);
+    --button-secondary-hover-bg-end: var(--sea-green);
+
+    /* Space variables for consistency with other pages */
     --space-1: 0.5rem;   /* 8px */
     --space-2: 1rem;     /* 16px */
     --space-3: 1.5rem;   /* 24px */
@@ -24,282 +32,747 @@
 }
 
 /* Base Styles */
-body, html {
+* {
     margin: 0;
     padding: 0;
-    overflow: hidden; /* Hide scrollbars, our JS handles navigation */
-    width: 100%;
-    height: 100%;
+    box-sizing: border-box;
+}
+
+body, html {
     font-family: 'Roboto', sans-serif;
-    color: var(--text-light);
-    background-color: var(--prussian-blue); /* Fallback */
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewport="0 0 100 100" style="fill:black;font-size:24px;"><text y="50%">🐟</text></svg>') 15 15, auto; /* Subtle fish cursor */
-}
-
-/* General Link Styling for 'Dive Deeper' buttons */
-a.btn {
-    display: inline-block;
-    background-color: var(--button-bg);
-    color: var(--text-light);
-    border: none;
-    padding: 1rem 2rem;
-    margin: 0.5rem;
-    font-size: 1.1rem;
-    font-weight: bold;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    text-decoration: none; /* Remove underline for links */
-}
-
-a.btn.primary {
-    background-color: var(--button-bg);
-}
-
-a.btn.primary:hover {
-    background-color: var(--button-hover-bg);
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-}
-
-a.btn.ghost {
-    background-color: transparent;
-    border: 2px solid var(--text-light);
-    color: var(--text-light);
-    box-shadow: none;
-}
-
-a.btn.ghost:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.15);
-}
-
-
-/* Viewport acts as the window into our ocean */
-#viewport {
-    width: 100vw;
-    height: 100vh;
     overflow: hidden;
-    position: relative;
+    height: 100vh;
+    background: radial-gradient(circle at 50% 50%, var(--indigo-dye) 0%, var(--prussian-blue) 70%, #051a2aff 100%); /* Deep ocean base */
+    color: var(--text-light);
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewport="0 0 100 100" style="fill:white;font-size:24px;"><text y="50%">🐟</text></svg>') 15 15, auto; /* Subtle fish cursor */
+    transition: background 3s ease-in-out; /* Smooth background transitions for depth changes */
+    will-change: background;
 }
 
-/* Ocean Container holds all sections in a grid */
-#ocean-container {
-    position: absolute;
-    width: 300vw; /* 3 sections wide */
-    height: 300vh; /* 3 sections tall */
+/* Viewport and Ocean World */
+.viewport {
+    position: fixed;
     top: 0;
     left: 0;
-    transform: translate(-100vw, -100vh); /* Start at the center section (anemone) */
-    transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* More "swim-like" bounce */
-    background: radial-gradient(circle at center, var(--indigo-dye) 0%, var(--prussian-blue) 70%, #051a2aff 100%);
-    will-change: transform; /* Optimize for animation */
+    width: 100vw;
+    height: 100vh;
+    perspective: 1000px;
+    overflow: hidden;
 }
 
-/* Individual Sections */
-.ocean-section {
+.ocean-world {
     position: absolute;
-    width: 100vw;
+    width: 300vw; /* 3x3 grid */
+    height: 300vh;
+    left: -100vw; /* Start at center-left */
+    top: -100vh;  /* Start at center-top */
+    transition: transform 2s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* "Swim-like" bounce transition */
+    transform-origin: center center;
+    will-change: transform;
+}
+
+/* General Section Styling */
+.section {
+    position: absolute;
+    width: 100vw; /* Each section takes full viewport width/height */
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    text-align: center;
-    padding: var(--space-7); /* Using spacing variables */
+    justify-content: center;
+    padding: var(--space-7);
     box-sizing: border-box;
-    background-size: cover;
-    background-position: center;
-    opacity: 0; /* Hidden by default, made visible by JS */
-    transition: opacity 0.8s ease-in-out; /* Smooth fade for content */
+    backdrop-filter: blur(8px); /* Subtle blur for content cards */
+    transition: all 1s ease;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+    opacity: 0; /* Hidden by default */
 }
 
-.ocean-section.active {
+.section.active {
     opacity: 1;
+    /* Optional: subtle pulse for active section if desired, removed for cleaner look */
 }
 
-.ocean-section h2 {
+.section-content {
+    max-width: 800px;
+    text-align: center;
+    z-index: 5;
+    background: rgba(0, 0, 0, 0.2); /* Dark overlay for better text readability */
+    padding: var(--space-6);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+}
+
+.section-title {
     font-family: 'Orbitron', sans-serif;
     font-size: 3.5rem;
     margin-bottom: var(--space-3);
-    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
-    color: var(--text-light);
+    background: linear-gradient(45deg, var(--golden-gate-bridge), var(--text-light), var(--palatinate-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    animation: title-glow 3s ease-in-out infinite alternate;
     line-height: 1.2;
 }
 
-.ocean-section p {
-    max-width: 700px;
+.section-description {
     font-size: 1.35rem;
     line-height: 1.6;
     margin-bottom: var(--space-4);
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    opacity: 0.95;
 }
 
-.ocean-section .nav-buttons-container {
+.action-buttons {
     display: flex;
-    flex-wrap: wrap;
+    gap: var(--space-3);
     justify-content: center;
-    margin-bottom: var(--space-3);
+    flex-wrap: wrap;
+    margin-top: var(--space-4);
 }
 
-.ocean-section .secondary-actions {
-    margin-top: var(--space-3);
-}
-
-
-/* Section Positioning and Thematic Backgrounds within the 3x3 grid */
-/* Central Hub */
-#anemone-center {
-    top: 100vh;
-    left: 100vw;
-    background-color: var(--prussian-blue); /* Deep central blue */
-}
-
-/* Top: Kelp Forest / Narrative Currents */
-#narrative-currents-top {
-    top: 0vh;
-    left: 100vw;
-    background-color: var(--sea-green); /* Green for kelp/growth */
-}
-
-/* Left: Coral Reef / Character Depths */
-#character-depths-left {
-    top: 100vh;
-    left: 0vw;
-    background-color: var(--indigo-dye); /* Vibrant blue for reef life */
-}
-
-/* Right: Deep Canyon / Mythic Echoes */
-#mythic-echoes-right {
-    top: 100vh;
-    left: 200vw;
-    background-color: #051a2aff; /* Even darker for deep canyon */
-}
-
-/* Bottom: Sandy Bottom / Companion Currents */
-#companion-currents-bottom {
-    top: 200vh;
-    left: 100vw;
-    background-color: var(--indigo-dye); /* Muted blue for sandy bottom */
-}
-
-
-/* Buttons */
-.ocean-section button {
-    background-color: var(--button-secondary-bg); /* Use palatinate-blue for nav buttons */
-    color: var(--text-light);
+/* Nav Buttons & Links */
+.dive-btn, .nav-orb {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border: none;
-    padding: 1rem 1.8rem;
-    margin: 0.5rem;
-    font-size: 1rem;
-    font-weight: bold;
+    padding: 1.1rem 2.2rem;
     border-radius: 50px;
+    color: var(--text-light);
+    font-size: 1.2rem;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Consistent bounce */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    text-decoration: none; /* For anchor tags */
+    position: relative;
+    overflow: hidden;
     letter-spacing: 0.5px;
     text-transform: uppercase;
 }
 
-.ocean-section button:hover {
-    background-color: var(--button-secondary-hover-bg); /* Darker blue on hover */
+.dive-btn {
+    background: linear-gradient(45deg, var(--button-primary-bg-start), var(--button-primary-bg-end));
+}
+
+.dive-btn:hover {
+    background: linear-gradient(45deg, var(--button-primary-hover-bg-start), var(--button-primary-hover-bg-end));
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+.dive-btn.secondary {
+    background: linear-gradient(45deg, var(--button-secondary-bg-start), var(--button-secondary-bg-end));
+    padding: 1rem 2rem; /* Slightly smaller for secondary */
+    font-size: 1.1rem;
+}
+
+.dive-btn.secondary:hover {
+    background: linear-gradient(45deg, var(--button-secondary-hover-bg-start), var(--button-secondary-hover-bg-end));
     transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
-.ocean-section button:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+/* Specific Section Positioning (3x3 grid) */
+/* Hub (Center) */
+.hub {
+    left: 100vw;
+    top: 100vh;
+    background: radial-gradient(circle, rgba(12, 67, 123, 0.3), rgba(14, 57, 82, 0.5)); /* Blended deep blue */
+    z-index: 10;
+}
+
+/* Narrative Currents: Episodes (Top) */
+.narrative-currents-section {
+    left: 100vw;
+    top: 0vh;
+    background: radial-gradient(circle, rgba(56, 144, 84, 0.4), rgba(12, 67, 123, 0.6)); /* Sea green for kelp-like feel */
+}
+
+/* Character Depths: Archetypes (Left) */
+.character-depths-section {
+    left: 0vw;
+    top: 100vh;
+    background: radial-gradient(circle, rgba(1, 63, 232, 0.4), rgba(14, 57, 82, 0.6)); /* Palatinate blue for vibrant character */
+}
+
+/* Mythic Echoes: Themes (Right) */
+.mythic-echoes-section {
+    left: 200vw;
+    top: 100vh;
+    background: radial-gradient(circle, rgba(12, 67, 123, 0.6), rgba(5, 26, 42, 0.9)); /* Darker indigo for deep themes */
+}
+
+/* Companion Currents: Podcast (Bottom) */
+.companion-currents-section {
+    left: 100vw;
+    top: 200vh;
+    background: radial-gradient(circle, rgba(242, 71, 2, 0.3), rgba(12, 67, 123, 0.7)); /* Golden Gate hints for energy/podcast */
 }
 
 
-/* Site Logo (Bottom Left) */
-#site-logo {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
+/* Anemone Visuals (Center Hub) */
+.anemone-center-visual {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-4);
+}
+
+.anemone {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--golden-gate-bridge), var(--palatinate-blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: anemone-pulse 3s ease-in-out infinite;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 0 30px rgba(242, 71, 2, 0.6);
+}
+
+.anemone-text {
+    z-index: 20;
     font-family: 'Orbitron', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+    font-weight: bold;
     color: var(--text-light);
-    opacity: 0.7;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-    pointer-events: none; /* Make sure it doesn't interfere with clicks */
-    z-index: 100; /* Ensure it's above other content */
-    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
-/* Optional: Subtle background animation (bubbles) */
-.bubble-container {
+.anemone::before, .anemone::after {
+    content: '';
     position: absolute;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    animation: ripple-wave 4s linear infinite;
+    z-index: 9;
+}
+
+.anemone::before {
+    width: 300px;
+    height: 300px;
+    animation-delay: 0s;
+}
+
+.anemone::after {
+    width: 350px;
+    height: 350px;
+    border: 1px solid rgba(242, 71, 2, 0.2);
+    animation-delay: 1s;
+}
+
+.tentacles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.tentacle {
+    position: absolute;
+    width: 6px;
+    background: linear-gradient(to bottom, var(--golden-gate-bridge), transparent);
+    border-radius: 3px;
+    transform-origin: bottom center;
+    animation: tentacle-sway 4s ease-in-out infinite;
+    opacity: 0.8;
+}
+
+/* Navigation Orbs */
+.nav-orb {
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    font-weight: bold;
+    font-size: 1rem;
+    animation: float 6s ease-in-out infinite;
+    color: var(--text-light); /* Ensure text is visible */
+    padding: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.7);
+}
+
+.nav-orb:hover {
+    transform: scale(1.2);
+    border-color: white;
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.6);
+}
+
+/* Orb specific colors and positions */
+.orb-episodes {
+    top: -80px; 
+    left: 50%; 
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--sea-green), rgba(56, 144, 84, 0.7));
+    animation-delay: 0s;
+}
+.orb-characters { 
+    top: 50%; 
+    left: -100px; 
+    transform: translateY(-50%);
+    background: linear-gradient(135deg, var(--palatinate-blue), rgba(1, 63, 232, 0.7));
+    animation-delay: 1.5s;
+}
+.orb-themes { 
+    top: 50%; 
+    right: -100px; 
+    transform: translateY(-50%);
+    background: linear-gradient(135deg, var(--indigo-dye), rgba(12, 67, 123, 0.7));
+    animation-delay: 3s;
+}
+.orb-podcast { 
+    bottom: -80px; 
+    left: 50%; 
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--golden-gate-bridge), var(--indigo-dye));
+    animation-delay: 4.5s;
+}
+
+/* Back Button Orb */
+.back-orb {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    width: 70px;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.8rem;
+    backdrop-filter: blur(10px);
+    z-index: 100; /* Ensure it's clickable */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.back-orb:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.1);
+    border-color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Global Elements */
+.logo {
+    position: fixed;
+    bottom: var(--space-4);
+    left: var(--space-4);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    font-weight: bold;
+    background: linear-gradient(45deg, var(--golden-gate-bridge), var(--palatinate-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    z-index: 1000;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+    pointer-events: none; /* Make it non-interactive */
+}
+
+.depth-indicator {
+    position: fixed;
+    top: var(--space-4);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    padding: var(--space-2) var(--space-4);
+    border-radius: 25px;
+    backdrop-filter: blur(10px);
+    font-size: 1.1rem;
+    z-index: 1000;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Particle System (Ambient details) */
+.particles {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
-    z-index: -1;
     pointer-events: none;
+    z-index: 1; /* Below content but above background */
+}
+
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.7);
+    animation: particle-float 12s linear infinite;
+    opacity: 0; /* Managed by JS intensity */
 }
 
 .bubble {
     position: absolute;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    animation: bubbleUp 15s infinite ease-in;
-    opacity: 0;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.1));
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    animation: bubble-rise 8s ease-out infinite;
+    opacity: 0; /* Managed by JS intensity */
 }
 
-@keyframes bubbleUp {
-    0% { transform: translateY(100vh) scale(0); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 0.5; }
-    100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+.fish {
+    position: absolute;
+    width: 30px;
+    height: 15px;
+    background: var(--sea-green); /* Default fish color */
+    border-radius: 50% 0 50% 0; /* Basic fish shape */
+    animation: fish-swim 20s linear infinite;
+    opacity: 0.8;
 }
 
-/* Adjustments for specific bubbles */
-.bubble:nth-child(1) { width: 40px; height: 40px; left: 10%; animation-duration: 18s; animation-delay: 0s; }
-.bubble:nth-child(2) { width: 25px; height: 25px; left: 25%; animation-duration: 12s; animation-delay: 2s; }
-.bubble:nth-child(3) { width: 50px; height: 50px; left: 40%; animation-duration: 20s; animation-delay: 4s; }
-.bubble:nth-child(4) { width: 30px; height: 30px; left: 60%; animation-duration: 15s; animation-delay: 6s; }
-.bubble:nth-child(5) { width: 45px; height: 45px; left: 75%; animation-duration: 17s; animation-delay: 8s; }
-.bubble:nth-child(6) { width: 35px; height: 35px; left: 5%; animation-duration: 14s; animation-delay: 10s; }
-.bubble:nth-child(7) { width: 20px; height: 20px; left: 85%; animation-duration: 16s; animation-delay: 12s; }
+.fish::after {
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid var(--sea-green); /* Tail matches body */
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+}
 
-/* Responsive Adjustments */
+/* Welcome Message Styling */
+.welcome-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeIn 0.5s ease-in;
+}
+
+.welcome-box {
+    background: rgba(14, 57, 82, 0.95); /* Prussian Blue background */
+    color: var(--text-light);
+    padding: var(--space-5) var(--space-6);
+    border-radius: 15px;
+    text-align: center;
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+    max-width: 450px;
+    width: 90%;
+}
+
+.welcome-box h3 {
+    margin-bottom: var(--space-2);
+    color: var(--golden-gate-bridge);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    text-shadow: 0 0 10px rgba(242, 71, 2, 0.5);
+}
+
+.welcome-box p {
+    margin-bottom: var(--space-3);
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.welcome-box p.small-text {
+    font-size: 0.95rem;
+    opacity: 0.8;
+    margin-bottom: var(--space-2);
+    text-align: left;
+    white-space: pre-line; /* Preserve line breaks */
+    margin-left: var(--space-3); /* Indent for bullet points */
+}
+
+.welcome-box button {
+    background: linear-gradient(45deg, var(--golden-gate-bridge), var(--palatinate-blue));
+    border: none;
+    color: white;
+    padding: var(--space-2) var(--space-4);
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: var(--space-3);
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.welcome-box button:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Animations */
+@keyframes anemone-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
+
+@keyframes ripple-wave {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.8); opacity: 0; }
+}
+
+@keyframes tentacle-sway {
+    0%, 100% { transform: rotate(-15deg); }
+    50% { transform: rotate(15deg); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) translateX(0px); }
+    25% { transform: translateY(-10px) translateX(5px); }
+    50% { transform: translateY(-20px) translateX(-5px); }
+    75% { transform: translateY(-10px) translateX(5px); }
+}
+
+@keyframes title-glow {
+    0% { text-shadow: 0 0 30px rgba(255, 255, 255, 0.2); }
+    100% { text-shadow: 0 0 40px rgba(242, 71, 2, 0.4), 0 0 60px rgba(1, 63, 232, 0.3); }
+}
+
+@keyframes particle-float {
+    0% { 
+        transform: translateY(100vh) translateX(0px); 
+        opacity: 0; 
+    }
+    10% { opacity: 0.7; }
+    90% { opacity: 0.7; }
+    100% { 
+        transform: translateY(-100px) translateX(100px); 
+        opacity: 0; 
+    }
+}
+
+@keyframes bubble-rise {
+    0% { 
+        transform: translateY(100vh) scale(0.1); 
+        opacity: 0; 
+    }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% { 
+        transform: translateY(-100px) scale(1.2); 
+        opacity: 0; 
+    }
+}
+
+@keyframes fish-swim {
+    0% { 
+        transform: translateX(-110vw) translateY(calc(var(--fish-y-offset) * 1vh)) scaleX(1); 
+        opacity: 0;
+    }
+    5% { opacity: 1; }
+    45% { 
+        transform: translateX(30vw) translateY(calc(var(--fish-y-offset) * 1vh)) scaleX(1); 
+        opacity: 1;
+    }
+    50% { 
+        transform: translateX(35vw) translateY(calc(var(--fish-y-offset) * 1vh)) scaleX(-1); /* Flip horizontally */
+    }
+    95% { 
+        transform: translateX(110vw) translateY(calc(var(--fish-y-offset) * 1vh)) scaleX(-1); 
+        opacity: 1;
+    }
+    100% { opacity: 0; }
+}
+
+@keyframes screen-shake {
+    0%, 100% { transform: translateX(0) translateY(0); }
+    25% { transform: translateX(-2px) translateY(1px); }
+    75% { transform: translateX(2px) translateY(-1px); }
+}
+
+@keyframes current-flow {
+    0% { 
+        transform: translateX(-100%) scaleY(1); 
+        opacity: 0; 
+    }
+    50% { 
+        opacity: 0.2; 
+        transform: translateX(0%) scaleY(1.2); 
+    }
+    100% { 
+        transform: translateX(100%) scaleY(1); 
+        opacity: 0; 
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .section-title {
+        font-size: 3rem;
+    }
+    .section-description {
+        font-size: 1.2rem;
+    }
+    .dive-btn, .nav-orb {
+        padding: 1rem 1.8rem;
+        font-size: 1rem;
+    }
+    .nav-orb {
+        width: 110px;
+        height: 110px;
+    }
+    .anemone {
+        width: 200px;
+        height: 200px;
+    }
+    .anemone::before {
+        width: 250px;
+        height: 250px;
+    }
+    .anemone::after {
+        width: 290px;
+        height: 290px;
+    }
+    .anemone-text {
+        font-size: 1.4rem;
+    }
+    .logo {
+        font-size: 1.5rem;
+    }
+}
+
 @media (max-width: 768px) {
-    .ocean-section h2 {
+    .section-title {
         font-size: 2.5rem;
     }
-    .ocean-section p {
+    .section-description {
         font-size: 1.1rem;
     }
-    .ocean-section button, a.btn {
-        padding: 0.8rem 1.5rem;
-        font-size: 0.9rem;
+    .nav-orb {
+        width: 90px;
+        height: 90px;
+        font-size: 0.8rem;
     }
-    #site-logo {
+    .anemone-center-visual {
+        width: 300px;
+        height: 300px;
+    }
+    .anemone {
+        width: 150px;
+        height: 150px;
+    }
+    .anemone::before {
+        width: 190px;
+        height: 190px;
+    }
+    .anemone::after {
+        width: 220px;
+        height: 220px;
+    }
+    .anemone-text {
         font-size: 1.2rem;
+    }
+    .action-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-2);
+    }
+    .dive-btn, .dive-btn.secondary {
+        width: 250px; /* Make buttons stack and be more touch-friendly */
+        padding: 0.9rem 1.5rem;
+        font-size: 1rem;
+    }
+    .logo {
+        font-size: 1.2rem;
+        bottom: var(--space-3);
+        left: var(--space-3);
+    }
+    .depth-indicator {
+        font-size: 0.9rem;
+        padding: var(--space-1) var(--space-2);
+        top: var(--space-3);
+    }
+    .back-orb {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+        top: var(--space-3);
+        right: var(--space-3);
     }
 }
 
 @media (max-width: 480px) {
-    .ocean-section h2 {
+    .section-content {
+        padding: var(--space-4);
+    }
+    .section-title {
         font-size: 2rem;
     }
-    .ocean-section p {
+    .section-description {
         font-size: 1rem;
     }
-    .ocean-section button, a.btn {
-        display: block; /* Stack buttons on very small screens */
-        width: calc(100% - 1rem); /* Full width with margin */
-        margin: 0.5rem auto;
+    .nav-orb {
+        width: 80px;
+        height: 80px;
+        font-size: 0.75rem;
+        /* Adjust positions to prevent overlap if needed, e.g., for smaller viewports */
+        /* These are relative to the center of the hub, so adjust carefully */
+        /* Could make them radial on smaller screens too */
     }
-    #site-logo {
+    .orb-episodes { top: -60px; }
+    .orb-characters { left: -80px; }
+    .orb-themes { right: -80px; }
+    .orb-podcast { bottom: -60px; }
+
+    .anemone-center-visual {
+        width: 250px;
+        height: 250px;
+    }
+    .anemone {
+        width: 120px;
+        height: 120px;
+    }
+    .anemone::before {
+        width: 150px;
+        height: 150px;
+    }
+    .anemone::after {
+        width: 170px;
+        height: 170px;
+    }
+    .anemone-text {
         font-size: 1rem;
-        bottom: 10px;
-        left: 10px;
+    }
+    .welcome-box h3 {
+        font-size: 1.5rem;
+    }
+    .welcome-box p {
+        font-size: 1rem;
+    }
+    .welcome-box button {
+        font-size: 1rem;
+        padding: var(--space-1) var(--space-3);
     }
 }

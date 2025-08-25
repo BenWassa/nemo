@@ -8,74 +8,101 @@
     <meta property="og:title" content="Odyssey Beneath the Waves: The Journey Begins">
     <meta property="og:description" content="Embark on an interactive underwater odyssey exploring the psychological and mythological depths of Filmseele.">
     <meta property="og:type" content="website">
-    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <div id="viewport">
-        <div id="ocean-container">
-            <!-- Bubble Backgrounds -->
-            <div class="bubble-container">
-                <div class="bubble"></div>
-                <div class="bubble"></div>
-                <div class="bubble"></div>
-                <div class="bubble"></div>
-                <div class="bubble"></div>
-                <div class="bubble"></div>
-                <div class="bubble"></div>
+    <div class="logo">Odyssey Beneath the Waves</div>
+    <div class="depth-indicator" id="depthIndicator">Anemone Hub</div>
+    
+    <div class="viewport">
+        <div class="ocean-world" id="oceanWorld">
+            <!-- Central Hub -->
+            <div class="section hub active" id="anemone-center">
+                <div class="anemone-center-visual">
+                    <div class="anemone" id="mainAnemone">
+                        <div class="tentacles" id="tentacles"></div>
+                        <span class="anemone-text">The Drop-off</span>
+                    </div>
+                </div>
+                
+                <div class="nav-orb orb-episodes" data-target="narrative-currents-top">
+                    📚<br>Narrative<br>Currents
+                </div>
+                <div class="nav-orb orb-characters" data-target="character-depths-left">
+                    🎭<br>Character<br>Depths
+                </div>
+                <div class="nav-orb orb-themes" data-target="mythic-echoes-right">
+                    💡<br>Mythic<br>Echoes
+                </div>
+                <div class="nav-orb orb-podcast" data-target="companion-currents-bottom">
+                    🎧<br>Companion<br>Currents
+                </div>
             </div>
 
-            <!-- Section: Narrative Currents: Episodes (Top) -->
-            <section id="narrative-currents-top" class="ocean-section">
-                <h2>Narrative Currents: Episodes</h2>
-                <p>Chart the story's arc, from the initial wound to the journey's integrated return. Each act is a chapter in this profound psychological odyssey.</p>
-                <button class="nav-button" data-target="anemone-center">Descend to Anemone Hub</button>
-                <a href="episodes.html" class="btn primary">Explore Episodes</a>
-            </section>
-
-            <!-- Section: Character Depths: Archetypes (Left) -->
-            <section id="character-depths-left" class="ocean-section">
-                <h2>Character Depths: Archetypes</h2>
-                <p>Meet the unforgettable inhabitants of this underwater world—each an archetype guiding the hero's journey through trials and transformation.</p>
-                <button class="nav-button" data-target="anemone-center">Swim to Anemone Hub</button>
-                <a href="characters.html" class="btn primary">Meet the Characters</a>
-            </section>
-
-            <!-- Section: Anemone Hub (Center) - The story's core -->
-            <section id="anemone-center" class="ocean-section active">
-                <h2>The Anemone Hub</h2>
-                <p>Welcome to the pulsating heart of our "Odyssey Beneath the Waves." From this central point, choose your path and explore the mythic depths.</p>
-                <div class="nav-buttons-container">
-                    <button class="nav-button" data-target="narrative-currents-top">Narrative Currents</button>
-                    <button class="nav-button" data-target="character-depths-left">Character Depths</button>
-                    <button class="nav-button" data-target="mythic-echoes-right">Mythic Echoes</button>
-                    <button class="nav-button" data-target="companion-currents-bottom">Companion Currents</button>
+            <!-- Narrative Currents: Episodes (Top) -->
+            <div class="section narrative-currents-section" id="narrative-currents-top">
+                <div class="back-orb" data-target="anemone-center">↩️</div>
+                <div class="section-content">
+                    <h1 class="section-title">Narrative Currents: Episodes</h1>
+                    <p class="section-description">
+                        Chart the story's arc, from the initial wound to the journey's integrated return. Each act is a chapter in this profound psychological odyssey.
+                    </p>
+                    <div class="action-buttons">
+                        <a href="episodes.html" class="dive-btn">🌊 Explore Episodes</a>
+                        <a href="podcast.html#ep-1" class="dive-btn secondary">🎧 Listen to Act I</a>
+                    </div>
                 </div>
-                <div class="secondary-actions">
-                    <a href="extras.html" class="btn ghost">Discover Extras</a>
+            </div>
+
+            <!-- Character Depths: Archetypes (Left) -->
+            <div class="section character-depths-section" id="character-depths-left">
+                <div class="back-orb" data-target="anemone-center">↩️</div>
+                <div class="section-content">
+                    <h1 class="section-title">Character Depths: Archetypes</h1>
+                    <p class="section-description">
+                        Meet the unforgettable inhabitants of this underwater world—each an archetype guiding the hero's journey through trials and transformation.
+                    </p>
+                    <div class="action-buttons">
+                        <a href="characters.html" class="dive-btn">🐠 Meet the Characters</a>
+                        <a href="index.html#podcast" class="dive-btn secondary">🎙️ Podcast Insights</a>
+                    </div>
                 </div>
-            </section>
+            </div>
 
-            <!-- Section: Mythic Echoes: Themes (Right) -->
-            <section id="mythic-echoes-right" class="ocean-section">
-                <h2>Mythic Echoes: Themes</h2>
-                <p>Uncover the profound psychological and mythological themes woven into the narrative, from courage and surrender to death and rebirth.</p>
-                <button class="nav-button" data-target="anemone-center">Ascend to Anemone Hub</button>
-                <a href="themes.html" class="btn primary">Explore Themes</a>
-            </section>
+            <!-- Mythic Echoes: Themes (Right) -->
+            <div class="section mythic-echoes-section" id="mythic-echoes-right">
+                <div class="back-orb" data-target="anemone-center">↩️</div>
+                <div class="section-content">
+                    <h1 class="section-title">Mythic Echoes: Themes</h1>
+                    <p class="section-description">
+                        Uncover the profound psychological and mythological themes woven into the narrative, from courage and surrender to death and rebirth.
+                    </p>
+                    <div class="action-buttons">
+                        <a href="themes.html" class="dive-btn">💡 Explore Themes</a>
+                        <a href="index.html#extras" class="dive-btn secondary">📚 Related Resources</a>
+                    </div>
+                </div>
+            </div>
 
-            <!-- Section: Companion Currents: Podcast (Bottom) -->
-            <section id="companion-currents-bottom" class="ocean-section">
-                <h2>Companion Currents: Podcast</h2>
-                <p>Dive deeper with our podcast series, offering act-by-act companions and insightful reflections on the journey's psychological undertow.</p>
-                <button class="nav-button" data-target="anemone-center">Float to Anemone Hub</button>
-                <a href="podcast.html" class="btn primary">Listen to Podcast</a>
-            </section>
+            <!-- Companion Currents: Podcast (Bottom) -->
+            <div class="section companion-currents-section" id="companion-currents-bottom">
+                <div class="back-orb" data-target="anemone-center">↩️</div>
+                <div class="section-content">
+                    <h1 class="section-title">Companion Currents: Podcast</h1>
+                    <p class="section-description">
+                        Dive deeper with our podcast series, offering act-by-act companions and insightful reflections on the journey's psychological undertow.
+                    </p>
+                    <div class="action-buttons">
+                        <a href="podcast.html" class="dive-btn">🎧 Listen to Podcast</a>
+                        <a href="index.html#extras" class="dive-btn secondary">🌟 Discover Extras</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="site-logo">Odyssey Beneath the Waves</div>
+    <div class="particles" id="particles"></div>
 
     <script src="script.js"></script>
 </body>
