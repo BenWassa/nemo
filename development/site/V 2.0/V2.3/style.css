@@ -357,6 +357,10 @@ footer p {
 body.index-page { /* This class will be added to index.html body */
     overflow: hidden; /* Only index page is fully controlled by JS transform */
     height: 100vh;
+    width: 100vw;
+    position: fixed; /* Completely disable scrolling */
+    top: 0;
+    left: 0;
 }
 
 .index-page header, .index-page footer { /* Hide header/footer on index.html */
@@ -430,6 +434,14 @@ body.index-page { /* This class will be added to index.html body */
     transition: opacity 1s ease; /* Only opacity transition for nodes */
     text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
     opacity: 0; /* Hidden by default */
+    /* Ensure content doesn't overflow */
+    overflow: hidden;
+}
+
+/* Specific scaling for the hub section to ensure navigation orbs are visible */
+.section.ocean-node.hub {
+    transform: scale(0.85); /* Slightly scale down to ensure orbs are visible */
+    transform-origin: center center;
 }
 
 .section.ocean-node.active {
@@ -449,12 +461,15 @@ body.index-page { /* This class will be added to index.html body */
 /* Index page specific elements */
 .anemone-center-visual {
     position: relative;
-    width: 400px;
-    height: 400px;
+    width: 350px; /* Slightly smaller to leave more room for orbs */
+    height: 350px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: var(--space-4);
+    /* Ensure the visual container doesn't overflow */
+    max-width: 40vw;
+    max-height: 40vh;
 }
 .anemone {
     width: 250px;
@@ -518,13 +533,13 @@ body.index-page { /* This class will be added to index.html body */
 
 /* Orb specific colors and positions */
 /* Up from hub */
-.orb-shark-cove { top: -80px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--sea-green), rgba(56, 144, 84, 0.7)); animation-delay: 0s; }
+.orb-shark-cove { top: -120px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--sea-green), rgba(56, 144, 84, 0.7)); animation-delay: 0s; }
 /* Left from hub */
-.orb-jellyfield { top: 50%; left: -100px; transform: translateY(-50%); background: linear-gradient(135deg, var(--palatinate-blue), rgba(1, 63, 232, 0.7)); animation-delay: 1.5s; }
+.orb-jellyfield { top: 50%; left: -140px; transform: translateY(-50%); background: linear-gradient(135deg, var(--palatinate-blue), rgba(1, 63, 232, 0.7)); animation-delay: 1.5s; }
 /* Right from hub */
-.orb-eac-current { top: 50%; right: -100px; transform: translateY(-50%); background: linear-gradient(135deg, var(--indigo-dye), rgba(12, 67, 123, 0.7)); animation-delay: 3s; }
+.orb-eac-current { top: 50%; right: -140px; transform: translateY(-50%); background: linear-gradient(135deg, var(--indigo-dye), rgba(12, 67, 123, 0.7)); animation-delay: 3s; }
 /* Down from hub (Sydney Harbor) */
-.orb-sydney-harbor { bottom: -80px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--golden-gate-bridge), var(--indigo-dye)); animation-delay: 4.5s; }
+.orb-sydney-harbor { bottom: -120px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--golden-gate-bridge), var(--indigo-dye)); animation-delay: 4.5s; }
 /* Further down from Sydney (Reef Return - not a direct orb, but conceptually) */
 /* This will be navigated to directly from Sydney, or via quick-nav */
 
