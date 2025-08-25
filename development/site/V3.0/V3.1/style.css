@@ -68,6 +68,101 @@ body {
 .main-nav a::after { content:''; position:absolute; bottom:0; left:0; width:100%; height:2px; background-color:var(--color-accent-orange); transform:scaleX(0); transform-origin:right; transition: transform .38s cubic-bezier(.19,1,.22,1); }
 .main-nav a:hover::after { transform:scaleX(1); transform-origin:left; }
 
+/* --- Mobile Navigation (toggle + overlay + panel) --- */
+/* The JS dynamically injects .nav-toggle and .mobile-nav-overlay; these rules make them visible and accessible */
+.nav-toggle {
+    display: none; /* shown on small viewports via media query below */
+    align-items: center;
+    gap: 0.6rem;
+    background: transparent;
+    border: 0;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    padding: 0.4rem 0.6rem;
+    border-radius: 10px;
+    transition: var(--transition-smooth);
+}
+.nav-toggle:focus { outline: 2px solid rgba(242,71,2,0.25); outline-offset: 3px; }
+
+.nav-toggle .bar {
+    width: 22px;
+    height: 2px;
+    background: var(--color-text-primary);
+    display: block;
+    position: relative;
+    border-radius: 2px;
+    transition: var(--transition-smooth);
+}
+.nav-toggle .bar::before,
+.nav-toggle .bar::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    transition: var(--transition-smooth);
+    border-radius: 2px;
+}
+.nav-toggle .bar::before { top: -7px; }
+.nav-toggle .bar::after { top: 7px; }
+
+/* When expanded, morph bars into an X */
+.nav-toggle[aria-expanded="true"] .bar { background: transparent; }
+.nav-toggle[aria-expanded="true"] .bar::before { transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .bar::after { transform: translateY(-7px) rotate(-45deg); }
+
+/* Overlay container that holds backdrop and the sliding mobile nav panel */
+.mobile-nav-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    display: flex;
+    justify-content: flex-end;
+    pointer-events: none; /* toggled by .is-open */
+}
+.mobile-nav-overlay.is-open { pointer-events: auto; }
+
+.overlay-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    opacity: 0;
+    transition: opacity .36s cubic-bezier(.2,.9,.3,1);
+}
+.mobile-nav-overlay.is-open .overlay-backdrop { opacity: 1; }
+
+.mobile-nav {
+    width: min(340px, 92vw);
+    height: 100vh;
+    background: linear-gradient(180deg, rgba(14,57,82,0.98), rgba(14,57,82,0.995));
+    color: var(--color-text-primary);
+    padding: 2.25rem 1.25rem;
+    box-shadow: var(--shadow-strong);
+    transform: translateX(100%);
+    transition: transform .36s cubic-bezier(.2,.9,.3,1), opacity .28s ease;
+    opacity: 0;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+}
+.mobile-nav-overlay.is-open .mobile-nav { transform: translateX(0); opacity: 1; }
+
+.mobile-nav .nav-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.25rem; }
+.mobile-nav a { color: var(--color-text-primary); text-decoration: none; font-weight: 800; padding: .6rem 0; border-bottom: 1px dashed rgba(168,193,209,0.04); }
+.mobile-nav a:hover, .mobile-nav a:focus { color: var(--color-accent-orange); outline: none; }
+.mobile-nav a:focus { box-shadow: 0 0 0 3px rgba(242,71,2,0.12); border-radius: 8px; }
+
+/* Make the menu accessible for keyboard-only users */
+.mobile-nav .menu-announce { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .nav-toggle, .nav-toggle .bar, .mobile-nav, .mobile-nav-overlay, .overlay-backdrop { transition: none !important; animation: none !important; }
+}
+
 /* --- Main Content Sections --- */
 .ocean-section { min-height:100vh; display:flex; justify-content:center; align-items:center; padding:120px 20px; }
 
