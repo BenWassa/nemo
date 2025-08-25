@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Underwater Journey</title>
+    <style>
+        :root {
+            --golden-gate-bridge: #f24702;
+            --palatinate-blue: #013fe8;
+            --prussian-blue: #0e3952;
+            --indigo-dye: #0c437b;
+            --sea-green: #389054;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            background: radial-gradient(circle at center, var(--palatinate-blue), var(--prussian-blue));
+            color: white;
+            cursor: default;
+        }
+
+        .ocean-container {
+            position: relative;
+            width: 500vw;
+            height: 500vh;
+            transition: transform 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform-origin: center center;
+        }
+
+        .section {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+        }
+
+        .section.active {
+            opacity: 1;
+            z-index: 10;
+        }
+
+        /* Center - The Anemone */
+        .center {
+            left: 200vw;
+            top: 200vh;
+            background: radial-gradient(circle, rgba(1, 63, 232, 0.3), rgba(14, 57, 82, 0.6));
+        }
+
+        .anemone {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--golden-gate-bridge), var(--palatinate-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: pulse 4s ease-in-out infinite;
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+
+        .anemone::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: ripple 6s linear infinite;
+        }
+
+        .anemone-text {
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            z-index: 5;
+        }
+
+        /* Navigation Areas */
+        .coral-reef {
+            left: 100vw;
+            top: 100vh;
+            background: radial-gradient(circle, rgba(56, 144, 84, 0.4), rgba(12, 67, 123, 0.6));
+        }
+
+        .deep-trench {
+            left: 300vw;
+            top: 100vh;
+            background: radial-gradient(circle, rgba(12, 67, 123, 0.6), rgba(14, 57, 82, 0.8));
+        }
+
+        .kelp-forest {
+            left: 100vw;
+            top: 300vh;
+            background: radial-gradient(circle, rgba(56, 144, 84, 0.5), rgba(1, 63, 232, 0.4));
+        }
+
+        .thermal-vents {
+            left: 300vw;
+            top: 300vh;
+            background: radial-gradient(circle, rgba(242, 71, 2, 0.4), rgba(14, 57, 82, 0.7));
+        }
+
+        .navigation-choice {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(5px);
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .navigation-choice:hover {
+            transform: scale(1.1);
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .choice-coral {
+            top: -150px;
+            left: -300px;
+            background: linear-gradient(135deg, var(--sea-green), rgba(56, 144, 84, 0.6));
+        }
+
+        .choice-trench {
+            top: -150px;
+            right: -300px;
+            background: linear-gradient(135deg, var(--indigo-dye), rgba(12, 67, 123, 0.6));
+        }
+
+        .choice-kelp {
+            bottom: -150px;
+            left: -300px;
+            background: linear-gradient(135deg, var(--sea-green), var(--palatinate-blue));
+        }
+
+        .choice-thermal {
+            bottom: -150px;
+            right: -300px;
+            background: linear-gradient(135deg, var(--golden-gate-bridge), var(--indigo-dye));
+        }
+
+        .section-content {
+            max-width: 600px;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--golden-gate-bridge), var(--palatinate-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-description {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .dive-deeper-btn {
+            background: linear-gradient(45deg, var(--golden-gate-bridge), var(--palatinate-blue));
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .dive-deeper-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(242, 71, 2, 0.3);
+        }
+
+        .back-to-center {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+        }
+
+        .back-to-center:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .logo {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.7);
+            z-index: 1000;
+        }
+
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: float 15s linear infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(0px); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) translateX(50px); opacity: 0; }
+        }
+
+        .bubble {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1));
+            border-radius: 50%;
+            animation: bubble-rise 8s linear infinite;
+        }
+
+        @keyframes bubble-rise {
+            0% { transform: translateY(100vh); opacity: 0.7; }
+            100% { transform: translateY(-100px); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">🌊 Depths</div>
+    
+    <div class="ocean-container" id="oceanContainer">
+        <!-- Center Section - The Drop-off -->
+        <section class="section center active" id="center">
+            <div class="anemone" id="anemone">
+                <div class="anemone-text">The Drop-off</div>
+            </div>
+            
+            <div class="navigation-choice choice-coral" onclick="navigateTo('coral-reef')">
+                <div>🪸<br>Coral Gardens</div>
+            </div>
+            
+            <div class="navigation-choice choice-trench" onclick="navigateTo('deep-trench')">
+                <div>🕳️<br>Abyssal Trench</div>
+            </div>
+            
+            <div class="navigation-choice choice-kelp" onclick="navigateTo('kelp-forest')">
+                <div>🌿<br>Kelp Forest</div>
+            </div>
+            
+            <div class="navigation-choice choice-thermal" onclick="navigateTo('thermal-vents')">
+                <div>🔥<br>Thermal Vents</div>
+            </div>
+            
+            <div class="floating-particles" id="particles"></div>
+        </section>
+
+        <!-- Coral Reef Section -->
+        <section class="section coral-reef" id="coral-reef">
+            <div class="back-to-center" onclick="navigateTo('center')">↩️</div>
+            <div class="section-content">
+                <h1 class="section-title">Coral Gardens</h1>
+                <p class="section-description">
+                    Vibrant ecosystems teeming with life. These living cities host countless species in perfect symbiosis, creating underwater rainbows of color and movement.
+                </p>
+                <button class="dive-deeper-btn" onclick="diveDeeper('coral')">Explore Species</button>
+                <button class="dive-deeper-btn" onclick="diveDeeper('coral-conservation')">Conservation Efforts</button>
+            </div>
+        </section>
+
+        <!-- Deep Trench Section -->
+        <section class="section deep-trench" id="deep-trench">
+            <div class="back-to-center" onclick="navigateTo('center')">↩️</div>
+            <div class="section-content">
+                <h1 class="section-title">Abyssal Trench</h1>
+                <p class="section-description">
+                    The deepest mysteries of our oceans. Where pressure creates diamonds and life defies all known limits. Here, in perpetual darkness, evolution writes its boldest chapters.
+                </p>
+                <button class="dive-deeper-btn" onclick="diveDeeper('deep-creatures')">Deep Sea Life</button>
+                <button class="dive-deeper-btn" onclick="diveDeeper('exploration')">Recent Discoveries</button>
+            </div>
+        </section>
+
+        <!-- Kelp Forest Section -->
+        <section class="section kelp-forest" id="kelp-forest">
+            <div class="back-to-center" onclick="navigateTo('center')">↩️</div>
+            <div class="section-content">
+                <h1 class="section-title">Kelp Forest</h1>
+                <p class="section-description">
+                    Underwater cathedrals reaching toward the surface. These towering giants create sanctuaries for marine life while filtering our waters and producing the oxygen we breathe.
+                </p>
+                <button class="dive-deeper-btn" onclick="diveDeeper('kelp-ecosystem')">Forest Dynamics</button>
+                <button class="dive-deeper-btn" onclick="diveDeeper('climate-impact')">Climate Role</button>
+            </div>
+        </section>
+
+        <!-- Thermal Vents Section -->
+        <section class="section thermal-vents" id="thermal-vents">
+            <div class="back-to-center" onclick="navigateTo('center')">↩️</div>
+            <div class="section-content">
+                <h1 class="section-title">Thermal Vents</h1>
+                <p class="section-description">
+                    Earth's fiery heart meets the cold abyss. These underwater geysers create oases of life in the deep, powered by chemistry rather than sunlight.
+                </p>
+                <button class="dive-deeper-btn" onclick="diveDeeper('vent-chemistry')">Unique Chemistry</button>
+                <button class="dive-deeper-btn" onclick="diveDeeper('extremophiles')">Life Forms</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        let currentSection = 'center';
+        
+        const sections = {
+            'center': { x: -200, y: -200 },
+            'coral-reef': { x: -100, y: -100 },
+            'deep-trench': { x: -300, y: -100 },
+            'kelp-forest': { x: -100, y: -300 },
+            'thermal-vents': { x: -300, y: -300 }
+        };
+
+        function navigateTo(sectionId) {
+            if (sectionId === currentSection) return;
+            
+            const container = document.getElementById('oceanContainer');
+            const currentEl = document.getElementById(currentSection);
+            const targetEl = document.getElementById(sectionId);
+            
+            // Update transform
+            const coords = sections[sectionId];
+            container.style.transform = `translate(${coords.x}vw, ${coords.y}vh)`;
+            
+            // Update active states
+            currentEl.classList.remove('active');
+            setTimeout(() => {
+                targetEl.classList.add('active');
+                currentSection = sectionId;
+            }, 500);
+            
+            // Update background based on depth
+            updateBackgroundDepth(sectionId);
+        }
+
+        function updateBackgroundDepth(sectionId) {
+            const body = document.body;
+            const depthColors = {
+                'center': 'radial-gradient(circle at center, #013fe8, #0e3952)',
+                'coral-reef': 'radial-gradient(circle at center, #389054, #0c437b)',
+                'deep-trench': 'radial-gradient(circle at center, #0c437b, #0e3952)',
+                'kelp-forest': 'radial-gradient(circle at center, #389054, #013fe8)',
+                'thermal-vents': 'radial-gradient(circle at center, #f24702, #0e3952)'
+            };
+            
+            body.style.background = depthColors[sectionId];
+        }
+
+        function diveDeeper(topic) {
+            // In a real implementation, these would navigate to deeper pages
+            // For now, we'll show an alert
+            const messages = {
+                'coral': 'Diving deeper into coral species and biodiversity...',
+                'coral-conservation': 'Exploring coral conservation and restoration efforts...',
+                'deep-creatures': 'Discovering the creatures of the deep...',
+                'exploration': 'Learning about recent deep sea discoveries...',
+                'kelp-ecosystem': 'Understanding kelp forest ecosystems...',
+                'climate-impact': 'Examining kelp\'s role in climate regulation...',
+                'vent-chemistry': 'Exploring the unique chemistry of thermal vents...',
+                'extremophiles': 'Meeting the extreme life forms of the vents...'
+            };
+            
+            alert(messages[topic] || 'Diving deeper...');
+        }
+
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Create bubbles
+        function createBubbles() {
+            setInterval(() => {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                bubble.style.width = (5 + Math.random() * 20) + 'px';
+                bubble.style.height = bubble.style.width;
+                bubble.style.left = Math.random() * 100 + '%';
+                bubble.style.animationDuration = (5 + Math.random() * 8) + 's';
+                document.body.appendChild(bubble);
+                
+                setTimeout(() => {
+                    bubble.remove();
+                }, 13000);
+            }, 2000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            createBubbles();
+            
+            // Add some initial animation to the anemone
+            const anemone = document.getElementById('anemone');
+            anemone.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.1)';
+            });
+            anemone.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            switch(e.key) {
+                case 'c':
+                    navigateTo('center');
+                    break;
+                case '1':
+                    navigateTo('coral-reef');
+                    break;
+                case '2':
+                    navigateTo('deep-trench');
+                    break;
+                case '3':
+                    navigateTo('kelp-forest');
+                    break;
+                case '4':
+                    navigateTo('thermal-vents');
+                    break;
+            }
+        });
+    </script>
+</body>
+</html>
