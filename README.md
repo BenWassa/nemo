@@ -1,5 +1,4 @@
-# � Nemo: Underwater Navigation Experience
-
+# FilmSeele: Finding Nemo
 An immersive, ocean-themed web experience that transforms Finding Nemo's narrative structure into an interactive underwater journey. This project features advanced CSS animations, glass morphism design, and innovative navigation patterns that simulate diving through ocean depths.
 
 ## ✨ Current Version: V2.3 (Enhanced Ocean Theme)
