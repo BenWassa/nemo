@@ -439,10 +439,7 @@ body.index-page { /* This class will be added to index.html body */
 }
 
 /* Specific scaling for the hub section to ensure navigation orbs are visible */
-.section.ocean-node.hub {
-    transform: scale(0.85); /* Slightly scale down to ensure orbs are visible */
-    transform-origin: center center;
-}
+/* Removed scaling as orbs are now positioned relative to viewport */
 
 .section.ocean-node.active {
     opacity: 1;
@@ -528,18 +525,51 @@ body.index-page { /* This class will be added to index.html body */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
     text-shadow: 0 1px 5px rgba(0, 0, 0, 0.7);
     transition: all 0.4s var(--water-ease);
+    z-index: 100; /* Ensure orbs appear above other content */
 }
 .nav-orb:hover { transform: scale(1.2); border-color: white; box-shadow: 0 0 40px rgba(255, 255, 255, 0.6); }
 
-/* Orb specific colors and positions */
+/* Orb specific colors and positions - relative to the entire section */
 /* Up from hub */
-.orb-shark-cove { top: -120px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--sea-green), rgba(56, 144, 84, 0.7)); animation-delay: 0s; }
+.orb-shark-cove { 
+    position: absolute;
+    top: 15vh; /* Position relative to viewport height */
+    left: 50%; 
+    transform: translateX(-50%); 
+    background: linear-gradient(135deg, var(--sea-green), rgba(56, 144, 84, 0.7)); 
+    animation-delay: 0s; 
+    opacity: 1; /* Ensure visibility */
+}
 /* Left from hub */
-.orb-jellyfield { top: 50%; left: -140px; transform: translateY(-50%); background: linear-gradient(135deg, var(--palatinate-blue), rgba(1, 63, 232, 0.7)); animation-delay: 1.5s; }
+.orb-jellyfield { 
+    position: absolute;
+    top: 50%; 
+    left: 15vw; /* Position relative to viewport width */
+    transform: translateY(-50%); 
+    background: linear-gradient(135deg, var(--palatinate-blue), rgba(1, 63, 232, 0.7)); 
+    animation-delay: 0s; /* Remove delay for testing */
+    opacity: 1; /* Ensure visibility */
+}
 /* Right from hub */
-.orb-eac-current { top: 50%; right: -140px; transform: translateY(-50%); background: linear-gradient(135deg, var(--indigo-dye), rgba(12, 67, 123, 0.7)); animation-delay: 3s; }
+.orb-eac-current { 
+    position: absolute;
+    top: 50%; 
+    right: 15vw; /* Position relative to viewport width */
+    transform: translateY(-50%); 
+    background: linear-gradient(135deg, var(--indigo-dye), rgba(12, 67, 123, 0.7)); 
+    animation-delay: 0s; /* Remove delay for testing */
+    opacity: 1; /* Ensure visibility */
+}
 /* Down from hub (Sydney Harbor) */
-.orb-sydney-harbor { bottom: -120px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--golden-gate-bridge), var(--indigo-dye)); animation-delay: 4.5s; }
+.orb-sydney-harbor { 
+    position: absolute;
+    bottom: 15vh; /* Position relative to viewport height */
+    left: 50%; 
+    transform: translateX(-50%); 
+    background: linear-gradient(135deg, var(--golden-gate-bridge), var(--indigo-dye)); 
+    animation-delay: 0s; /* Remove delay for testing */
+    opacity: 1; /* Ensure visibility */
+}
 /* Further down from Sydney (Reef Return - not a direct orb, but conceptually) */
 /* This will be navigated to directly from Sydney, or via quick-nav */
 
