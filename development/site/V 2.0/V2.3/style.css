@@ -664,6 +664,22 @@ body.index-page { /* This class will be added to index.html body */
     cursor: pointer;
     transition: opacity 0.3s ease;
 }
+
+/* For content pages, make logo sticky instead of fixed */
+body:not(.index-page) #site-logo {
+    position: fixed;
+    top: var(--space-4);
+    left: var(--space-4);
+    bottom: auto;
+    font-size: 1.5rem;
+    z-index: 1001;
+    background: rgba(0, 0, 0, 0.3);
+    padding: var(--space-2) var(--space-3);
+    border-radius: 25px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 #site-logo:hover {
     opacity: 1;
 }
@@ -690,6 +706,19 @@ body.index-page { /* This class will be added to index.html body */
     color: var(--text-light);
     text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
+
+/* For content pages, make quick-nav toggle sticky instead of fixed */
+body:not(.index-page) #quick-nav-toggle {
+    position: fixed;
+    top: var(--space-4);
+    right: var(--space-4);
+    bottom: auto;
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+    z-index: 1001;
+}
+
 #quick-nav-toggle:hover {
     transform: scale(1.1);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
@@ -821,6 +850,14 @@ body.index-page { /* This class will be added to index.html body */
     backdrop-filter: blur(5px);
     opacity: 0.5;
 }
+
+/* For content pages, position mute toggle to avoid overlap with quick-nav */
+body:not(.index-page) #mute-toggle {
+    top: calc(var(--space-4) + 80px); /* Position below quick-nav toggle */
+    right: var(--space-4);
+    z-index: 1001;
+}
+
 #mute-toggle:hover {
     opacity: 1;
     transform: scale(1.1);
@@ -830,6 +867,15 @@ body.index-page { /* This class will be added to index.html body */
 /* ==================================== */
 /* Content Page Specific Elements */
 /* ==================================== */
+
+/* Ensure content pages have proper spacing for the floating navigation */
+body:not(.index-page) {
+    padding-top: 120px; /* Space for logo and quick-nav at top */
+}
+
+body:not(.index-page) .page-hero {
+    margin-top: 0; /* Remove extra margin since we have padding on body */
+}
 
 /* Episodes Page Specific */
 .kicker {

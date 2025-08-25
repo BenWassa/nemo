@@ -11,30 +11,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body data-depth="0"> <!-- Sets the depth for this page, e.g., depth 0 for "shallow" -->
+<body data-depth="0"> <!-- Sets the depth for this page, matching shark-cove-node -->
     <a href="#main-content" class="skip-to-content">Skip to content</a>
     
-    <header>
-        <div class="header-content">
-            <!-- Logo always returns to the main hub center -->
-            <a href="index.html#anemone-center" class="logo">Odyssey Beneath the Waves</a>
-            <nav>
-                <ul>
-                    <!-- Current page (Episodes) links to its corresponding node on the index and is active -->
-                    <li><a href="index.html#shark-cove-node" class="active">Episodes</a></li> 
-                    <!-- Other main navigation items link to their respective nodes on the index -->
-                    <li><a href="index.html#jellyfield-node">Characters</a></li>
-                    <li><a href="index.html#eac-current-node">Themes</a></li>
-                    <li><a href="index.html#sydney-harbor-node">Podcast</a></li>
-                    <li><a href="index.html#reef-return-node">Extras</a></li> 
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <!-- Global Navigation Elements (from index.html) -->
+    <a href="index.html#anemone-center" id="site-logo" aria-label="Back to Drop-Off Hub">Odyssey Beneath the Waves</a>
+    <button id="quick-nav-toggle" aria-label="Open Quick Navigation">🧭</button>
+    <button id="mute-toggle" aria-label="Mute sound">🔊</button>
+    
+    <!-- Immersive Background Layers -->
+    <div class="caustics-layer"></div>
+    <div class="particles" id="particles"></div>
 
     <main id="main-content">
         <!-- Hero section for the page title, mirroring the immersive feel -->
-        <section class="page-hero" data-bg-depth="0"> <!-- Matches depth of Shark Cove node -->
+        <section class="page-hero">
             <div class="wrap">
                 <h1 class="page-hero-title">Episodes: The Narrative Currents</h1>
                 <p class="page-hero-kicker">Every odyssey is two journeys at once: the miles we swim and the miles within. These acts chart Marlin and Nemo across both seas—the literal waters of risk and the inner waters of fear, trust, and return.</p>
@@ -181,19 +172,20 @@
         </section>
     </main>
 
-    <footer>
-        <div class="footer-content">
-            <nav class="footer-nav">
-                <!-- Footer navigation links also point to the correct index nodes -->
-                <a href="index.html#shark-cove-node">Episodes</a>
-                <a href="index.html#jellyfield-node">Characters</a>
-                <a href="index.html#eac-current-node">Themes</a>
-                <a href="index.html#sydney-harbor-node">Podcast</a>
-                <a href="index.html#reef-return-node">Extras</a>
-            </nav>
-            <p>&copy; 2025 Odyssey Beneath the Waves</p>
-            <p class="footer-tagline">Built as a study in story & psychology</p>
+    <!-- Quick Navigation Overlay (needed on all pages with quick-nav-toggle) -->
+    <div class="quick-nav-overlay" id="quick-nav-overlay" aria-hidden="true" tabindex="-1">
+        <button class="quick-nav-close" id="quick-nav-close" aria-label="Close Quick Navigation">✕</button>
+        <div class="quick-nav-menu">
+            <a href="index.html#anemone-center" data-target="anemone-center" aria-label="Go to Anemone Hub">Home: Drop-Off</a>
+            <a href="index.html#shark-cove-node" data-target="shark-cove-node" class="active" aria-label="Go to Episodes Page">Episodes: Narrative Currents</a>
+            <a href="index.html#jellyfield-node" data-target="jellyfield-node" aria-label="Go to Characters Page">Characters: Depths</a>
+            <a href="index.html#eac-current-node" data-target="eac-current-node" aria-label="Go to Themes Page">Themes: Mythic Echoes</a>
+            <a href="index.html#sydney-harbor-node" data-target="sydney-harbor-node" aria-label="Go to Podcast Page">Podcast: Companion Currents</a>
+            <a href="index.html#reef-return-node" data-target="reef-return-node" aria-label="Go to Extras Page">Extras: Beyond the Reef</a>
         </div>
-    </footer>
+    </div>
+
+    <!-- Script must be included on content pages to manage global navigation -->
+    <script src="script.js"></script>
 </body>
 </html>
