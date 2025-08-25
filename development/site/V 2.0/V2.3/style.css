@@ -1,1484 +1,620 @@
-/* CSS Custom Properties for the Palette */
+/* ==========================================================================
+   Nemo V2.3 - Enhanced Ocean Theme
+   Deep blue ocean aesthetic with glass morphism and underwater feel
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap'); /* Using Montserrat for a modern, clean look */
+
 :root {
-    /* Primary Colors */
-    --golden-gate-bridge: #f24702; /* Orange/Red - Accent, highlights, active states */
-    --palatinate-blue: #013fe8;   /* Bright Blue - Interaction, primary actions */
-    --prussian-blue: #0e3952;    /* Deep Blue - Base for mid-depths */
-    --indigo-dye: #0c437b;       /* Indigo - Mid-to-deep waters, elements */
-    --sea-green: #389054;        /* Sea Green - Organic elements, secondary accents */
+    --ink: #072b3a; /* Deep, dark blue for primary text and elements */
+    --ink-rgb: 7, 43, 58;
+    --accent: #ffb703; /* Vibrant gold/yellow accent */
+    --accent-glow: #ffd23f; /* Lighter glow for accent */
+    --accent-rgb: 255, 183, 3;
 
-    /* Text Colors */
-    --text-light: #e0f2f7; /* Very light blue for primary text */
-    --text-muted: rgba(224, 242, 247, 0.7); /* Muted light text */
-    --text-dark-contrast: #1a1a1a; /* For text on light elements (not heavily used in this theme) */
+    --sea-0: #e8f7ff; /* Surface lightest blue */
+    --sea-0-rgb: 232, 247, 255;
+    --sea-1: #87ceeb; /* Mid-depth blue */
+    --sea-1-rgb: 135, 206, 235;
+    --sea-2: #0b3550; /* Deeper blue */
+    --sea-2-rgb: 11, 53, 80;
+    --deep: #001623; /* Deepest, darkest ocean */
+    --deep-rgb: 0, 22, 35;
 
-    /* Button Colors (derived from palette) */
-    --button-primary-bg-start: var(--golden-gate-bridge);
-    --button-primary-bg-end: var(--palatinate-blue);
-    --button-primary-hover-bg-start: var(--sea-green);
-    --button-primary-hover-bg-end: var(--indigo-dye);
+    --glass: rgba(255, 255, 255, 0.12); /* Base glass background */
+    --glass-border: rgba(255, 255, 255, 0.25); /* Stronger glass border */
+    --card-text-light: rgba(255, 255, 255, 0.9); /* Text color for cards */
 
-    --button-secondary-bg-start: var(--indigo-dye);
-    --button-secondary-bg-end: var(--prussian-blue);
-    --button-secondary-hover-bg-start: var(--palatinate-blue);
-    --button-secondary-hover-bg-end: var(--sea-green);
-
-    /* General Background for Content Cards */
-    --card-background: rgba(0, 0, 0, 0.2);
-    --card-border: rgba(255, 255, 255, 0.1);
-    --card-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
-
-    /* Depth Tokens for Background Transition */
-    --depth-0-bg: radial-gradient(circle at 50% 50%, #4682B4 0%, #104e8b 70%, #001a33 100%); /* Lighter, more vibrant blue for shallow/hub */
-    --depth-1-bg: radial-gradient(circle at 50% 50%, var(--indigo-dye) 0%, var(--prussian-blue) 70%, #051a2aff 100%); /* Default deep blue */
-    --depth-2-bg: radial-gradient(circle at 50% 50%, #0c3664 0%, #082d47 70%, #021a2c 100%); /* Deeper navy for lower sections */
-    --depth-3-bg: radial-gradient(circle at 50% 50%, #08203d 0%, #051a2aff 70%, #000a12 100%); /* Abyssal dark for deepest */
-
-    /* Spacing variables for consistency */
-    --space-0-5: 0.25rem; /* 4px */
-    --space-1: 0.5rem;   /* 8px */
-    --space-2: 1rem;     /* 16px */
-    --space-3: 1.5rem;   /* 24px */
-    --space-4: 2rem;     /* 32px */
-    --space-5: 2.5rem;   /* 40px */
-    --space-6: 3rem;     /* 48px */
-    --space-7: 4rem;     /* 64px */
-    --space-8: 5rem;     /* 80px */
-
-    /* Animation Easing */
-    --water-ease: cubic-bezier(.22,.61,.36,1);
+    /* Caustics (light patterns on the ocean floor/surface) - More intricate */
+    --caustics: radial-gradient(circle at 15% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 60%),
+                radial-gradient(circle at 85% 75%, rgba(255, 255, 255, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 40% 90%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 60% 10%, rgba(255, 255, 255, 0.04) 0%, transparent 40%);
+    
+    --radius: 16px;
+    --radius-lg: 24px;
+    --shadow: 0 12px 48px rgba(0, 0, 0, 0.4); /* Stronger base shadow */
+    --shadow-glow: 0 0 60px rgba(var(--accent-rgb), 0.5); /* More prominent glow */
+    
+    --ease: cubic-bezier(0.22, 0.61, 0.36, 1); /* Water-like ease */
+    --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --duration: 1.5s; /* Longer transition for cinematic feel */
+    --fast-duration: 0.6s;
 }
 
-/* Base Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body, html {
-    font-family: 'Roboto', sans-serif;
-    overflow-x: hidden; /* Only allow vertical scroll on content pages, controlled via JS for index */
-    height: 100%; /* Html height for content pages */
-    background: var(--depth-1-bg); /* Default background for all pages, will be overridden for index sections */
-    color: var(--text-light);
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewport="0 0 100 100" style="fill:white;font-size:24px;"><text y="50%">🐟</text></svg>') 15 15, auto; /* Subtle fish cursor */
-    transition: background 1.5s var(--water-ease); /* Smooth background transitions for depth changes */
-    will-change: background, transform;
-}
-
-/* Skip to Content for Accessibility */
-.skip-to-content {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-    background-color: var(--golden-gate-bridge);
+body {
+    font-family: 'Montserrat', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--deep); /* Fallback */
     color: white;
-    padding: var(--space-2);
+    overflow: hidden; /* Hide scrollbars, manage content with JS */
+    height: 100vh;
+    cursor: none; /* Custom cursor */
+    /* Immersive HD Ocean Background */
+    background-image:
+        /* Subtle, slow-moving large gradients */
+        radial-gradient(ellipse at 10% 20%, rgba(var(--sea-0-rgb), 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 90% 80%, rgba(var(--sea-1-rgb), 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 30% 60%, rgba(var(--sea-2-rgb), 0.1) 0%, transparent 50%),
+        /* Main depth gradient */
+        linear-gradient(180deg, var(--sea-1) 0%, var(--sea-2) 50%, var(--deep) 100%);
+    background-size: 200% 200%; /* Make background larger for animation */
+    background-position: 0% 0%;
+    animation: flow 120s linear infinite alternate; /* Very slow overall flow */
+    transition: background-position var(--duration) var(--ease);
+}
+
+@keyframes flow {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+}
+
+/* Custom cursor */
+.cursor {
+    position: fixed;
+    width: 28px; /* Slightly larger */
+    height: 28px;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
     z-index: 9999;
-    border-radius: var(--space-1);
-}
-.skip-to-content:focus {
-    top: var(--space-2);
-    left: var(--space-2);
-}
-
-/* Page Layout Wrappers */
-.wrap {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: var(--space-4);
-    box-sizing: border-box;
+    transition: transform 0.15s ease-out, background 0.15s ease-out, opacity 0.3s ease-out; /* Smoother transition for opacity */
+    box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.3); /* Subtle glow */
+    transform-origin: center center;
+    opacity: 0; /* Initially hide cursor via CSS, JS will make it opaque on mousemove */
 }
 
-/* ==================================== */
-/* Header & Navigation (for content pages) */
-/* ==================================== */
-header {
-    background: rgba(14, 57, 82, 0.4); /* Prussian blue with transparency */
-    backdrop-filter: blur(10px);
-    padding: var(--space-3) 0;
-    position: sticky; /* Sticky header for content pages */
+.cursor.hover {
+    transform: scale(1.8); /* More noticeable scale */
+    background: rgba(var(--accent-rgb), 0.15); /* Slightly stronger fill */
+    border-color: var(--accent-glow);
+    box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.6);
+}
+
+#ocean {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    transition: transform var(--duration) var(--ease),
+                filter var(--duration) var(--ease); /* Add filter transition */
+    will-change: transform, filter;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+}
+
+.panel {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    z-index: 900;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-.header-content {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 var(--space-4);
+    justify-content: center;
+    flex-direction: column;
+    transition: opacity var(--fast-duration) var(--ease); /* Fade content faster */
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    padding: 2rem; /* Add some overall padding to the panel itself */
+    box-sizing: border-box; /* Include padding in element's total width and height */
 }
 
-header .logo { /* Unify logo styling */
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--text-light);
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
-    text-decoration: none;
-    background: linear-gradient(45deg, var(--golden-gate-bridge), var(--palatinate-blue));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    pointer-events: auto; /* Allow interaction for navigation */
-}
+/* Depth-based backgrounds/filters applied to the #ocean container by JS */
+/* The .depth-X classes below are for the *content cards* or specific elements within a panel, not the full panel background */
 
-header nav ul {
-    list-style: none;
-    display: flex;
-    gap: var(--space-4);
-}
-
-header nav a {
-    color: var(--text-light);
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.1rem;
-    padding: var(--space-1) var(--space-2);
-    border-radius: 20px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-header nav a::before {
+/* Animated caustics layer for panels */
+.panel::before {
     content: '';
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: var(--golden-gate-bridge);
-    transform: translateX(-100%);
-    transition: transform 0.3s ease-out;
+    right: 0;
+    bottom: 0;
+    background: var(--caustics); /* Use the defined caustics variable */
+    background-size: 200% 200%; /* Make background larger for animation */
+    animation: caustics-drift 25s ease-in-out infinite alternate; /* Slower drift */
+    pointer-events: none;
+    opacity: 0.8; /* Subtle caustics */
+    transition: opacity var(--duration) var(--ease); /* Allow opacity to fade with depth */
 }
 
-header nav a:hover::before {
-    transform: translateX(0);
+@keyframes caustics-drift {
+    0% { background-position: 0% 0%; transform: translate(0, 0) rotate(0deg); }
+    100% { background-position: 100% 100%; transform: translate(-30px, 15px) rotate(3deg); } /* Larger drift */
 }
 
-header nav a:hover, header nav a.active {
-    color: var(--golden-gate-bridge);
-    text-shadow: 0 0 10px rgba(242, 71, 2, 0.5);
-}
-
-/* ==================================== */
-/* Main Content Sections (for content pages) */
-/* ==================================== */
-main {
-    padding: var(--space-6) 0;
-}
-
-section {
-    padding: var(--space-6) 0;
-}
-
-.section-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 3.5rem;
-    margin-bottom: var(--space-5);
+/* Cards and content */
+.card {
+    background: var(--glass);
+    backdrop-filter: blur(25px); /* Stronger blur */
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: 4rem 3.5rem; /* Slightly more generous padding */
     text-align: center;
-    background: linear-gradient(45deg, var(--golden-gate-bridge), var(--text-light), var(--palatinate-blue));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
-    line-height: 1.2;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Orbitron', sans-serif;
-    color: var(--text-light);
-    text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
-}
-
-h1 { font-size: 3.5rem; margin-bottom: var(--space-4); }
-h2 { font-size: 2.8rem; margin-bottom: var(--space-3); }
-h3 { font-size: 2rem; margin-bottom: var(--space-2); }
-h4 { font-size: 1.5rem; margin-bottom: var(--space-1); }
-
-p {
-    font-size: 1.15rem;
-    line-height: 1.7;
-    margin-bottom: var(--space-2);
-    opacity: 0.9;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-}
-
-ul {
-    list-style: none; /* Remove default list style */
-    padding-left: 0;
-    margin-bottom: var(--space-3);
-}
-
-ul li {
+    max-width: 650px; /* Increased max-width for more breathing room */
+    margin: 2rem auto; /* Center the card if it's not max width */
     position: relative;
-    padding-left: var(--space-3);
-    margin-bottom: var(--space-1);
+    overflow: hidden;
+    transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+    animation: fadeIn 0.8s var(--ease) forwards;
+    
+    /* Flexbox for inner content arrangement */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.03); /* More pronounced lift */
+    box-shadow: var(--shadow), var(--shadow-glow); /* Glowing shadow */
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -120%; /* Start further left */
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent); /* Brighter shimmer */
+    transition: left 0.8s var(--ease); /* Slower shimmer, use var(--ease) */
+}
+
+.card:hover::before {
+    left: 120%; /* End further right */
+}
+
+.card h1, .card h2 {
+    font-size: clamp(2rem, 5vw, 3rem); /* Bigger headings */
+    font-weight: 700;
+    margin-bottom: 1.5rem; /* Increase space below headings */
+    background: linear-gradient(135deg, white 0%, var(--accent-glow) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3); /* Subtle text shadow for depth */
+}
+
+/* Kicker style for the main hub description */
+#hub-dropoff .card p:first-of-type {
+    font-size: 1.3rem; /* More prominent */
+    line-height: 1.5;
+    color: var(--card-text-light);
+    margin-bottom: 2.5rem; /* More space below the main paragraph */
+    font-weight: 400;
+}
+
+.card p {
     font-size: 1.1rem;
     line-height: 1.6;
-    opacity: 0.9;
+    color: var(--card-text-light); /* Consistent text color */
+    margin-bottom: 1.5rem; /* Default margin below paragraphs in cards */
 }
 
-ul li::before {
-    content: '•'; /* Custom bullet point */
-    color: var(--golden-gate-bridge);
-    position: absolute;
-    left: 0;
-    font-size: 1.2em;
-    line-height: 1;
-}
-
-strong {
-    color: var(--golden-gate-bridge); /* Emphasize bold text with theme color */
-    text-shadow: 0 0 5px rgba(242, 71, 2, 0.4);
-}
-
-/* Content Cards */
-.card {
-    background: var(--card-background);
-    border: 1px solid var(--card-border);
-    border-radius: 15px;
-    box-shadow: var(--card-shadow);
-    padding: var(--space-6);
-    margin-bottom: var(--space-5);
-    backdrop-filter: blur(8px);
-}
-
-/* Buttons (for content pages and the "Dive Deeper" on index) */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    padding: 1rem 2rem;
-    border-radius: 50px;
-    color: var(--text-light);
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.4s var(--water-ease); /* Apply water-ease */
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    text-decoration: none;
-    position: relative;
-    overflow: hidden;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-}
-
-.btn.primary {
-    background: linear-gradient(45deg, var(--button-primary-bg-start), var(--button-primary-bg-end));
-}
-
-.btn.primary:hover {
-    background: linear-gradient(45deg, var(--button-primary-hover-bg-start), var(--button-primary-hover-bg-end));
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-}
-
-.btn.ghost {
-    background-color: transparent;
-    border: 2px solid var(--text-light);
-    color: var(--text-light);
-    box-shadow: none;
-}
-
-.btn.ghost:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.15);
-}
-
-.actions {
+/* Div containing chips in the card */
+.card > div { /* Target the div containing chips directly */
+    margin-top: 1.5rem; /* Add margin above chips to separate from paragraph */
     display: flex;
-    justify-content: center;
-    gap: var(--space-3);
-    margin-top: var(--space-6);
     flex-wrap: wrap;
-}
-
-/* ==================================== */
-/* Footer */
-/* ==================================== */
-footer {
-    background: rgba(14, 57, 82, 0.4); /* Same as header */
-    backdrop-filter: blur(10px);
-    padding: var(--space-4) 0;
-    text-align: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
-}
-
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 var(--space-4);
-}
-
-.footer-nav a {
-    color: var(--text-light);
-    text-decoration: none;
-    margin: 0 var(--space-2);
-    font-size: 0.95rem;
-    opacity: 0.8;
-    transition: opacity 0.3s ease, color 0.3s ease;
-}
-
-.footer-nav a:hover {
-    opacity: 1;
-    color: var(--golden-gate-bridge);
-}
-
-footer p {
-    font-size: 0.9rem;
-    margin-top: var(--space-3);
-    color: var(--text-muted);
-}
-
-.footer-tagline {
-    font-style: italic;
-    margin-top: var(--space-1);
-    font-size: 0.85rem;
-}
-
-/* ==================================== */
-/* Index Page Specific Overrides/Additions */
-/* ==================================== */
-
-body.index-page { /* This class will be added to index.html body */
-    overflow: hidden; /* Only index page is fully controlled by JS transform */
-    height: 100vh;
-    width: 100vw;
-    position: fixed; /* Completely disable scrolling */
-    top: 0;
-    left: 0;
-}
-
-.index-page header, .index-page footer { /* Hide header/footer on index.html */
-    display: none;
-}
-
-/* Base ocean background for particles/caustics to float on */
-.ocean-bg-layer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: var(--depth-1-bg); /* Default depth 1 */
-    transition: background 1.5s var(--water-ease);
-    z-index: -2; /* Below everything */
-}
-
-/* Caustics layer for water feel */
-.caustics-layer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 105%; /* Slightly larger for parallax */
-    height: 105%;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.15"><filter id="blur"><feGaussianBlur stdDeviation="1.5" /></filter><path fill="%23FFFFFF" filter="url(%23blur)" d="M0,0 L0,50 C20,30 40,70 60,50 C80,30 100,70 100,50 L100,0 Z" transform="scale(0.5) rotate(15) translate(10, -5)"/><path fill="%23FFFFFF" filter="url(%23blur)" d="M0,0 L0,50 C25,25 50,75 75,50 C100,25 100,50 100,50 L100,0 Z" transform="scale(0.4) rotate(45) translate(-10, 15)"/><path fill="%23FFFFFF" filter="url(%23blur)" d="M0,0 L0,50 C15,40 30,60 45,50 C60,40 75,60 100,50 L100,0 Z" transform="scale(0.6) rotate(80) translate(20, 20)"/></svg>');
-    background-size: 200px 200px; /* Small, repeating pattern */
-    animation: caustics-move 60s linear infinite alternate; /* Slow movement */
-    opacity: 0.2; /* Subtle visibility */
-    transition: opacity 1.5s var(--water-ease); /* Fade for depth */
-    z-index: -1; /* Above ocean-bg-layer, below particles */
-    pointer-events: none;
-}
-
-
-/* Main interactive viewport for index page */
-.viewport {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    perspective: 1000px;
-    overflow: hidden;
-}
-
-/* Container for all sections that will be transformed */
-.ocean-world {
-    position: absolute;
-    width: 300vw; /* 3 sections wide */
-    height: 500vh; /* 5 sections tall to fit the 2D map */
-    left: -100vw; /* Start at center-left */
-    top: -100vh;  /* Start at center-top */
-    transition: transform 1.5s var(--water-ease); /* Apply water-ease */
-    transform-origin: center center;
-    will-change: transform;
-}
-
-/* General style for sections within the ocean-world (index only) */
-.section.ocean-node { /* Renamed from .ocean-section to .ocean-node for clarity */
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    padding: var(--space-7);
-    box-sizing: border-box;
-    backdrop-filter: blur(8px);
-    transition: opacity 1s ease; /* Only opacity transition for nodes */
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
-    opacity: 0; /* Hidden by default */
-    /* Ensure content doesn't overflow */
-    overflow: hidden;
+    gap: 0.5rem; /* Use gap for consistent spacing between chips */
 }
 
-/* Specific scaling for the hub section to ensure navigation orbs are visible */
-/* Removed scaling as orbs are now positioned relative to viewport */
-
-.section.ocean-node.active {
-    opacity: 1;
-}
-
-/* Index page specific section backgrounds - these will be invisible */
-/* The main background is controlled by body background change */
-.hub { left: 100vw; top: 100vh; } /* Position in the 3x5 grid */
-.shark-cove-node { left: 100vw; top: 0vh; }
-.jellyfield-node { left: 0vw; top: 100vh; }
-.eac-current-node { left: 200vw; top: 100vh; }
-.sydney-harbor-node { left: 100vw; top: 200vh; }
-.reef-return-node { left: 100vw; top: 300vh; }
-
-
-/* Index page specific elements */
-.anemone-center-visual {
-    position: relative;
-    width: 350px; /* Slightly smaller to leave more room for orbs */
-    height: 350px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: var(--space-4);
-    /* Ensure the visual container doesn't overflow */
-    max-width: 40vw;
-    max-height: 40vh;
-}
-.anemone {
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--golden-gate-bridge), var(--palatinate-blue));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: anemone-pulse 3s ease-in-out infinite;
-    cursor: pointer;
-    position: relative;
-    z-index: 10;
-    box-shadow: 0 0 30px rgba(242, 71, 2, 0.6);
-}
-.anemone-text {
-    z-index: 20;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.6rem;
-    font-weight: bold;
-    color: var(--text-light);
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-}
-.anemone::before, .anemone::after {
-    content: '';
-    position: absolute;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    animation: ripple-wave 4s linear infinite;
-    z-index: 9;
-}
-.anemone::before { width: 300px; height: 300px; animation-delay: 0s; }
-.anemone::after { width: 350px; height: 350px; border: 1px solid rgba(242, 71, 2, 0.2); animation-delay: 1s; }
-.tentacles { position: absolute; width: 100%; height: 100%; }
-.tentacle { position: absolute; width: 6px; background: linear-gradient(to bottom, var(--golden-gate-bridge), transparent); border-radius: 3px; transform-origin: bottom center; animation: tentacle-sway 4s ease-in-out infinite; opacity: 0.8; }
-
-.nav-orb { /* Styling for the circular navigation buttons on the hub */
-    position: absolute;
-    width: 140px; /* Slightly larger */
-    height: 140px;
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    background: rgba(var(--palatinate-blue), 0.5); /* Default orb background */
-    backdrop-filter: blur(10px);
-    text-align: center;
-    font-weight: bold;
-    font-size: 1rem;
-    animation: float 6s ease-in-out infinite;
-    color: var(--text-light);
-    padding: var(--space-1); /* Adjust padding */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.7);
-    transition: all 0.4s var(--water-ease);
-    z-index: 100; /* Ensure orbs appear above other content */
-}
-.nav-orb:hover { transform: scale(1.2); border-color: white; box-shadow: 0 0 40px rgba(255, 255, 255, 0.6); }
-
-/* Orb specific colors and positions - relative to the entire section */
-/* Up from hub */
-.orb-shark-cove { 
-    position: absolute;
-    top: 15vh; /* Position relative to viewport height */
-    left: 50%; 
-    transform: translateX(-50%); 
-    background: linear-gradient(135deg, var(--sea-green), rgba(56, 144, 84, 0.7)); 
-    animation-delay: 0s; 
-    opacity: 1; /* Ensure visibility */
-}
-/* Left from hub */
-.orb-jellyfield { 
-    position: absolute;
-    top: 50%; 
-    left: 15vw; /* Position relative to viewport width */
-    transform: translateY(-50%); 
-    background: linear-gradient(135deg, var(--palatinate-blue), rgba(1, 63, 232, 0.7)); 
-    animation-delay: 0s; /* Remove delay for testing */
-    opacity: 1; /* Ensure visibility */
-}
-/* Right from hub */
-.orb-eac-current { 
-    position: absolute;
-    top: 50%; 
-    right: 15vw; /* Position relative to viewport width */
-    transform: translateY(-50%); 
-    background: linear-gradient(135deg, var(--indigo-dye), rgba(12, 67, 123, 0.7)); 
-    animation-delay: 0s; /* Remove delay for testing */
-    opacity: 1; /* Ensure visibility */
-}
-/* Down from hub (Sydney Harbor) */
-.orb-sydney-harbor { 
-    position: absolute;
-    bottom: 15vh; /* Position relative to viewport height */
-    left: 50%; 
-    transform: translateX(-50%); 
-    background: linear-gradient(135deg, var(--golden-gate-bridge), var(--indigo-dye)); 
-    animation-delay: 0s; /* Remove delay for testing */
-    opacity: 1; /* Ensure visibility */
-}
-/* Further down from Sydney (Reef Return - not a direct orb, but conceptually) */
-/* This will be navigated to directly from Sydney, or via quick-nav */
-
-/* Panel Content Styling (for content cards on index page) */
-.ocean-node .content-card { /* Content within each index node */
-    max-width: 800px;
-    text-align: center;
-    z-index: 5;
-    background: var(--card-background);
-    padding: var(--space-6);
-    border-radius: 15px;
-    border: 1px solid var(--card-border);
-    box-shadow: var(--card-shadow);
-    backdrop-filter: blur(8px);
-}
-.ocean-node .eyebrow {
-    font-family: 'Orbitron', sans-serif;
-    color: var(--sea-green);
-    font-size: 1rem;
-    text-transform: uppercase;
-    margin-bottom: var(--space-1);
-    letter-spacing: 1px;
-}
-.ocean-node .title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 2.8rem;
-    margin-bottom: var(--space-2);
-    color: var(--palatinate-blue);
-    line-height: 1.2;
-    text-shadow: 0 0 15px rgba(1, 63, 232, 0.4);
-}
-.ocean-node .one-liner {
-    font-size: 1.2rem;
-    line-height: 1.5;
-    font-style: italic;
-    color: var(--text-muted);
-    margin-bottom: var(--space-3);
-}
-.ocean-node .theme-chip-tag {
+.chip {
     display: inline-block;
-    background-color: var(--indigo-dye);
-    color: var(--text-light);
-    padding: var(--space-0-5) var(--space-2);
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    margin-bottom: var(--space-4);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-
-/* Back Orb for content sections (on index page) */
-.back-orb {
-    position: absolute;
-    top: var(--space-4);
-    right: var(--space-4);
-    width: 70px;
-    height: 70px;
-    background: rgba(255, 255, 255, 0.15);
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s var(--water-ease);
-    font-size: 1.8rem;
-    backdrop-filter: blur(10px);
-    z-index: 100;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-}
-.back-orb:hover { background: rgba(255, 255, 255, 0.25); transform: scale(1.1); border-color: white; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); }
-
-/* Bottom-left logo on index page */
-#site-logo { /* Now a proper link for returning to hub */
-    position: fixed;
-    bottom: var(--space-4);
-    left: var(--space-4);
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: var(--text-light);
-    opacity: 0.8;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
-    z-index: 1000;
-    background: linear-gradient(45deg, var(--golden-gate-bridge), var(--palatinate-blue));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-decoration: none;
-    cursor: pointer;
-    transition: opacity 0.3s ease;
-}
-
-/* For content pages, make logo sticky instead of fixed */
-body:not(.index-page) #site-logo {
-    position: fixed;
-    top: var(--space-4);
-    left: var(--space-4);
-    bottom: auto;
-    font-size: 1.5rem;
-    z-index: 1001;
-    background: rgba(0, 0, 0, 0.3);
-    padding: var(--space-2) var(--space-3);
+    background: rgba(var(--accent-rgb), 0.25); /* Stronger accent background */
+    color: var(--accent-glow);
+    padding: 0.7rem 1.4rem; /* Slightly more padding for chips */
     border-radius: 25px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 1.05rem; /* Slightly larger text */
+    font-weight: 600;
+    margin: 0; /* Removed individual chip margin, use gap on parent div */
+    border: 1px solid rgba(var(--accent-rgb), 0.4); /* Stronger border */
+    transition: all 0.3s var(--ease);
+    cursor: pointer;
+    text-decoration: none;
+    text-shadow: 0 0 8px rgba(var(--accent-rgb), 0.2); /* Subtle text glow */
 }
 
-#site-logo:hover {
-    opacity: 1;
+.chip:hover {
+    background: var(--accent);
+    color: var(--ink); /* Dark text on bright chip */
+    transform: scale(1.08) translateY(-2px); /* More dynamic lift and scale */
+    box-shadow: 0 6px 25px rgba(var(--accent-rgb), 0.6); /* More pronounced shadow */
+    border-color: var(--accent-glow);
 }
 
-/* Bottom-right compass quick-nav */
-#quick-nav-toggle {
+/* Navigation elements */
+.brand-home {
     position: fixed;
-    bottom: var(--space-4);
-    right: var(--space-4);
-    width: 80px;
-    height: 80px;
+    bottom: 2.5rem; /* Slightly higher */
+    left: 2.5rem; /* Slightly further in */
+    z-index: 1000;
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 1.3rem; /* Larger brand text */
+    text-decoration: none;
+    transition: all 0.3s var(--ease);
+    cursor: pointer;
+    text-shadow: 0 0 15px rgba(var(--accent-rgb), 0.4);
+}
+
+.brand-home:hover {
+    color: var(--accent-glow);
+    transform: scale(1.15) translateY(-3px); /* More pronounced effect */
+    text-shadow: 0 0 30px var(--accent-glow);
+}
+
+.compass-toggle {
+    position: fixed;
+    bottom: 2.5rem;
+    right: 2.5rem;
+    z-index: 1000;
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
     border-radius: 50%;
-    background: linear-gradient(45deg, var(--sea-green), var(--indigo-dye));
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-    display: flex;
+    width: 65px; /* Larger toggle */
+    height: 65px;
+    color: var(--accent);
+    font-size: 1.8rem; /* Larger icon */
+    cursor: pointer;
+    transition: all 0.3s var(--ease);
+    box-shadow: var(--shadow);
+    display: flex; /* Center icon */
     align-items: center;
     justify-content: center;
-    font-size: 2.5rem;
-    cursor: pointer;
-    z-index: 1000;
-    transition: all 0.3s var(--water-ease);
-    backdrop-filter: blur(10px);
-    color: var(--text-light);
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    line-height: 1; /* Fix line height for icon */
+    transform-origin: center center;
+    animation: pulse 2s infinite ease-in-out; /* Subtle pulse animation */
 }
 
-/* For content pages, make quick-nav toggle sticky instead of fixed */
-body:not(.index-page) #quick-nav-toggle {
+.compass-toggle:hover {
+    background: rgba(var(--accent-rgb), 0.25);
+    transform: scale(1.15) rotate(90deg); /* More dynamic rotation */
+    box-shadow: var(--shadow-glow);
+    animation: none; /* Stop pulse on hover */
+}
+
+.compass-toggle[aria-expanded="true"] {
+     transform: scale(1.15) rotate(45deg); /* Show rotation when open */
+     background: rgba(var(--accent-rgb), 0.3);
+     box-shadow: var(--shadow-glow);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.3); }
+    50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(var(--accent-rgb), 0.6); }
+    100% { transform: scale(1); box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.3); }
+}
+
+/* Compass modal */
+.compass {
     position: fixed;
-    top: var(--space-4);
-    right: var(--space-4);
-    bottom: auto;
-    width: 60px;
-    height: 60px;
-    font-size: 2rem;
-    z-index: 1001;
-}
-
-#quick-nav-toggle:hover {
-    transform: scale(1.1);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-}
-
-/* Quick Nav Overlay */
-.quick-nav-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(15px);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8); /* Start smaller */
     z-index: 2000;
+    background: rgba(var(--deep-rgb), 0.98); /* Near opaque deep blue */
+    backdrop-filter: blur(35px); /* Stronger blur */
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg); /* Squared shape for more content */
+    width: 450px; /* Wider compass */
+    height: auto; /* Auto height for content */
+    padding: 3rem; /* More padding */
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+    transition: opacity 0.4s var(--ease), transform 0.4s var(--ease), visibility 0.4s;
+    box-shadow: 0 0 120px rgba(0, 0, 0, 0.7); /* More dramatic shadow */
 }
-.quick-nav-overlay.active {
+
+.compass.show {
     opacity: 1;
     visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
 }
 
-.quick-nav-menu {
+.compass-nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem; /* More space */
+    width: 100%; /* Fill compass width */
+    max-width: 300px; /* Constrain width */
+}
+
+.compass-item {
     display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    text-align: center;
-    transform: scale(0.8);
-    transition: transform 0.3s var(--water-ease);
-}
-.quick-nav-overlay.active .quick-nav-menu {
-    transform: scale(1);
-}
-
-.quick-nav-menu a {
-    display: block;
-    background: linear-gradient(45deg, var(--indigo-dye), var(--prussian-blue));
-    color: var(--text-light);
-    padding: var(--space-3) var(--space-5);
-    border-radius: 50px;
+    flex-direction: column; /* Stack text */
+    align-items: center;
+    justify-content: center;
+    background: var(--glass);
+    border-radius: var(--radius);
+    color: var(--card-text-light);
     text-decoration: none;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.5rem;
-    font-weight: bold;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-    transition: all 0.3s var(--water-ease);
-}
-.quick-nav-menu a:hover {
-    background: linear-gradient(45deg, var(--sea-green), var(--palatinate-blue));
-    transform: translateX(10px) scale(1.05);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-    border-color: rgba(255, 255, 255, 0.4);
-}
-.quick-nav-close {
-    position: absolute;
-    top: var(--space-4);
-    right: var(--space-4);
-    background: none;
-    border: none;
-    font-size: 3rem;
-    color: var(--text-light);
-    cursor: pointer;
-    z-index: 2001;
-    transition: transform 0.3s ease;
-}
-.quick-nav-close:hover {
-    transform: rotate(90deg) scale(1.1);
-    color: var(--golden-gate-bridge);
+    font-size: 1rem; /* Slightly larger text */
+    font-weight: 600;
+    transition: all 0.3s var(--ease);
+    text-align: center;
+    line-height: 1.3;
+    min-height: 70px; /* Ensure good tap target */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.5rem; /* Add padding for content */
 }
 
-/* Depth indicator for index page */
-.depth-indicator {
+.compass-item:hover {
+    background: var(--accent);
+    color: var(--ink);
+    transform: scale(1.08); /* More pronounced scale */
+    box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.4);
+    border-color: var(--accent);
+}
+
+.compass-item.center {
+    background: var(--accent-glow); /* Brighter center hub */
+    color: var(--ink);
+    font-weight: 700;
+    box-shadow: 0 0 25px rgba(var(--accent-rgb), 0.8);
+}
+
+/* Hub specific styling */
+#hub-dropoff .card {
+    background: linear-gradient(135deg, var(--glass) 0%, rgba(var(--accent-rgb), 0.15) 100%);
+    border: 2px solid rgba(var(--accent-rgb), 0.4);
+}
+
+/* Content page positioning for immersive navigation elements */
+#site-logo {
     position: fixed;
-    top: var(--space-4);
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.5);
-    padding: var(--space-2) var(--space-4);
-    border-radius: 25px;
-    backdrop-filter: blur(10px);
-    font-size: 1.1rem;
+    top: 15vh;
+    left: 15vw;
     z-index: 1000;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 1.3rem;
+    text-decoration: none;
+    transition: all 0.3s var(--ease);
+    cursor: pointer;
+    text-shadow: 0 0 15px rgba(var(--accent-rgb), 0.4);
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--glass-border);
 }
 
-/* Particle System (Ambient details for index page) */
-.particles {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; /* Below content, above caustics */
+#site-logo:hover {
+    color: var(--accent-glow);
+    transform: scale(1.15) translateY(-3px);
+    text-shadow: 0 0 30px var(--accent-glow);
 }
-.particle { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.7); animation: particle-float 12s linear infinite; opacity: 0; }
-.bubble { position: absolute; border-radius: 50%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.1)); border: 1px solid rgba(255, 255, 255, 0.3); animation: bubble-rise 8s ease-out infinite; opacity: 0; }
-.fish { position: absolute; width: 30px; height: 15px; background: var(--sea-green); border-radius: 50% 0 50% 0; animation: fish-swim 20s linear infinite; opacity: 0.8; }
-.fish::after { content: ''; position: absolute; right: -8px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-left: 8px solid var(--sea-green); border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
 
-/* Welcome Message (Index page specific) */
-.welcome-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85); display: flex; align-items: center; justify-content: center; z-index: 10000; animation: fadeIn 0.5s ease-in; }
-.welcome-box { background: rgba(14, 57, 82, 0.95); color: var(--text-light); padding: var(--space-5) var(--space-6); border-radius: 15px; text-align: center; backdrop-filter: blur(15px); border: 2px solid rgba(255, 255, 255, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); max-width: 450px; width: 90%; }
-.welcome-box h3 { margin-bottom: var(--space-2); color: var(--golden-gate-bridge); font-family: 'Orbitron', sans-serif; font-size: 1.8rem; text-shadow: 0 0 10px rgba(242, 71, 2, 0.5); }
-.welcome-box p { margin-bottom: var(--space-3); font-size: 1.1rem; line-height: 1.5; }
-.welcome-box p.small-text { font-size: 0.95rem; opacity: 0.8; margin-bottom: var(--space-2); text-align: left; white-space: pre-line; margin-left: var(--space-3); }
-.welcome-box button { background: linear-gradient(45deg, var(--golden-gate-bridge), var(--palatinate-blue)); border: none; color: white; padding: var(--space-2) var(--space-4); border-radius: 25px; cursor: pointer; margin-top: var(--space-3); font-weight: bold; font-size: 1.1rem; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); }
-.welcome-box button:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); }
-
-/* Mute toggle (optional) */
-#mute-toggle {
+#quick-nav-toggle {
     position: fixed;
-    top: var(--space-4);
-    right: var(--space-4);
+    top: 15vh;
+    right: 15vw;
+    z-index: 1000;
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
     width: 50px;
     height: 50px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: var(--text-light);
+    color: var(--accent);
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: all 0.3s var(--ease);
+    box-shadow: var(--shadow);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
-    cursor: pointer;
-    z-index: 1000;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
-    opacity: 0.5;
+    line-height: 1;
+    transform-origin: center center;
 }
 
-/* For content pages, position mute toggle to avoid overlap with quick-nav */
-body:not(.index-page) #mute-toggle {
-    top: calc(var(--space-4) + 80px); /* Position below quick-nav toggle */
-    right: var(--space-4);
-    z-index: 1001;
+#quick-nav-toggle:hover {
+    background: rgba(var(--accent-rgb), 0.25);
+    transform: scale(1.15) rotate(90deg);
+    box-shadow: var(--shadow-glow);
+}
+
+#mute-toggle {
+    position: fixed;
+    top: calc(15vh + 70px);
+    right: 15vw;
+    z-index: 1000;
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    color: var(--accent);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s var(--ease);
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
 }
 
 #mute-toggle:hover {
-    opacity: 1;
-    transform: scale(1.1);
+    background: rgba(var(--accent-rgb), 0.25);
+    transform: scale(1.15);
+    box-shadow: var(--shadow-glow);
 }
 
-
-/* ==================================== */
-/* Content Page Specific Elements */
-/* ==================================== */
-
-/* Ensure content pages have proper spacing for the floating navigation */
-body:not(.index-page) {
-    padding-top: 120px; /* Space for logo and quick-nav at top */
+/* Content pages need padding for the fixed elements */
+body {
+    padding-top: 120px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
-body:not(.index-page) .page-hero {
-    margin-top: 0; /* Remove extra margin since we have padding on body */
-}
-
-/* Episodes Page Specific */
-.kicker {
-    font-style: italic;
-    text-align: center;
-    max-width: 800px;
-    margin: var(--space-4) auto var(--space-6) auto;
-    font-size: 1.25rem;
-    color: var(--text-muted);
-}
-.episode .eyebrow {
-    font-family: 'Orbitron', sans-serif;
-    color: var(--sea-green);
-    font-size: 1rem;
-    text-transform: uppercase;
-    margin-bottom: var(--space-1);
-    letter-spacing: 1px;
-}
-.episode h3 {
-    color: var(--palatinate-blue);
-    margin-top: var(--space-1);
-}
-.episode .sub {
-    font-style: italic;
-    color: var(--text-muted);
-    font-size: 1.05rem;
-    margin-bottom: var(--space-3);
-}
-.episode .meta {
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    margin-top: var(--space-3);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    padding-top: var(--space-2);
-}
-.episode .meta strong {
-    color: var(--golden-gate-bridge);
-}
-.episode h4 {
-    color: var(--text-light);
-    margin-top: var(--space-4);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: var(--space-1);
-    margin-bottom: var(--space-2);
-}
-.episode .reflection {
-    font-style: italic;
-    background: rgba(255, 255, 255, 0.05);
-    border-left: 4px solid var(--sea-green);
-    padding: var(--space-2) var(--space-3);
-    border-radius: 5px;
-    margin-top: var(--space-4);
-    color: var(--text-light);
-}
-.episode .links a {
-    color: var(--palatinate-blue);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-.episode .links a:hover {
-    color: var(--golden-gate-bridge);
-    text-decoration: underline;
-}
-
-
-/* Themes Page Specific */
-.themes-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--space-4);
-    margin-top: var(--space-6);
-}
-
-.theme-chip {
-    text-align: center; /* Override inline style */
-    padding: var(--space-4);
-    min-height: 200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-left: 5px solid var(--palatinate-blue); /* Distinct border */
-}
-.theme-chip h4 {
-    color: var(--golden-gate-bridge);
-    margin-bottom: var(--space-2);
-    font-size: 1.8rem;
-}
-.theme-chip p {
-    font-size: 1rem;
-    color: var(--text-muted);
-    font-style: italic;
-}
-.theme-chip ul {
-    margin-top: var(--space-2);
-    text-align: left;
-}
-.theme-chip ul li::before {
-    color: var(--sea-green);
-}
-
-
-/* Podcast Page Specific */
-#trailer {
-    border-left: 5px solid var(--golden-gate-bridge);
-    padding: var(--space-5);
-}
-#trailer h3 {
-    color: var(--golden-gate-bridge);
-    margin-bottom: var(--space-3);
-}
-.audio-placeholder {
-    background: rgba(255, 255, 255, 0.1);
-    height: 60px; /* Placeholder for audio player height */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    margin-bottom: var(--space-3);
-    font-style: italic;
-    color: var(--text-muted);
-}
-.podcast-list {
-    list-style: none;
-    padding: 0;
-}
-.podcast-list li {
-    background: var(--card-background);
-    border: 1px solid var(--card-border);
-    border-radius: 10px;
-    padding: var(--space-4);
-    margin-bottom: var(--space-4);
-    display: flex;
-    flex-direction: column;
-    border-left: 5px solid var(--indigo-dye);
-    transition: all 0.3s ease; /* For hover effect */
-}
-.podcast-list li:hover {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-    transform: translateY(-3px);
-}
-.podcast-list li strong {
-    color: var(--palatinate-blue);
-    font-size: 1.15rem;
-}
-.podcast-list li a {
-    color: var(--text-light);
-    text-decoration: none;
-    transition: color 0.3s ease;
-    font-weight: bold;
-    font-size: 1.15rem;
-}
-.podcast-list li a:hover {
-    color: var(--golden-gate-bridge);
-}
-.podcast-list li .meta {
-    font-style: italic;
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    margin-top: var(--space-2);
-}
-.podcast-list li h5 {
-    color: var(--sea-green);
-    margin-top: var(--space-3);
-    margin-bottom: var(--space-1);
-}
-.podcast-list li .timestamps {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    margin-top: var(--space-2);
-}
-
-/* Extras Page Specific */
-.grid-2 {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: var(--space-4);
-    margin-top: var(--space-6);
-}
-.extras-section .card {
-    border-left: 5px solid var(--golden-gate-bridge);
-    padding: var(--space-5);
-}
-.extras-section .card h3 {
-    color: var(--golden-gate-bridge);
-    margin-bottom: var(--space-2);
-}
-.extras-section .card ul {
-    margin-top: var(--space-2);
-}
-.extras-section .card ul li::before {
-    color: var(--palatinate-blue);
-}
-.extras-section .card p.muted {
-    font-style: italic;
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    margin-top: var(--space-3);
-}
-.ethos {
-    text-align: center;
-    margin-top: var(--space-6) !important;
-    font-style: italic;
-    color: var(--text-muted);
-    font-size: 1.1rem;
-}
-
-
-/* Characters Page Specific */
-.hero {
-    text-align: center;
-    padding: var(--space-8) var(--space-4);
-    background: radial-gradient(circle at 50% 50%, rgba(1, 63, 232, 0.3), rgba(14, 57, 82, 0.6));
-    margin-bottom: var(--space-6);
-    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-}
-.hero h1 {
-    font-size: 4.5rem;
-    margin-bottom: var(--space-3);
-    background: linear-gradient(45deg, var(--palatinate-blue), var(--text-light), var(--golden-gate-bridge));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
-}
-.hero p {
-    max-width: 800px;
-    margin: 0 auto;
-    font-size: 1.4rem;
-    color: var(--text-light);
-}
-.character-grid-section { /* Wrapper for grid */
-    padding-bottom: var(--space-6); /* Add some padding at the bottom */
-}
-.character-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--space-4);
-    padding: var(--space-4);
-}
-.character-card {
-    background: var(--card-background);
-    border: 1px solid var(--card-border);
-    border-radius: 15px;
-    box-shadow: var(--card-shadow);
-    padding: var(--space-5);
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-left: 5px solid var(--sea-green);
-    min-height: 220px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-.character-card:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-.character-card h2 {
-    color: var(--golden-gate-bridge);
-    margin-bottom: var(--space-2);
-    font-size: 2.2rem;
-}
-.character-card p {
-    font-size: 1.05rem;
-    color: var(--text-muted);
-}
-
-
-/* Animations */
-@keyframes anemone-pulse { /* Index only */
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.08); }
-}
-
-@keyframes ripple-wave { /* Index only */
-    0% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(1.8); opacity: 0; }
-}
-
-@keyframes tentacle-sway { /* Index only */
-    0%, 100% { transform: rotate(-15deg); }
-    50% { transform: rotate(15deg); }
-}
-
-@keyframes float { /* Index only (or specific floating elements) */
-    0%, 100% { transform: translateY(0px) translateX(0px); }
-    25% { transform: translateY(-10px) translateX(5px); }
-    50% { transform: translateY(-20px) translateX(-5px); }
-    75% { transform: translateY(-10px) translateX(5px); }
-}
-
-@keyframes title-glow {
-    0% { text-shadow: 0 0 30px rgba(255, 255, 255, 0.2); }
-    100% { text-shadow: 0 0 40px rgba(242, 71, 2, 0.4), 0 0 60px rgba(1, 63, 232, 0.3); }
-}
-
-@keyframes caustics-move {
-    0% { background-position: 0 0; }
-    100% { background-position: 500px 500px; } /* Adjust as needed for effect */
-}
-
-@keyframes particle-float { /* Index only */
-    0% { transform: translateY(100vh) translateX(0px); opacity: 0; }
-    10% { opacity: 0.7; }
-    90% { opacity: 0.7; }
-    100% { transform: translateY(-100px) translateX(100px); opacity: 0; }
-}
-
-@keyframes bubble-rise { /* Index only */
-    0% { transform: translateY(100vh) scale(0.1); opacity: 0; }
-    10% { opacity: 0.8; }
-    90% { opacity: 0.8; }
-    100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
-}
-
-@keyframes fish-swim { /* Index only */
-    0% { transform: translateX(-110vw) translateY(calc(var(--fish-y-offset) * 1vh)) scaleX(1); opacity: 0;}
-    5% { opacity: 1; }
-    45% { transform: translateX(30vw) translateY(calc(var(--fish-y-offset) * 1vh)) scaleX(1); opacity: 1;}
-    50% { transform: translateX(35vw) translateY(calc(var(--fish-y-offset) * 1vh)) scaleX(-1); }
-    95% { transform: translateX(110vw) translateY(calc(var(--fish-y-offset) * 1vh)) scaleX(-1); opacity: 1;}
-    100% { opacity: 0; }
-}
-
-@keyframes screen-shake { /* Index only */
-    0%, 100% { transform: translateX(0) translateY(0); }
-    25% { transform: translateX(-2px) translateY(1px); }
-    75% { transform: translateX(2px) translateY(-1px); }
-}
-
-@keyframes current-flow { /* Index only */
-    0% { transform: translateX(-100%) scaleY(1); opacity: 0; }
-    50% { opacity: 0.2; transform: translateX(0%) scaleY(1.2); }
-    100% { transform: translateX(100%) scaleY(1); opacity: 0; }
-}
-
-@keyframes fadeIn { /* Index welcome message */
-    from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
-    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-}
-
-
-/* ==================================== */
-/* Reduced Motion for Accessibility */
-/* ==================================== */
-@media (prefers-reduced-motion: reduce) {
-    body, html {
-        transition: none !important;
-        animation: none !important;
-    }
-    .ocean-world, .section.ocean-node, .nav-orb, .btn, .back-orb, #quick-nav-toggle {
-        transition: none !important;
-        animation: none !important;
-    }
-    .caustics-layer, .particle, .bubble, .fish {
-        display: none !important;
-        opacity: 0 !important;
-    }
-    .quick-nav-overlay.active .quick-nav-menu {
-        transform: scale(1); /* No scale animation */
-    }
-}
-
-
-/* ==================================== */
-/* Responsive Design */
-/* ==================================== */
-@media (max-width: 1024px) {
-    h1 { font-size: 3rem; }
-    h2 { font-size: 2.4rem; }
-    h3 { font-size: 1.8rem; }
-    h4 { font-size: 1.3rem; }
-    p { font-size: 1.1rem; }
-    ul li { font-size: 1.05rem; }
-
-    .section-title { font-size: 2.8rem; }
-    .kicker { font-size: 1.15rem; }
-    .btn, header nav a { padding: 0.8rem 1.5rem; font-size: 1rem; }
-    header nav ul { gap: var(--space-3); }
-    header .logo { font-size: 1.3rem; }
-
-    /* Index Page Adjustments */
-    .ocean-node .title { font-size: 2.2rem; }
-    .ocean-node .one-liner { font-size: 1.05rem; }
-    .nav-orb { width: 120px; height: 120px; font-size: 0.9rem; padding: var(--space-0-5); }
-    .anemone { width: 200px; height: 200px; }
-    .anemone::before { width: 250px; height: 250px; }
-    .anemone::after { width: 290px; height: 290px; }
-    .anemone-text { font-size: 1.4rem; }
-    #site-logo { font-size: 1.5rem; }
-    #quick-nav-toggle { width: 70px; height: 70px; font-size: 2rem; }
-    .depth-indicator { font-size: 1rem; }
-
-    .themes-grid, .grid-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-    .character-card h2 { font-size: 2rem; }
-    .hero h1 { font-size: 3.5rem; }
-    .hero p { font-size: 1.25rem; }
-}
-
+/* Responsive design */
 @media (max-width: 768px) {
-    .wrap { padding: var(--space-3); }
-    h1 { font-size: 2.5rem; }
-    h2 { font-size: 2rem; }
-    h3 { font-size: 1.6rem; }
-    h4 { font-size: 1.2rem; }
-    p { font-size: 1rem; }
-    ul li { font-size: 0.95rem; }
+    body { font-size: 15px; } /* Adjust base font size for smaller screens */
 
-    .section-title { font-size: 2.2rem; margin-bottom: var(--space-4); }
-    .kicker { font-size: 1rem; margin-top: var(--space-3); margin-bottom: var(--space-4); }
-    
-    header .header-content { flex-direction: column; text-align: center; gap: var(--space-2); }
-    header nav ul { flex-wrap: wrap; justify-content: center; gap: var(--space-2); }
-    header nav a { font-size: 0.9rem; padding: 0.6rem 1rem; }
-    header .logo { margin-bottom: var(--space-2); font-size: 1.2rem;}
+    .card {
+        padding: 3rem 2rem;
+        margin: 1.5rem auto;
+        max-width: 95vw;
+    }
 
-    .card { padding: var(--space-4); margin-bottom: var(--space-4); }
-    .btn, header nav a { padding: 0.7rem 1.2rem; font-size: 0.9rem; }
-    .actions { flex-direction: column; align-items: center; gap: var(--space-2); }
-    .btn { width: 100%; max-width: 280px; } /* Stack buttons */
+    .card h1, .card h2 {
+        font-size: clamp(1.8rem, 7vw, 2.5rem);
+        margin-bottom: 1rem;
+    }
 
-    /* Index Page Adjustments */
-    .ocean-node .content-card { padding: var(--space-4); }
-    .ocean-node .title { font-size: 1.8rem; }
-    .ocean-node .one-liner { font-size: 0.95rem; }
-    .ocean-node .theme-chip-tag { margin-bottom: var(--space-3); }
-    .nav-orb { width: 100px; height: 100px; font-size: 0.8rem; }
-    /* Adjust orb positions to prevent overlap on smaller screens if needed */
-    .orb-shark-cove { top: -60px; }
-    .orb-jellyfield { left: -80px; }
-    .orb-eac-current { right: -80px; }
-    .orb-sydney-harbor { bottom: -60px; }
+    #hub-dropoff .card p:first-of-type {
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+    }
 
-    .anemone-center-visual { width: 300px; height: 300px; }
-    .anemone { width: 150px; height: 150px; }
-    .anemone::before { width: 190px; height: 190px; }
-    .anemone::after { width: 220px; height: 220px; }
-    .anemone-text { font-size: 1.2rem; }
-    #site-logo { font-size: 1.2rem; bottom: var(--space-3); left: var(--space-3); }
-    #quick-nav-toggle { width: 60px; height: 60px; font-size: 1.8rem; bottom: var(--space-3); right: var(--space-3); }
-    .back-orb { width: 60px; height: 60px; font-size: 1.5rem; top: var(--space-3); right: var(--space-3); }
-    .depth-indicator { font-size: 0.9rem; padding: var(--space-1) var(--space-2); top: var(--space-3); }
-    .welcome-box { padding: var(--space-4); }
-    .welcome-box h3 { font-size: 1.5rem; }
-    .welcome-box p { font-size: 1rem; }
-    .welcome-box p.small-text { font-size: 0.9rem; }
-
-
-    .hero { padding: var(--space-6) var(--space-3); }
-    .hero h1 { font-size: 2.8rem; }
-    .hero p { font-size: 1.1rem; }
-    .character-card h2 { font-size: 1.8rem; }
-    .character-card p { font-size: 0.95rem; }
-    
-    .themes-grid, .grid-2 { grid-template-columns: 1fr; }
-    .podcast-list li { padding: var(--space-3); }
-    .podcast-list li strong, .podcast-list li a { font-size: 1.05rem; }
-
-    footer .footer-nav a { margin: 0 var(--space-1); font-size: 0.85rem; }
-    footer p { margin-top: var(--space-2); font-size: 0.8rem; }
-}
-
-@media (max-width: 480px) {
-    .wrap { padding: var(--space-2); }
-    h1 { font-size: 2rem; }
-    h2 { font-size: 1.6rem; }
-    h3 { font-size: 1.3rem; }
-    h4 { font-size: 1.1rem; }
-    p { font-size: 0.9rem; }
-    ul li { font-size: 0.85rem; }
-
-    .section-title { font-size: 1.8rem; margin-bottom: var(--space-3); }
-    .kicker { font-size: 0.9rem; margin-top: var(--space-2); margin-bottom: var(--space-3); }
-    
-    header .logo { font-size: 1.1rem; }
-    header nav ul { gap: var(--space-1); }
-    header nav a { font-size: 0.8rem; padding: 0.5rem 0.8rem; }
-
-    .card { padding: var(--space-3); margin-bottom: var(--space-3); }
-    .btn { max-width: 250px; }
-
-    /* Index Page Adjustments */
-    .ocean-node .title { font-size: 1.5rem; }
-    .ocean-node .one-liner { font-size: 0.85rem; }
-    .nav-orb { width: 80px; height: 80px; font-size: 0.75rem; }
-    .anemone-center-visual { width: 250px; height: 250px; }
-    .anemone { width: 120px; height: 120px; }
-    .anemone::before { width: 150px; height: 150px; }
-    .anemone::after { width: 170px; height: 170px; }
-    .anemone-text { font-size: 1rem; }
-    .welcome-box h3 { font-size: 1.3rem; }
-    .welcome-box p { font-size: 0.9rem; }
-    .welcome-box button { font-size: 1rem; padding: var(--space-1) var(--space-3); }
-
-    .hero { padding: var(--space-4) var(--space-2); }
-    .hero h1 { font-size: 2.2rem; }
-    .hero p { font-size: 1rem; }
-    .character-card h2 { font-size: 1.5rem; }
-    
-    .themes-grid, .grid-2 { gap: var(--space-3); }
-    .theme-chip { padding: var(--space-3); }
-    .theme-chip h4 { font-size: 1.5rem; }
-
-    #trailer { padding: var(--space-3); }
-    #trailer h3 { font-size: 1.3rem; }
-    .podcast-list li { padding: var(--space-2); }
-    .podcast-list li strong, .podcast-list li a { font-size: 0.95rem; }
-
-    footer .footer-nav a { margin: 0 var(--space-0); /* Smaller gap */ font-size: 0.75rem; }
-    footer p { font-size: 0.7rem; }
-}
-
-/* ==================================== */
-/* Episodes Page Specific Styles */
-/* ==================================== */
-
-/* Page Hero Section (for content pages like Episodes, Characters, etc.) */
-.page-hero {
-    text-align: center;
-    padding: var(--space-8) var(--space-4);
-    /* Background will be dynamically set by JS or derived from data-depth */
-    /* For episodes.html, this will default to --depth-0-bg */
-    background: var(--depth-0-bg); /* Fallback/initial for shallowest node */
-    margin-bottom: var(--space-6);
-    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-    transition: background 1.5s var(--water-ease); /* Smooth transition for background */
-}
-
-.page-hero-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 4.5rem;
-    margin-bottom: var(--space-3);
-    background: linear-gradient(45deg, var(--golden-gate-bridge), var(--text-light), var(--palatinate-blue));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
-    line-height: 1.1;
-}
-
-.page-hero-kicker {
-    max-width: 800px;
-    margin: 0 auto;
-    font-size: 1.4rem;
-    color: var(--text-light);
-    opacity: 0.9;
-    text-shadow: 0 1px 5px rgba(0,0,0,0.5);
-}
-
-/* Specific styling for episode cards */
-.episode-card {
-    border-left: 5px solid var(--palatinate-blue); /* A thematic border for episode cards */
-    padding: var(--space-5);
-    margin-bottom: var(--space-5);
-    transition: transform 0.3s var(--water-ease), box-shadow 0.3s var(--water-ease);
-}
-
-.episode-card:hover {
-    transform: translateY(-5px) scale(1.01);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-
-/* Ensure the content-list-section provides proper spacing */
-.content-list-section {
-    padding-bottom: var(--space-6);
-}
-
-/* Adjustments for buttons within episode cards for better icon/text alignment */
-.episode-card .actions .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-1); /* Space between icon and text */
-    padding: 0.9rem 1.8rem;
-    font-size: 1rem;
-}
-
-/* Responsive Adjustments for Page Hero and Episode Cards */
-@media (max-width: 1024px) {
-    .page-hero-title { font-size: 3.5rem; }
-    .page-hero-kicker { font-size: 1.2rem; }
-}
-
-@media (max-width: 768px) {
-    .page-hero { padding: var(--space-6) var(--space-3); }
-    .page-hero-title { font-size: 2.8rem; }
-    .page-hero-kicker { font-size: 1.1rem; }
-    .episode-card .actions .btn {
-        flex-direction: column; /* Stack icon and text on small screens */
-        gap: var(--space-0-5);
-        padding: 0.8rem 1.5rem;
+    .card p {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+    .card > div {
+        margin-top: 1rem;
+        gap: 0.3rem; /* Reduce gap slightly on mobile */
+    }
+    .chip {
+        padding: 0.5rem 1rem;
         font-size: 0.9rem;
-        min-width: 160px; /* Ensure buttons are not too small */
+    }
+
+    .brand-home, .compass-toggle {
+        bottom: 1.5rem;
+    }
+
+    .brand-home {
+        left: 1.5rem;
+        font-size: 1.1rem;
+    }
+
+    .compass-toggle {
+        right: 1.5rem;
+        width: 55px;
+        height: 55px;
+        font-size: 1.4rem;
+    }
+
+    .compass {
+        width: 90vw;
+        height: auto;
+        padding: 2rem;
+        border-radius: var(--radius);
+    }
+
+    .compass-nav {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile for better layout */
+        gap: 0.8rem;
+    }
+    .compass-item {
+        font-size: 0.85rem;
+        min-height: 50px;
+    }
+
+    #site-logo {
+        top: 10vh;
+        left: 5vw;
+        font-size: 1.1rem;
+        padding: 0.8rem 1.2rem;
+    }
+
+    #quick-nav-toggle {
+        top: 10vh;
+        right: 5vw;
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+    }
+
+    #mute-toggle {
+        top: calc(10vh + 55px);
+        right: 5vw;
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
     }
 }
 
-@media (max-width: 480px) {
-    .page-hero { padding: var(--space-4) var(--space-2); }
-    .page-hero-title { font-size: 2.2rem; }
-    .page-hero-kicker { font-size: 1rem; }
-    .episode-card .actions .btn {
-        min-width: 120px;
-        font-size: 0.85rem;
-        padding: 0.7rem 1.2rem;
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
+
+    .panel::before {
+        animation: none;
+    }
+    body {
+        animation: none;
+    }
+}
+
+/* Loading animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Focus styles for accessibility */
+.chip:focus, .compass-item:focus, .brand-home:focus, .compass-toggle:focus {
+    outline: 3px solid var(--accent-glow); /* Brighter, thicker outline */
+    outline-offset: 5px; /* More offset */
+    border-radius: var(--radius); /* Rounded focus outline for chips/items */
+}
+/* Specific for compass toggle */
+.compass-toggle:focus {
+    border-radius: 50%; /* Keep round for button */
+}
+
+/* Depth transitions applied to the #ocean main element */
+/* These filters will be dynamically applied to #ocean via JS based on depth */
+[data-current-depth="0"] { /* Using a data attribute for JS to control */
+    filter: brightness(1.1) contrast(1.05) saturate(1.05); /* Brighter, more vibrant surface */
+}
+
+[data-current-depth="1"] {
+    filter: brightness(0.9) contrast(1.1) saturate(1.1) hue-rotate(-5deg); /* Slightly darker, higher contrast, subtle green/blue shift */
+}
+
+[data-current-depth="2"] {
+    filter: brightness(0.7) contrast(1.2) saturate(0.9) hue-rotate(-10deg) blur(0.5px); /* Darker, high contrast, more blue/green shift, subtle blur for depth */
 }
