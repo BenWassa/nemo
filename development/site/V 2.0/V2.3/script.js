@@ -476,32 +476,6 @@ class UnderwaterWorld {
             }
         });
 
-        // Mouse wheel "depth" control - linear progression
-        document.addEventListener('wheel', (e) => {
-            // Prevent scrolling if quick nav is open
-            if (this.quickNavOverlay.classList.contains('active')) {
-                e.preventDefault();
-                return;
-            }
-
-            // Define a linear order for mouse wheel scrolling that makes sense
-            const linearScrollOrder = [
-                'shark-cove-node',
-                'jellyfield-node', // Arbitrary placement in linear order
-                'anemone-center',
-                'eac-current-node', // Arbitrary placement in linear order
-                'sydney-harbor-node',
-                'reef-return-node'
-            ];
-            const linearIndex = linearScrollOrder.indexOf(this.currentLocation);
-
-            if (e.deltaY > 0 && linearIndex < linearScrollOrder.length - 1) { // Scroll down (dive deeper)
-                this.navigateTo(linearScrollOrder[linearIndex + 1]);
-            } else if (e.deltaY < 0 && linearIndex > 0) { // Scroll up (surface)
-                this.navigateTo(linearScrollOrder[linearIndex - 1]);
-            }
-        }, { passive: false }); // Use passive: false to allow e.preventDefault() for mouse wheel
-
         // Handle browser back/forward buttons
         window.addEventListener('popstate', () => {
             const hash = window.location.hash.substring(1);
@@ -606,7 +580,6 @@ class UnderwaterWorld {
                         • Click glowing orbs to explore sections
                         • Keyboard Arrows (↑↓←→) for direct navigation
                         • 'C' or 'Home' key returns to the Anemone Hub
-                        • Mouse wheel allows you to 'dive' through key areas
                     </p>
                     <button id="beginJourneyButton">Begin Journey</button>
                 </div>
