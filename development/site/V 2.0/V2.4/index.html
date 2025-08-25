@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FilmSeele: Finding Nemo - An Immersive Journey</title>
+    <title>FilmSeele: Finding Nemo - An Ocean Exploration</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,34 +11,37 @@
 </head>
 <body>
 
+    <!-- The fixed background that creates the deep ocean feel -->
     <div class="ocean-background">
         <div class="bubbles">
             <span style="--i:11;"></span><span style="--i:12;"></span><span style="--i:24;"></span>
             <span style="--i:10;"></span><span style="--i:14;"></span><span style="--i:23;"></span>
             <span style="--i:18;"></span><span style="--i:16;"></span><span style="--i:19;"></span>
             <span style="--i:20;"></span><span style="--i:22;"></span><span style="--i:25;"></span>
-            <span style="--i:18;"></span><span style="--i:21;"></span><span style="--i:15;"></span>
-            <span style="--i:13;"></span><span style="--i:26;"></span><span style="--i:17;"></span>
-            <span style="--i:13;"></span><span style="--i:28;"></span>
         </div>
-        <div class="light-rays"></div>
     </div>
 
+    <!-- The fixed navigation header -->
     <header class="main-header">
-        <h1>FilmSeele: Finding Nemo</h1>
-        <p class="subtitle">An Immersive Underwater Journey</p>
+        <div class="header-content">
+            <a href="#hub-dropoff" class="logo">FilmSeele: Finding Nemo</a>
+            <nav class="main-nav">
+                <a href="#shark-cove">Shark Cove</a>
+                <a href="#jellyfield">Jellyfield</a>
+                <a href="#eac-current">EAC Current</a>
+                <a href="#sydney-harbor">Sydney Harbor</a>
+                <a href="#reef-return">Reef Return</a>
+            </nav>
+        </div>
     </header>
 
     <main id="journey">
         <!-- Section 1: Hub Dropoff -->
-        <section id="hub-dropoff" class="ocean-section active">
+        <section id="hub-dropoff" class="ocean-section">
             <div class="content-panel">
                 <h2>The Hub Dropoff</h2>
                 <h3>Central Anemone Hub - The Story's Beginning</h3>
                 <p>Welcome to the Great Barrier Reef. Life is full of wonder, but also unseen dangers. This is where our journey begins, in the safety of home, before everything changes.</p>
-                <nav id="main-nav">
-                    <a href="#shark-cove" class="nav-link" data-target="shark-cove">Venture into the Deep</a>
-                </nav>
             </div>
         </section>
 
@@ -48,7 +51,6 @@
                 <h2>Shark Cove</h2>
                 <h3>Road of Trials - Character Challenges</h3>
                 <p>Marlin, now alone, must face the vast, intimidating ocean. He encounters sharks who are trying to change their ways. It's a lesson in courage and judging others beyond their appearance. "Fish are friends, not food."</p>
-                <a href="#jellyfield" class="nav-link" data-target="jellyfield">Continue the Search</a>
             </div>
         </section>
 
@@ -58,7 +60,6 @@
                 <h2>The Jellyfield</h2>
                 <h3>Deepening Crisis - Story Complications</h3>
                 <p>A mesmerizing but perilous path lies ahead. Navigating the forest of stinging jellyfish is a test of determination and trust between Marlin and his new companion, Dory. The goal is close, but the risks are greater than ever.</p>
-                 <a href="#eac-current" class="nav-link" data-target="eac-current">Ride the Current</a>
             </div>
         </section>
 
@@ -68,7 +69,6 @@
                 <h2>The EAC Current</h2>
                 <h3>Trust & Flow - Character Growth</h3>
                 <p>Marlin learns to let go and trust the flow. Riding the Eastern Australian Current with a family of sea turtles, he discovers a faster way to Sydney and a new perspective on parenting. It's about finding the balance between protection and freedom.</p>
-                <a href="#sydney-harbor" class="nav-link" data-target="sydney-harbor">Approach Sydney</a>
             </div>
         </section>
 
@@ -78,7 +78,6 @@
                 <h2>Sydney Harbor</h2>
                 <h3>The Ordeal - Climactic Moments</h3>
                 <p>The destination is reached, but the challenges are immense. In the murky waters of Sydney Harbor, all hope seems lost. It's the ultimate test of Marlin's resolve and Nemo's ingenuity to reunite against all odds.</p>
-                 <a href="#reef-return" class="nav-link" data-target="reef-return">Return Home</a>
             </div>
         </section>
 
@@ -88,7 +87,6 @@
                 <h2>The Reef Return</h2>
                 <h3>Integration - Story Resolution</h3>
                 <p>Back where it all began, but everything has changed. The family is reunited, stronger and wiser. The ocean is still a vast, wondrous place, but now they face it together, with courage and love.</p>
-                <a href="#hub-dropoff" class="nav-link" data-target="hub-dropoff">Rediscover the Beginning</a>
             </div>
         </section>
     </main>

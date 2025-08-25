@@ -1,14 +1,9 @@
 /* --- ROOT & GENERAL STYLES --- */
 :root {
     --golden-gate-bridge: #f24702ff;
-    --palatinate-blue: #013fe8ff;
     --prussian-blue: #0e3952ff;
-    --indigo-dye: #0c437bff;
-    --sea-green: #389054ff;
     --light-foam-white: #e0f2f7ff;
-    --sandy-beige: #d4b886ff;
-    --glowing-yellow: #fddb00ff;
-
+    --deep-ocean-start: #030d15;
     --font-heading: 'Quicksand', sans-serif;
     --font-body: 'Nunito', sans-serif;
 }
@@ -21,13 +16,14 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 100px; /* Offset for fixed header */
 }
 
 body {
     font-family: var(--font-body);
     color: var(--light-foam-white);
-    overflow: hidden; /* Prevents scrollbars, as navigation is handled by JS */
-    transition: background 1.5s ease-in-out;
+    background: linear-gradient(to top, var(--deep-ocean-start), var(--prussian-blue));
+    overflow-x: hidden;
 }
 
 /* --- OCEAN ATMOSPHERE & BACKGROUND --- */
@@ -41,116 +37,102 @@ body {
     overflow: hidden;
 }
 
-.light-rays {
-    position: absolute;
-    top: -150px;
-    left: 50%;
-    width: 800px;
-    height: 500px;
-    background: radial-gradient(ellipse at 50% 0%, rgba(253, 219, 0, 0.2), transparent 70%);
-    transform: translateX(-50%) rotate(20deg);
-    opacity: 0;
-    animation: fadeInRays 5s forwards, sway 20s ease-in-out infinite;
-}
-
-@keyframes fadeInRays {
-    to { opacity: 1; }
-}
-
-@keyframes sway {
-    0%, 100% { transform: translateX(-50%) rotate(15deg); }
-    50% { transform: translateX(-45%) rotate(25deg); }
-}
-
 .bubbles span {
     position: absolute;
     bottom: -100px;
     width: 20px;
     height: 20px;
-    background: rgba(224, 242, 247, 0.2);
+    background: rgba(224, 242, 247, 0.15);
     border-radius: 50%;
     animation: bubble-rise 25s linear infinite;
     z-index: -1;
 }
 
 @keyframes bubble-rise {
-    0% {
-        transform: translateY(0) translateX(0);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(-120vh) translateX(var(--x-drift, 20px));
-        opacity: 0;
-    }
+    from { transform: translateY(0); }
+    to { transform: translateY(-120vh); }
 }
-
-.bubbles span:nth-child(even) { --x-drift: -20px; }
 .bubbles span { left: calc(var(--i) * 3.5%); animation-delay: calc(var(--i) * 0.5s); }
 .bubbles span:nth-child(odd) { transform: scale(0.6); animation-duration: 35s; }
 
-
-/* --- HEADER & TITLES --- */
+/* --- FIXED HEADER & NAVIGATION --- */
 .main-header {
     position: fixed;
-    top: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    z-index: 10;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-}
-
-.main-header h1 {
-    font-family: var(--font-heading);
-    font-size: 2.5rem;
-    font-weight: 700;
-}
-
-.main-header .subtitle {
-    font-size: 1.2rem;
-    opacity: 0.8;
-}
-
-/* --- MAIN SECTIONS & TRANSITIONS --- */
-main#journey {
-    position: relative;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 100vh;
+    z-index: 100;
+    padding: 1rem 0;
+    transition: background-color 0.3s ease;
 }
 
+.header-content {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--light-foam-white);
+    text-decoration: none;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.3);
+}
+
+.main-nav a {
+    color: var(--light-foam-white);
+    text-decoration: none;
+    margin-left: 2rem;
+    font-weight: 700;
+    position: relative;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.main-nav a:hover {
+    opacity: 1;
+}
+
+.main-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--golden-gate-bridge);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease-out;
+}
+
+.main-nav a:hover::after {
+    transform: scaleX(1);
+}
+
+/* Glass effect on header after scroll */
+.scrolled {
+    background: rgba(14, 57, 82, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(224, 242, 247, 0.1);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+
+/* --- MAIN SECTIONS LAYOUT --- */
 .ocean-section {
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100vh;
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 1.5s ease-in-out, visibility 1.5s;
-    background: transparent; /* Backgrounds are now on body */
+    padding: 120px 20px; /* Padding top for header */
 }
-
-.ocean-section.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* SECTION-SPECIFIC BACKGROUNDS */
-body[data-active-section="hub-dropoff"] { background: radial-gradient(circle, var(--palatinate-blue), var(--indigo-dye)); }
-body[data-active-section="shark-cove"] { background: linear-gradient(to top, #030d15, var(--prussian-blue)); }
-body[data-active-section="jellyfield"] { background: radial-gradient(circle, #4c007d, #1a002b); }
-body[data-active-section="eac-current"] { background: linear-gradient(45deg, var(--sea-green), var(--indigo-dye)); animation: current-flow 10s linear infinite; }
-body[data-active-section="sydney-harbor"] { background: linear-gradient(to top, #1a3a2a, var(--sea-green)); }
-body[data-active-section="reef-return"] { background: radial-gradient(circle, var(--palatinate-blue), #005f73); }
-
-@keyframes current-flow {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
-}
-
 
 /* --- GLASS MORPHISM CONTENT PANEL --- */
 .content-panel {
@@ -165,17 +147,16 @@ body[data-active-section="reef-return"] { background: radial-gradient(circle, va
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     text-align: center;
 
-    /* Animation */
-    transform: translateY(30px);
+    /* Animation setup */
     opacity: 0;
-    animation: panel-fade-in 1.2s forwards 0.5s;
+    transform: translateY(40px);
+    transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-@keyframes panel-fade-in {
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+/* This class will be added by JavaScript on scroll */
+.content-panel.is-visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .content-panel h2 {
@@ -195,45 +176,14 @@ body[data-active-section="reef-return"] { background: radial-gradient(circle, va
 .content-panel p {
     font-size: 1.1rem;
     line-height: 1.7;
-    margin-bottom: 2rem;
-}
-
-/* --- NAVIGATION & LINKS --- */
-.nav-link {
-    display: inline-block;
-    padding: 12px 28px;
-    border: 1px solid var(--golden-gate-bridge);
-    background: rgba(242, 71, 2, 0.8);
-    color: var(--light-foam-white);
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 700;
-    font-family: var(--font-heading);
-    transition: transform 0.3s ease, background-color 0.3s ease;
-}
-
-.nav-link:hover {
-    transform: scale(1.05);
-    background: var(--golden-gate-bridge);
-    box-shadow: 0 0 20px rgba(242, 71, 2, 0.5);
 }
 
 
 /* --- RESPONSIVE DESIGN --- */
 @media (max-width: 768px) {
-    .main-header h1 {
-        font-size: 1.8rem;
-    }
-    .main-header .subtitle {
-        font-size: 1rem;
-    }
-    .content-panel {
-        padding: 1.5rem;
-    }
-    .content-panel h2 {
-        font-size: 1.8rem;
-    }
-    .content-panel p {
-        font-size: 1rem;
-    }
+    .main-nav { display: none; } /* Simpler: hide nav on mobile */
+    .logo { font-size: 1.2rem; }
+    html { scroll-padding-top: 80px; }
+    .ocean-section { padding: 100px 15px; }
+    .content-panel h2 { font-size: 1.8rem; }
 }

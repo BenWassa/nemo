@@ -1,56 +1,39 @@
-class OceanNavigator {
-    constructor() {
-        this.sections = document.querySelectorAll('.ocean-section');
-        this.navLinks = document.querySelectorAll('.nav-link');
-        this.body = document.body;
-        this.currentSectionId = 'hub-dropoff'; // Start at the beginning
-
-        this.init();
-    }
-
-    init() {
-        // Set the initial active state
-        this.body.setAttribute('data-active-section', this.currentSectionId);
-        document.getElementById(this.currentSectionId).classList.add('active');
-
-        // Add click listeners to all navigation links
-        this.navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = link.dataset.target;
-                this.navigateTo(targetId);
-            });
-        });
-    }
-
-    navigateTo(targetId) {
-        if (targetId === this.currentSectionId) return; // Do nothing if clicking the current section
-
-        const currentSection = document.getElementById(this.currentSectionId);
-        const targetSection = document.getElementById(targetId);
-
-        if (!targetSection) {
-            console.error(`Navigation error: Section with id "${targetId}" not found.`);
-            return;
-        }
-
-        // 1. Fade out the current section
-        if (currentSection) {
-            currentSection.classList.remove('active');
-        }
-
-        // 2. Change the background on the body
-        this.body.setAttribute('data-active-section', targetId);
-
-        // 3. After a delay for the background to transition, fade in the new section
-        setTimeout(() => {
-            targetSection.classList.add('active');
-            this.currentSectionId = targetId;
-        }, 300); // This delay should be less than the CSS transition time to feel smooth
-    }
-}
-
-// Initialize the navigator once the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new OceanNavigator();
+
+    // --- 1. Animate Content Panels on Scroll ---
+    const contentPanels = document.querySelectorAll('.content-panel');
+
+    const observerOptions = {
+        root: null, // observes intersections relative to the viewport
+        rootMargin: '0px',
+        threshold: 0.2 // Trigger when 20% of the panel is visible
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                // Optional: stop observing once it's visible to save resources
+                // observer.unobserve(entry.target); 
+            }
+        });
+    }, observerOptions);
+
+    // Observe each content panel
+    contentPanels.forEach(panel => {
+        observer.observe(panel);
+    });
+
+
+    // --- 2. Add Glass Effect to Header on Scroll ---
+    const header = document.querySelector('.main-header');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) { // Add class after scrolling down 50px
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+
 });
