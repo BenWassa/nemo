@@ -247,6 +247,15 @@ audio { width:100%; }
 .footer p { color:#64748b; margin-bottom:1.5rem; }
 .footer-quote { font-family:var(--font-heading); font-style:italic; color:var(--color-text-secondary); max-width:600px; margin:0 auto; font-size:1.1rem; opacity:0.85; }
 
+/* Footer logo */
+.footer-logo { height:56px; width:auto; display:block; margin:0 auto 1rem auto; }
+
+/* Header placeholder */
+.logo-placeholder { display:inline-block; padding:.35rem .6rem; border-radius:8px; background:rgba(168,193,209,0.06); color:var(--color-text-secondary); font-weight:700; }
+
+/* Screen-reader helper */
+.sr-only { position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+
 /* --- Responsive Design --- */
 @media (max-width: 1024px) { .podcast-container { grid-template-columns:1fr; } }
 @media (max-width: 768px) {
