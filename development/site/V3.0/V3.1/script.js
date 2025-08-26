@@ -234,9 +234,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Accessibility labels
   popup.setAttribute('aria-labelledby', popup.getAttribute('aria-labelledby') || TITLE_ID);
 
-  // Expose controls globally for manual triggering
-  window.FilmSeelePopup = {
-    show: open,
-    hide: close
-  };
+  // Expose control functions
+  window.FilmSeelePopup = { show: open, hide: close };
+
+  // Event listener for the footer logo
+  const footerLogoTrigger = document.getElementById('footer-logo-trigger');
+  if (footerLogoTrigger) {
+      footerLogoTrigger.addEventListener('click', open);
+  }
 })();

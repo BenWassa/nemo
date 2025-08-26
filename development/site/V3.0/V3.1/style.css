@@ -633,3 +633,11 @@ audio { width:100%; }
     /* Remove left padding on mobile since logo is centered */
     .footer .container { padding-left: 0; }
 }
+
+/* Footer logo button */
+.footer-logo-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
