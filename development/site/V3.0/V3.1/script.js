@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
         backdrop.addEventListener('click', hidePopup);
 
         // Auto-show popup on page load (comment out to disable)
-        showPopup();
+        //showPopup();
 
         // Expose controls globally for manual triggering
         window.FilmSeelePopup = {

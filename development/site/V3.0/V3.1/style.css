@@ -248,17 +248,39 @@ audio { width:100%; }
 .footer p { color:#64748b; margin-bottom:1.5rem; }
 .footer-quote { font-family:var(--font-heading); font-style:italic; color:var(--color-text-secondary); max-width:600px; margin:0 auto; font-size:1.1rem; opacity:0.85; }
 
-/* Footer logo (circular, bottom-left inside the container) */
+/* Footer logo (stylized, positioned bottom-left) */
 .footer .container { position: relative; }
 .footer-logo {
-    /* sizing only - adjust these values as needed */
-    height: 144px; /* doubled size */
-    width: auto;
+    position: absolute;
+    left: 0.75rem;
+    bottom: 0.75rem;
+    height: 96px; /* increased from 72px */
+    width: 96px; /* set explicit width to create proper circle */
+    border-radius: 50%;
+    box-shadow: 
+        0 4px 20px rgba(168, 193, 209, 0.15),
+        0 2px 8px rgba(242, 71, 2, 0.08);
+    border: 3px solid var(--color-border-glass); /* thicker border */
+    background: rgba(14, 57, 82, 0.15); /* slightly more visible background */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: var(--transition-smooth);
+    opacity: 0.85;
+    object-fit: contain; /* ensure logo fits properly within circle */
+    padding: 8px; /* add padding to prevent cutoff */
 }
 
-/* Make sure footer content doesn't overlap the larger logo on wide screens */
+.footer-logo:hover {
+    transform: scale(1.05);
+    box-shadow: 
+        0 8px 32px rgba(168, 193, 209, 0.25),
+        0 4px 16px rgba(242, 71, 2, 0.15);
+    opacity: 1;
+}
+
+/* Adjust footer content padding for larger logo */
 @media (min-width: 769px) {
-    .footer .container { padding-left: 176px; }
+    .footer .container { padding-left: 130px; }
 }
 
 /* Header placeholder */
@@ -411,6 +433,17 @@ audio { width:100%; }
     /* Slightly smaller logo on narrow viewports */
     .logo-img { height:36px; }
 
-    /* Footer logo centered and doubled on narrow viewports */
-    .footer-logo { left: 50%; transform: translateX(-50%); bottom: 1rem; height:96px; width:auto; }
+    /* Footer logo centered and appropriately sized on mobile */
+    .footer-logo { 
+        left: 50%; 
+        transform: translateX(-50%); 
+        bottom: 1rem; 
+        height: 72px; /* larger on mobile than before */
+        width: 72px; /* explicit width for proper circle */
+        position: absolute;
+        padding: 6px; /* maintain padding on mobile */
+    }
+    
+    /* Remove left padding on mobile since logo is centered */
+    .footer .container { padding-left: 0; }
 }
