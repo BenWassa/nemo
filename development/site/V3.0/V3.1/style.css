@@ -251,19 +251,9 @@ audio { width:100%; }
 /* Footer logo (circular, bottom-left inside the container) */
 .footer .container { position: relative; }
 .footer-logo {
-    position: absolute;
-    left: 0.5rem;
-    bottom: 0.5rem;
+    /* sizing only - adjust these values as needed */
     height: 144px; /* doubled size */
     width: auto;
-    object-fit: contain;
-    display: block;
-    /* remove all surrounding stylization */
-    border-radius: 0;
-    box-shadow: none;
-    border: none;
-    background: transparent;
-    transform: none;
 }
 
 /* Make sure footer content doesn't overlap the larger logo on wide screens */
