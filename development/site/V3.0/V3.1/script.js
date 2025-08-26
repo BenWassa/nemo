@@ -163,90 +163,80 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    /* ----------------------
-       FilmSeele Logo Popup
-       ---------------------- */
-    const popup = document.getElementById('filmseele-popup');
-    const enterBtn = document.getElementById('popup-enter');
-    const backdrop = document.querySelector('[data-popup-close]');
-    
-    if (popup && enterBtn && backdrop) {
-        let lastFocused = null;
-        const focusableSelector = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-
-        function showPopup() {
-            lastFocused = document.activeElement;
-            popup.removeAttribute('hidden');
-            
-            // Small delay for layout, then add show class for animations
-            requestAnimationFrame(() => {
-                popup.classList.add('show');
-                enterBtn.focus();
-            });
-            
-            document.body.style.overflow = 'hidden';
-            document.addEventListener('keydown', handlePopupKeys, true);
-        }
-
-        function hidePopup() {
-            popup.classList.remove('show');
-            
-            // Wait for animation to complete before hiding
-            setTimeout(() => {
-                popup.setAttribute('hidden', '');
-                document.body.style.overflow = '';
-                if (lastFocused && lastFocused.focus) {
-                    lastFocused.focus();
-                }
-                document.removeEventListener('keydown', handlePopupKeys, true);
-            }, 800); // matches CSS transition duration
-        }
-
-        function handlePopupKeys(e) {
-            if (e.key === 'Escape') {
-                e.preventDefault();
-                hidePopup();
-                return;
-            }
-
-            if (e.key === 'Enter' && document.activeElement === enterBtn) {
-                e.preventDefault();
-                hidePopup();
-                return;
-            }
-
-            // Simple focus trap for Tab key
-            if (e.key === 'Tab') {
-                const focusables = Array.from(popup.querySelectorAll(focusableSelector))
-                    .filter(el => !el.hasAttribute('disabled'));
-                
-                if (focusables.length === 0) return;
-                
-                const first = focusables[0];
-                const last = focusables[focusables.length - 1];
-                
-                if (e.shiftKey && document.activeElement === first) {
-                    e.preventDefault();
-                    last.focus();
-                } else if (!e.shiftKey && document.activeElement === last) {
-                    e.preventDefault();
-                    first.focus();
-                }
-            }
-        }
-
-        // Event listeners
-        enterBtn.addEventListener('click', hidePopup);
-        backdrop.addEventListener('click', hidePopup);
-
-        // Auto-show popup on page load (comment out to disable)
-        //showPopup();
-
-        // Expose controls globally for manual triggering
-        window.FilmSeelePopup = {
-            show: showPopup,
-            hide: hidePopup
-        };
-    }
-
 });
+
+// ================================
+// FilmSeele Popup — Behavior
+// ================================
+(() => {
+  const popup      = document.getElementById('filmseele-popup');
+  const panel      = popup?.querySelector('.popup-panel');
+  const backdrop   = popup?.querySelector('.popup-backdrop');
+  const enterBtn   = document.getElementById('popup-enter');
+  const TITLE_ID   = 'popup-title';
+  const SEEN_KEY   = 'filmseele_popup_seen_session';
+
+  if (!popup || !panel || !backdrop || !enterBtn) return;
+
+  const open = () => {
+    // Show once per session
+    if (sessionStorage.getItem(SEEN_KEY) === '1') return;
+    popup.hidden = false;
+    popup.classList.add('show');
+
+    // Focus management
+    panel.setAttribute('tabindex', '-1');
+    panel.focus({ preventScroll: true });
+
+    // Trap focus inside
+    document.addEventListener('focus', trapFocus, true);
+    document.addEventListener('keydown', onKeydown);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const close = () => {
+    sessionStorage.setItem(SEEN_KEY, '1');
+    popup.classList.remove('show');
+    
+    // Wait for animation to complete before hiding
+    setTimeout(() => {
+      popup.hidden = true;
+      document.body.style.overflow = '';
+      document.removeEventListener('focus', trapFocus, true);
+      document.removeEventListener('keydown', onKeydown);
+    }, 800); // matches CSS transition duration
+  };
+
+  const onKeydown = (e) => {
+    if (e.key === 'Escape') close();
+    if (e.key === 'Enter' && document.activeElement === enterBtn) close();
+  };
+
+  // Simple focus trap within the panel
+  const trapFocus = (e) => {
+    if (!popup.hidden && !panel.contains(e.target)) {
+      e.stopPropagation();
+      panel.focus({ preventScroll: true });
+    }
+  };
+
+  // Click handlers
+  backdrop.addEventListener('click', close);
+  enterBtn.addEventListener('click', close);
+
+  // Open when the page is ready
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    setTimeout(open, 60);
+  } else {
+    document.addEventListener('DOMContentLoaded', () => setTimeout(open, 60));
+  }
+
+  // Accessibility labels
+  popup.setAttribute('aria-labelledby', popup.getAttribute('aria-labelledby') || TITLE_ID);
+
+  // Expose controls globally for manual triggering
+  window.FilmSeelePopup = {
+    show: open,
+    hide: close
+  };
+})();
