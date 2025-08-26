@@ -267,6 +267,136 @@ audio { width:100%; }
 /* Screen-reader helper */
 .sr-only { position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
 
+/* =============================================
+   FilmSeele Logo Popup
+   ============================================= */
+
+/* Popup overlay - hidden by default */
+.filmseele-popup[hidden] { display: none; }
+
+.filmseele-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+/* Backdrop with ocean-themed gradient */
+.popup-backdrop {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 40% 30%, 
+        var(--color-deep-ocean) 0%, 
+        rgba(3, 13, 21, 0.95) 70%, 
+        rgba(0, 0, 0, 0.98) 100%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Glassmorphism panel using site tokens */
+.popup-panel {
+    position: relative;
+    width: 90%;
+    max-width: 600px;
+    padding: 3rem 2rem;
+    background: var(--color-surface-glass);
+    border: 1px solid var(--color-border-glass);
+    border-radius: var(--border-radius);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-strong);
+    text-align: center;
+    pointer-events: auto;
+    opacity: 0;
+    transform: scale(0.92) translateY(30px);
+    transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Logo container with cinematic glow */
+.popup-logo-container {
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.popup-logo {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: clamp(240px, 40vh, 360px);
+    width: auto;
+    filter: drop-shadow(0 0 20px rgba(168, 193, 209, 0.25))
+            drop-shadow(0 8px 40px rgba(242, 71, 2, 0.08));
+    transition: filter 0.4s ease;
+}
+
+/* Enter button using site design language */
+.popup-enter-btn {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 0.8rem 2.5rem;
+    background: transparent;
+    color: var(--color-text-primary);
+    border: 2px solid var(--color-border-glass);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+.popup-enter-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--color-accent-orange), #5dade2);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.popup-enter-btn:hover,
+.popup-enter-btn:focus {
+    outline: none;
+    transform: translateY(-2px);
+    border-color: var(--color-accent-orange);
+    box-shadow: 0 0 30px rgba(242, 71, 2, 0.3);
+}
+
+.popup-enter-btn:hover::before,
+.popup-enter-btn:focus::before {
+    opacity: 1;
+}
+
+.popup-enter-btn:hover,
+.popup-enter-btn:focus {
+    color: var(--color-text-primary);
+}
+
+/* Show state animations */
+.filmseele-popup.show .popup-backdrop { opacity: 1; }
+.filmseele-popup.show .popup-panel { 
+    opacity: 1; 
+    transform: scale(1) translateY(0); 
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .popup-backdrop, 
+    .popup-panel, 
+    .popup-enter-btn, 
+    .popup-logo { 
+        transition: none !important; 
+        animation: none !important; 
+        transform: none !important; 
+    }
+}
+
 /* --- Responsive Design --- */
 @media (max-width: 1024px) { .podcast-container { grid-template-columns:1fr; } }
 @media (max-width: 768px) {

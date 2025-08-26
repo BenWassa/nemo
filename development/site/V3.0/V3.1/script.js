@@ -163,4 +163,90 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    /* ----------------------
+       FilmSeele Logo Popup
+       ---------------------- */
+    const popup = document.getElementById('filmseele-popup');
+    const enterBtn = document.getElementById('popup-enter');
+    const backdrop = document.querySelector('[data-popup-close]');
+    
+    if (popup && enterBtn && backdrop) {
+        let lastFocused = null;
+        const focusableSelector = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+        function showPopup() {
+            lastFocused = document.activeElement;
+            popup.removeAttribute('hidden');
+            
+            // Small delay for layout, then add show class for animations
+            requestAnimationFrame(() => {
+                popup.classList.add('show');
+                enterBtn.focus();
+            });
+            
+            document.body.style.overflow = 'hidden';
+            document.addEventListener('keydown', handlePopupKeys, true);
+        }
+
+        function hidePopup() {
+            popup.classList.remove('show');
+            
+            // Wait for animation to complete before hiding
+            setTimeout(() => {
+                popup.setAttribute('hidden', '');
+                document.body.style.overflow = '';
+                if (lastFocused && lastFocused.focus) {
+                    lastFocused.focus();
+                }
+                document.removeEventListener('keydown', handlePopupKeys, true);
+            }, 800); // matches CSS transition duration
+        }
+
+        function handlePopupKeys(e) {
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                hidePopup();
+                return;
+            }
+
+            if (e.key === 'Enter' && document.activeElement === enterBtn) {
+                e.preventDefault();
+                hidePopup();
+                return;
+            }
+
+            // Simple focus trap for Tab key
+            if (e.key === 'Tab') {
+                const focusables = Array.from(popup.querySelectorAll(focusableSelector))
+                    .filter(el => !el.hasAttribute('disabled'));
+                
+                if (focusables.length === 0) return;
+                
+                const first = focusables[0];
+                const last = focusables[focusables.length - 1];
+                
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            }
+        }
+
+        // Event listeners
+        enterBtn.addEventListener('click', hidePopup);
+        backdrop.addEventListener('click', hidePopup);
+
+        // Auto-show popup on page load (comment out to disable)
+        showPopup();
+
+        // Expose controls globally for manual triggering
+        window.FilmSeelePopup = {
+            show: showPopup,
+            hide: hidePopup
+        };
+    }
+
 });
