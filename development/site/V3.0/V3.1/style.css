@@ -64,6 +64,14 @@ body {
 .header-container { width: 90%; max-width:1200px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; gap:var(--gutter); }
 .logo { font-family:var(--font-heading); font-size:1.5rem; font-weight:700; color:var(--color-text-primary); text-decoration:none; text-shadow:0 1px 8px rgba(0,0,0,0.3); }
 .logo-img { height:48px; width:auto; display:inline-block; vertical-align:middle; }
+.header-logo {
+    height: 50px;
+    width: auto;
+    transition: transform 0.3s ease;
+}
+.header-logo:hover {
+    transform: scale(1.1);
+}
 .main-nav a { color:var(--color-text-secondary); text-decoration:none; font-weight:600; font-size:1rem; margin-left:2.5rem; position:relative; padding:0.5rem 0; transition:var(--transition-smooth); }
 .main-nav a:hover { color:var(--color-text-primary); text-shadow: 0 0 10px rgba(242,71,2,0.45); }
 .main-nav a::after { content:''; position:absolute; bottom:0; left:0; width:100%; height:2px; background-color:var(--color-accent-orange); transform:scaleX(0); transform-origin:right; transition: transform .38s cubic-bezier(.19,1,.22,1); }
