@@ -248,34 +248,32 @@ audio { width:100%; }
 .footer p { color:#64748b; margin-bottom:1.5rem; }
 .footer-quote { font-family:var(--font-heading); font-style:italic; color:var(--color-text-secondary); max-width:600px; margin:0 auto; font-size:1.1rem; opacity:0.85; }
 
-/* Footer logo (stylized, positioned bottom-left) */
+/* Footer logo (stylized, positioned left and vertically centered) */
 .footer .container { position: relative; }
 .footer-logo {
     position: absolute;
     left: 0.75rem;
-    bottom: 0.75rem;
-    height: 96px; /* increased from 72px */
-    width: 96px; /* set explicit width to create proper circle */
-    border-radius: 50%;
-    box-shadow: 
-        0 4px 20px rgba(168, 193, 209, 0.15),
-        0 2px 8px rgba(242, 71, 2, 0.08);
-    border: 3px solid var(--color-border-glass); /* thicker border */
-    background: rgba(14, 57, 82, 0.15); /* slightly more visible background */
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    top: 50%; /* center vertically */
+    transform: translateY(-50%); /* adjust for true center */
+    height: 130px; 
+    width: auto; /* let it maintain natural proportions */
+    border: 1px solid var(--color-border-glass); /* thin border */
+    border-radius: 50%; /* minimal rounding to enhance the circular logo */
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     transition: var(--transition-smooth);
-    opacity: 0.85;
-    object-fit: contain; /* ensure logo fits properly within circle */
-    padding: 8px; /* add padding to prevent cutoff */
+    opacity: 0.9;
 }
 
 .footer-logo:hover {
-    transform: scale(1.05);
+    transform: translateY(-50%) scale(1.05); /* maintain vertical center on hover */
     box-shadow: 
-        0 8px 32px rgba(168, 193, 209, 0.25),
-        0 4px 16px rgba(242, 71, 2, 0.15);
+        0 0 30px rgba(168, 193, 209, 0.3),
+        0 6px 24px rgba(242, 71, 2, 0.15);
     opacity: 1;
+    box-shadow: 
+        0 0 20px rgba(168, 193, 209, 0.2), /* soft glow */
+        0 4px 16px rgba(242, 71, 2, 0.1); /* warm accent glow */
 }
 
 /* Adjust footer content padding for larger logo */
@@ -433,15 +431,18 @@ audio { width:100%; }
     /* Slightly smaller logo on narrow viewports */
     .logo-img { height:36px; }
 
-    /* Footer logo centered and appropriately sized on mobile */
+    /* Footer logo centered horizontally and vertically on mobile */
     .footer-logo { 
         left: 50%; 
-        transform: translateX(-50%); 
-        bottom: 1rem; 
-        height: 72px; /* larger on mobile than before */
-        width: 72px; /* explicit width for proper circle */
+        top: 50%; /* center vertically on mobile too */
+        transform: translate(-50%, -50%); /* center both horizontally and vertically */
+        height: 72px; 
+        width: auto; /* maintain natural proportions on mobile too */
         position: absolute;
-        padding: 6px; /* maintain padding on mobile */
+    }
+    
+    .footer-logo:hover {
+        transform: translate(-50%, -50%) scale(1.05); /* maintain centering on hover */
     }
     
     /* Remove left padding on mobile since logo is centered */
