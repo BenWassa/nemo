@@ -178,9 +178,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!popup || !panel || !backdrop || !enterBtn) return;
 
-  const open = () => {
+  const initialOpen = () => {
     // Show once per session
     if (sessionStorage.getItem(SEEN_KEY) === '1') return;
+    showPopup();
+  };
+
+  const showPopup = () => {
     popup.hidden = false;
     popup.classList.add('show');
 
@@ -226,20 +230,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Open when the page is ready
   if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    setTimeout(open, 60);
+    setTimeout(initialOpen, 60);
   } else {
-    document.addEventListener('DOMContentLoaded', () => setTimeout(open, 60));
+    document.addEventListener('DOMContentLoaded', () => setTimeout(initialOpen, 60));
   }
 
   // Accessibility labels
   popup.setAttribute('aria-labelledby', popup.getAttribute('aria-labelledby') || TITLE_ID);
 
   // Expose control functions
-  window.FilmSeelePopup = { show: open, hide: close };
+  window.FilmSeelePopup = { show: showPopup, hide: close };
 
   // Event listener for the footer logo
   const footerLogoTrigger = document.getElementById('footer-logo-trigger');
   if (footerLogoTrigger) {
-      footerLogoTrigger.addEventListener('click', open);
+      footerLogoTrigger.addEventListener('click', showPopup);
   }
 })();
