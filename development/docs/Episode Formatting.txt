@@ -1,0 +1,47 @@
+# Style & Language Guide
+
+## 1) Voice & Tone
+
+* **Voice:** cinematic, lucid, quietly confident.
+* **Tone:** mythic but grounded; warm, not academic; evocative without purple prose.
+* **Stance:** guide, not lecturer—invite, don’t declare.
+
+## 2) Reading Level & Clarity
+
+* **Target:** Grade 8–10 readability.
+* **Sentences:** 8–18 words on average. Vary rhythm (short punch + medium + occasional longer for cadence).
+* **Paragraphs:** 2–4 sentences. Keep air in the layout.
+* **Jargon:** minimal. If a term is needed (e.g., “archetype”), define once, then use lightly.
+
+## 3) Language Choices
+
+* **Verbs:** concrete and active (e.g., “grips,” “loosens,” “yields,” “summons”).
+* **Nouns:** precise and sensory (“current,” “reef,” “net,” “mask,” “scar”).
+* **Metaphor:** sparing, clean, thematically relevant (sea, light, current, depth). One image per paragraph max.
+* **Archetypes:** capitalize sparingly for emphasis (Tragic Father, Wounded Son, Divine Helper). Don’t stack more than 2–3 per section.
+
+## 4) Structure & Sections (per episode/article)
+
+* **Opening (2–3 sentences):** sensory vignette that sets the emotional register.
+* **Beat Summary (3–5 bullets):** orient without recapping; only the moments you’ll analyze.
+* **Analysis (3 short subsections):**
+
+  * *Theme:* 1–2 lines, plain language.
+  * *Archetypes:* name + why it matters.
+  * *Psychology:* the shift/tension in one clean sentence.
+* **Show Notes (3–6 bullets):** quotable takeaways; cross-links to characters/themes.
+* **(Optional) Practice/Prompt:** if included, 1 line, actionable.
+
+## 5) Pacing & Emphasis
+
+* **Rule:** “one idea per breath.”
+* Use **bold** for the single key term per bullet (e.g., **Flow vs. Force**).
+* Prefer lists over dense paragraphs.
+* End sections on a clear turn (e.g., “control loosens”).
+
+## 6) What to Avoid
+
+* Academic hedging (“arguably,” “in many ways”).
+* Over-explaining plot.
+* Stacked metaphors or mixed imagery.
+* Therapy-speak clichés (“hold space,” “inner child”) unless directly relevant and reframed.
