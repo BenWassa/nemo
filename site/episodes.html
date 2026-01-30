@@ -1,0 +1,43 @@
+<!-- Wireframe: docs/wireframes/episode.md -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>[INSERT EPISODES TITLE]</title>
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+  <!-- include components/header.html -->
+  <header role="banner">
+    <h1>[INSERT SITE TITLE]</h1>
+    <nav aria-label="Primary">
+      <button id="nav-toggle" aria-expanded="false">Menu</button>
+      <ul id="nav-menu" class="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="episodes.html">Episodes</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main id="main-content">
+    <section aria-label="Hero">
+      <h2>[INSERT EPISODES HERO]</h2>
+      <p>[INSERT EPISODES INTRO]</p>
+    </section>
+    <section aria-label="Episode List">
+      <!-- include components/card.html -->
+      <article class="card">
+        <h3>[INSERT EPISODE TITLE]</h3>
+        <p>[INSERT EPISODE SUMMARY]</p>
+        <a href="?episode=1">[PREVIEW EPISODE]</a>
+      </article>
+      <div id="episode-preview"></div>
+    </section>
+  </main>
+  <!-- include components/footer.html -->
+  <footer role="contentinfo">
+    <p>[INSERT FOOTER]</p>
+  </footer>
+  <script src="main.js"></script>
+</body>
+</html>
